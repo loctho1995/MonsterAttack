@@ -1,0 +1,123 @@
+				public class		Bullet :public Sprite
+									{
+									public:
+										void move(Point);
+										bool m_isCleave;
+										bool m_isThrough;
+									protected : 
+										int m_damage;
+										
+									}
+				public class		Fire :: public Bullet
+									{
+									public:
+										Fire()
+										{
+											m_isCleave = false;
+											m_isThrough = false;
+											m_damage = 2;
+											
+										}
+									}
+				public class		Lighting : public Bullet
+									{
+									public:
+										Lighting()
+										{
+											m_isCleave = true;
+											m_isThrough = false;
+											m_damage = 1;
+											m_radius = 50;
+										}
+									private:
+										float m_radius;
+									}
+				public class 		Normal : public Bullet
+									{
+										public:
+										Normal()
+										{
+											m_isCleave = false;
+											m_isThrough = false;
+											m_damage = 1;											
+										}
+									private:
+									}
+				public class 		Ice : public Bullet
+									{
+										public:
+										Ice()
+										{
+											m_isCleave = false;
+											m_isThrough = false;
+											m_damage = 1;
+											m_stunTime = 1;
+										}
+									private:
+										float m_stunTime;
+									}
+				public class 		Water : public Bullet
+									{
+										public:
+										Water()
+										{
+											m_isCleave = false;
+											m_isThrough = false;
+											m_damage = 1;
+										}
+									private:
+									}
+				public static class 		BulletManager
+									{
+										public:
+												Bullet create(BulletType tag)
+												{
+												
+													switch(tag)
+													case
+													...
+												}
+									}
+				public static class Player :public  Sprite
+				{
+					public:
+						int m_HP;
+						int m_damageBonus;
+						bool m_isDoubleDamage;
+						BulletType m_bulletType;
+						bool m_isSplit;
+						Player()
+						{
+							m_HP = 10;
+							m_damageBonus = 0;
+							m_isDoubleDamage = false;
+							m_bulletType = Normal;
+							m_isSplit = false;
+						}
+						void init()
+						{
+							m_HP = 10;
+							m_damageBonus = 0;
+							m_isDoubleDamage = false;
+							m_bulletType = Normal;
+							m_isSplit = false;
+						}
+						void fire()
+						{
+							Action fire ;//
+							this->runAction(fire);
+							
+						}
+						void die()
+						{
+							Action die;
+							this->runAction(die);
+						}
+					
+				}
+				
+				
+									
+				
+				
+
