@@ -1,20 +1,35 @@
 #include "Animation.h"
+#include "Define.h"
+
 USING_NS_CC;
 //
 PlayerAction* PlayerAction::m_instance = 0;
 Monster1Action* Monster1Action::m_instance = 0;
 Monster2Action* Monster2Action::m_instance = 0;
+
+SpriteAction::~SpriteAction(void)
+{
+
+}
+
+#pragma region - PlayerAction -
+PlayerAction::PlayerAction()
+{
+	this->loadAnimation(SpriteFrameCache::getInstance());
+}
+
 void PlayerAction::loadAnimation(SpriteFrameCache* spriteFrameCache)
 {
-	spriteFrameCache->addSpriteFramesWithFile("Player.plist");
+	spriteFrameCache->addSpriteFramesWithFile("PlayerAttack.plist");
 	char str[50] = {0}; // Bien tam luu ten cua cac sprite
 	Vector<SpriteFrame*> aniFrame;
-	for (int i = 1; i < 10; i++) // Vong lap tao sprite attack
+
+	for (int i = 1; i <= PLAYER_ATTACK_ANIMATION_FRAMES; i++) // Vong lap tao sprite attack
 	{
 		try
 		{
-			sprintf(str,"PlayerAttack_%d.png",i);
-			auto frame = spriteFrameCache->getSpriteFrameByName(str);
+			sprintf(str,"PlayerAttack_%d.png", i);
+			auto frame = SpriteFrameCache::getInstance()->getSpriteFrameByName(str);
 			aniFrame.pushBack(frame);
 		}
 		catch (String exc)
@@ -22,14 +37,25 @@ void PlayerAction::loadAnimation(SpriteFrameCache* spriteFrameCache)
 			break;
 		}
 	}
-	m_attackAnimation = PlayerAction::createWithSpriteFrames(aniFrame, 0,1 );
+
+	m_attackAnimate = Animate::create(Animation::createWithSpriteFrames(aniFrame, PLAYER_ATTACK_ANIMATION_TIME));
+	m_attackAnimate->retain();
 }
+#pragma endregion
+
+#pragma region - Monster1 Action -
+Monster1Action::Monster1Action()
+{
+	this->loadAnimation(SpriteFrameCache::getInstance());
+}
+
 void Monster1Action :: loadAnimation(SpriteFrameCache* spriteFrameCache)
 {
 	spriteFrameCache->addSpriteFramesWithFile("Monster1.plist");
 	char str[50] = {0}; // Bien tam luu ten cua cac sprite
 	Vector<SpriteFrame*> aniFrame;
-	for (int i = 1; i < 10; i++) // Vong lap tao sprite attack
+
+	for (int i = 1; i <= MONSTER_WALK_ANIMATION_FRAMES; i++) // Vong lap tao sprite attack
 	{
 		try
 		{
@@ -43,8 +69,11 @@ void Monster1Action :: loadAnimation(SpriteFrameCache* spriteFrameCache)
 		}
 	}
 
-	m_walkAnimation = Monster1Action::createWithSpriteFrames(aniFrame, 0,1 );
+	m_walkAnimate = Animate::create(Animation::createWithSpriteFrames(aniFrame, MONSTER1_WALK_ANIMATION_TIME));
+	m_walkAnimate->retain();
 
+	/*
+	//2 cai duoi chua co sprite
 	for (int i = 1; i < 10; i++) // Vong lap tao sprite attack
 	{
 		try
@@ -58,9 +87,8 @@ void Monster1Action :: loadAnimation(SpriteFrameCache* spriteFrameCache)
 			break;
 		}
 	}
-
-	m_dieAnimation = Monster1Action::createWithSpriteFrames(aniFrame, 0,1 );
-
+	m_dieAnimate = Animate::create(Monster1Action::createWithSpriteFrames(aniFrame, 0,1 ));
+	m_dieAnimate->retain();
 
 	for (int i = 1; i < 10; i++) // Vong lap tao sprite attack
 	{
@@ -75,12 +103,16 @@ void Monster1Action :: loadAnimation(SpriteFrameCache* spriteFrameCache)
 			break;
 		}
 	}
-	m_stunAnimation = Monster1Action::createWithSpriteFrames(aniFrame, 0,1);
-	
+	m_stunAnimate = Animate::create(Monster1Action::createWithSpriteFrames(aniFrame, 0,1));
+	m_stunAnimate->retain();
+	*/
 }
+#pragma endregion
 
-
-
+Monster2Action::Monster2Action()
+{
+	Monster2Action::loadAnimation(SpriteFrameCache::getInstance());
+}
 
 void Monster2Action :: loadAnimation(SpriteFrameCache* spriteFrameCache)
 {
@@ -100,8 +132,8 @@ void Monster2Action :: loadAnimation(SpriteFrameCache* spriteFrameCache)
 			break;
 		}
 	}
-
-	m_walkAnimation = Monster2Action::createWithSpriteFrames(aniFrame, 0,1 );
+	m_walkAnimate = Animate::create(Monster2Action::createWithSpriteFrames(aniFrame, 0,1 ));
+	m_walkAnimate->retain();
 
 	for (int i = 1; i < 10; i++) // Vong lap tao sprite attack
 	{
@@ -116,9 +148,8 @@ void Monster2Action :: loadAnimation(SpriteFrameCache* spriteFrameCache)
 			break;
 		}
 	}
-
-	m_dieAnimation = Monster2Action::createWithSpriteFrames(aniFrame, 0,1 );
-
+	m_dieAnimate = Animate::create(Monster2Action::createWithSpriteFrames(aniFrame, 0,1 ));
+	m_stunAnimate->retain();
 
 	for (int i = 1; i < 10; i++) // Vong lap tao sprite attack
 	{
@@ -133,67 +164,58 @@ void Monster2Action :: loadAnimation(SpriteFrameCache* spriteFrameCache)
 			break;
 		}
 	}
-	m_stunAnimation = Monster2Action::createWithSpriteFrames(aniFrame, 0,1);
+	m_stunAnimate = Animate::create(Monster2Action::createWithSpriteFrames(aniFrame, 0,1));
+	m_stunAnimate->retain();
 	
 }
 
-void AnimationManager::loadAnimationByTag(MonsterType arrMonsterType[10], SpriteFrameCache* spriteFrameCache)
+void AnimationManager::loadAnimationByTag(MonsterType arrMonsterType[], SpriteFrameCache* spriteFrameCache)
 {
-	for each (MonsterType c in arrMonsterType)
+	//for each ko dung duoc - bao loi
+	/*for each (MonsterType c in arrMonsterType)
 	{
 		switch (c)	
 		{
-		case MONSTER_1:
+		case MONSTER1:
 			Monster1Action::getInstance()->loadAnimation(spriteFrameCache);
 			break;
-		case MONSTER_2:
+		case MONSTER2:
 			Monster2Action::getInstance()->loadAnimation(spriteFrameCache);
 			break;
 		default:
 			break;
 		}
-	}
+	}*/
 }
-Animation* AnimationManager::getWalkAnimationByTag (MonsterType type)
+
+Animate* AnimationManager::getWalkAnimationByTag (MonsterType type)
 {
 	switch (type)
 	{
-	case MONSTER_1:
-		return Monster1Action::getInstance()->getMonsterWalkAnimation();
+	case MONSTER1:
+		return Monster1Action::getInstance()->getMonsterWalkAnimate();
 		break;
-	case MONSTER_2:
-		return Monster2Action::getInstance()->getMonsterWalkAnimation();
+	case MONSTER2:
+		return Monster2Action::getInstance()->getMonsterWalkAnimate();
 		break;
 	default:
 		break;
 	}
 }
 
-Animation* AnimationManager::getDieAnimationByTag (MonsterType type)
+Animate* AnimationManager::getDieAnimationByTag (MonsterType type)
 {
 	switch (type)
 	{
-	case MONSTER_1:
-		return Monster1Action::getInstance()->getMonsterDieAnimation();
+	case MONSTER1:
+		//return Monster1Action::getInstance()->getMonsterDieAnimation();
 		break;
-	case MONSTER_2:
-		return Monster2Action::getInstance()->getMonsterDieAnimation();
+	case MONSTER2:
+		//return Monster2Action::getInstance()->getMonsterDieAnimation();
 		break;
 	default:
 		break;
 	}
-}
-Animation* AnimationManager::getDieAnimationByTag (MonsterType type)
-{
-	switch (type)
-	{
-	case MONSTER_1:
-		return Monster1Action::getInstance()->getMonsterStunAnimation();
-		break;
-	case MONSTER_2:
-		return Monster2Action::getInstance()->getMonsterStunAnimation();
-		break;
-	default:
-		break;
-	}
+
+	return nullptr;
 }

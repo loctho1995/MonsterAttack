@@ -29,6 +29,9 @@ CREATE_FUNC(GameOverScene);
 
 CC_SYNTHESIZE_READONLY(GameOverLayer*, _layer, Layer);
 
+private:
+	Size m_winSize;
+
 };
 
 #endif // GAMEOVERSCENEH_

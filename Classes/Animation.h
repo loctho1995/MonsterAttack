@@ -1,6 +1,6 @@
-﻿#pragma once
-#ifndef _ANIMATION_H_
-#define _ANIMATION_H_
+﻿#ifndef __ANIMATION_H__
+#define __ANIMATION_H__
+
 #include "cocos2d.h"
 #include "Define.h"
 USING_NS_CC;
@@ -17,7 +17,8 @@ class PlayerAction : public SpriteAction // Class Chua cac Animation của playe
 {
 public:
 	void loadAnimation(SpriteFrameCache* spriteFrameCache);
-	Animation* getPlayerActtackAnimation() { return m_attackAnimation ;}
+	Animate* getPlayerActtackAnimate() { return m_attackAnimate ;}
+
 	static PlayerAction* getInstance()
 	{
 		if(m_instance == 0)
@@ -27,28 +28,32 @@ public:
 		}
 		return m_instance;
 	}
+
 private:
 	PlayerAction();
 	static PlayerAction* m_instance; // Doi tuong duy nhat cua class
-	Animation* m_attackAnimation; // acttack animation  player
+	Animate* m_attackAnimate; // acttack animation  player
 };
+
 class MonsterAction : public SpriteAction   // Animation cua cac con quai abstract class
 {
 protected:
-	 Animation* m_walkAnimation; // Di
-	 Animation* m_dieAnimation;  // Chet
-	 Animation* m_stunAnimation; // bi stun
-	 virtual Animation* getMonsterWalkAnimation() = 0; //
-	 virtual Animation* getMonsterDieAnimation() = 0; //
-	 virtual Animation* getMonsterStunAnimation() = 0; //
+	 Animate* m_walkAnimate; // Di
+	 Animate* m_dieAnimate;  // Chet
+	 Animate* m_stunAnimate; // bi stun
+	 virtual Animate* getMonsterWalkAnimate() = 0; //
+	 virtual Animate* getMonsterDieAnimate() = 0; //
+	 virtual Animate* getMonsterStunAnimate() = 0; //
 };
-class Monster1Action : private MonsterAction // Animation quai 1
+
+class Monster1Action : public MonsterAction // Animation quai 1
 {
 public:
 	void loadAnimation(SpriteFrameCache* spriteFrameCache);
-	Animation* getMonsterWalkAnimation() {return m_walkAnimation;}
-	Animation* getMonsterDieAnimation() {return m_dieAnimation;}
-	Animation* getMonsterStunAnimation() {return m_stunAnimation;}
+	Animate* getMonsterWalkAnimate() {return m_walkAnimate;}
+	Animate* getMonsterDieAnimate() {return m_dieAnimate;}
+	Animate* getMonsterStunAnimate() {return m_stunAnimate;}
+
 	static Monster1Action* getInstance()
 	{
 		if(m_instance == 0)
@@ -58,17 +63,19 @@ public:
 		}
 		return m_instance;
 	}
+
 private:
-	Monster1Action() {};
+	Monster1Action();
 	static Monster1Action* m_instance;
 };
+
 class Monster2Action : private MonsterAction // Animation quai 2
 {
 public:
 	void loadAnimation(SpriteFrameCache* spriteFrameCache);
-	Animation* getMonsterWalkAnimation() {return m_walkAnimation;}
-	Animation* getMonsterDieAnimation() {return m_dieAnimation;}
-	Animation* getMonsterStunAnimation() {return m_stunAnimation;}
+	Animate* getMonsterWalkAnimate() {return m_walkAnimate;}
+	Animate* getMonsterDieAnimate() {return m_dieAnimate;}
+	Animate* getMonsterStunAnimate() {return m_stunAnimate;}
 	static Monster2Action* getInstance()
 	{
 		if(m_instance == 0)
@@ -79,16 +86,17 @@ public:
 		return m_instance;
 	}
 private:
-	Monster2Action() {};
+	Monster2Action();
 	static Monster2Action* m_instance;
 };
+
 static class AnimationManager    // class quan li cac Animation
 {
 public:
 	static void loadAnimationByTag(MonsterType arrMonsterType[],SpriteFrameCache* spriteFrameCache); // 1 man co cac loai quai khac nhau... Nhap vao cac loai quai va chi load animation cua cac quai do
-	static Animation* getWalkAnimationByTag(MonsterType type);
-	static Animation* getDieAnimationByTag(MonsterType type);
-	static Animation* getStunAnimationByTag(MonsterType type);
+	static Animate* getWalkAnimationByTag(MonsterType type);
+	static Animate* getDieAnimationByTag(MonsterType type);
+	static Animate* getStunAnimationByTag(MonsterType type);
 };
 
 #endif

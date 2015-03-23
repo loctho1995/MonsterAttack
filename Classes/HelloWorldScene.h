@@ -30,8 +30,9 @@ public:
 	bool onContactBegin(const PhysicsContact& contact);
 private:
 	Point locateBullet (Point touchPoint);
-	Sprite* m_player;
-	Sprite* m_bullet;
+	Sprite	*m_bullet,
+			*m_circle;
+	Size m_winSize;
 	Action* m_walk;
 	//Action* m_move;
 	SpriteBatchNode* m_spriteSheet;
