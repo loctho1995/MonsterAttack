@@ -6,20 +6,21 @@ USING_NS_CC;
 PlayerAction* PlayerAction::m_instance = 0;
 Monster1Action* Monster1Action::m_instance = 0;
 Monster2Action* Monster2Action::m_instance = 0;
-
+FireEffectAnimation* FireEffectAnimation ::m_instance = 0;
+LightingEffectAnimation* FireEffectAnimation ::m_instance = 0;
+WaterEffectAnimation* FireEffectAnimation ::m_instance = 0;
+NormalEffectAnimation* FireEffectAnimation ::m_instance = 0;
 SpriteAction::~SpriteAction(void)
 {
 
 }
 
 #pragma region - PlayerAction -
-PlayerAction::PlayerAction()
-{
-	this->loadAnimation(SpriteFrameCache::getInstance());
-}
 
 void PlayerAction::loadAnimation(SpriteFrameCache* spriteFrameCache)
 {
+	if (m_attackAnimate !=nullptr)
+		break;
 	spriteFrameCache->addSpriteFramesWithFile("PlayerAttack.plist");
 	char str[50] = {0}; // Bien tam luu ten cua cac sprite
 	Vector<SpriteFrame*> aniFrame;
@@ -44,13 +45,13 @@ void PlayerAction::loadAnimation(SpriteFrameCache* spriteFrameCache)
 #pragma endregion
 
 #pragma region - Monster1 Action -
-Monster1Action::Monster1Action()
-{
-	this->loadAnimation(SpriteFrameCache::getInstance());
-}
 
 void Monster1Action :: loadAnimation(SpriteFrameCache* spriteFrameCache)
 {
+	if (m_walkAnimate != nullptr &&
+		m_dieAnimate  != nullptr &&
+		m_stunAnimate != nullptr)
+		break;
 	spriteFrameCache->addSpriteFramesWithFile("Monster1.plist");
 	char str[50] = {0}; // Bien tam luu ten cua cac sprite
 	Vector<SpriteFrame*> aniFrame;
@@ -116,10 +117,14 @@ Monster2Action::Monster2Action()
 
 void Monster2Action :: loadAnimation(SpriteFrameCache* spriteFrameCache)
 {
+	if (m_walkAnimate != nullptr &&
+		m_dieAnimate  != nullptr &&
+		m_stunAnimate != nullptr)
+		break;
 	spriteFrameCache->addSpriteFramesWithFile("Monster2.plist");
 	char str[50] = {0}; // Bien tam luu ten cua cac sprite
 	Vector<SpriteFrame*> aniFrame;
-	for (int i = 1; i < 10; i++) // Vong lap tao sprite attack
+	for (int i = 1; i < MONSTER2_WALK_ANIMATION_FRAMES; i++) // Vong lap tao sprite attack
 	{
 		try
 		{
@@ -132,9 +137,9 @@ void Monster2Action :: loadAnimation(SpriteFrameCache* spriteFrameCache)
 			break;
 		}
 	}
-	m_walkAnimate = Animate::create(Monster2Action::createWithSpriteFrames(aniFrame, 0,1 ));
+	m_walkAnimate = Animate::create(Monster2Action::createWithSpriteFrames(aniFrame, MONSTER2_WALK_ANIMATION_TIME ));
 	m_walkAnimate->retain();
-
+	/*
 	for (int i = 1; i < 10; i++) // Vong lap tao sprite attack
 	{
 		try
@@ -148,10 +153,10 @@ void Monster2Action :: loadAnimation(SpriteFrameCache* spriteFrameCache)
 			break;
 		}
 	}
-	m_dieAnimate = Animate::create(Monster2Action::createWithSpriteFrames(aniFrame, 0,1 ));
-	m_stunAnimate->retain();
+	m_dieAnimate = Animate::create(Monster2Action::createWithSpriteFrames(aniFrame, MONSTER2_DIE_ANIMATION_TIME ));
+	m_dieAnimate->retain();
 
-	for (int i = 1; i < 10; i++) // Vong lap tao sprite attack
+	for (int i = 1; i < MONSTER2_DIE_ANIMATION_TIME; i++) // Vong lap tao sprite attack
 	{
 		try
 		{
@@ -164,16 +169,125 @@ void Monster2Action :: loadAnimation(SpriteFrameCache* spriteFrameCache)
 			break;
 		}
 	}
-	m_stunAnimate = Animate::create(Monster2Action::createWithSpriteFrames(aniFrame, 0,1));
-	m_stunAnimate->retain();
+	m_stunAnimate = Animate::create(Monster2Action::createWithSpriteFrames(aniFrame, MONSTER2_STUN_ANIMATION_TIME));
+	m_stunAnimate->retain(); */
 	
 }
+
+void FireEffectAnimation :: loadAnimation(SpriteFrameCache* spriteFrameCache)
+{
+	if( m_performAnimate != nullptr)
+		break;
+	spriteFrameCache->addSpriteFramesWithFile("FireEffect.plist");
+	char str[50] = {0}; // Bien tam luu ten cua cac sprite
+	Vector<SpriteFrame*> aniFrame;
+
+	for (int i = 1; i <= FIRE_EFFECT_ANIMATION_FRAMES; i++) // Vong lap tao sprite attack
+	{
+		try
+		{
+			sprintf(str,"FireEffect_%d.png", i);
+			auto frame = SpriteFrameCache::getInstance()->getSpriteFrameByName(str);
+			aniFrame.pushBack(frame);
+		}
+		catch (String exc)
+		{
+			break;
+		}
+	}
+
+	m_performAnimate = Animate::create(Animation::createWithSpriteFrames(aniFrame, FIRE_EFFECT_ANIMATION_TIME));
+	m_performAnimate->retain();
+}
+
+void NormalEffectAnimation :: loadAnimation(SpriteFrameCache* spriteFrameCache)
+{
+	if( m_performAnimate != nullptr)
+		break;
+	spriteFrameCache->addSpriteFramesWithFile("NormalEffect.plist");
+	char str[50] = {0}; // Bien tam luu ten cua cac sprite
+	Vector<SpriteFrame*> aniFrame;
+
+	for (int i = 1; i <= NORMAL_EFFECT_ANIMATION_FRAMES; i++) // Vong lap tao sprite attack
+	{
+		try
+		{
+			sprintf(str,"NormalEffect_%d.png", i);
+			auto frame = SpriteFrameCache::getInstance()->getSpriteFrameByName(str);
+			aniFrame.pushBack(frame);
+		}
+		catch (String exc)
+		{
+			break;
+		}
+	}
+
+	m_performAnimate = Animate::create(Animation::createWithSpriteFrames(aniFrame, NORMAL_EFFECT_ANIMATION_TIME));
+	m_performAnimate->retain();
+}
+void LightingEffectAnimation :: loadAnimation(SpriteFrameCache* spriteFrameCache)
+{
+	if( m_performAnimate != nullptr)
+		break;
+	spriteFrameCache->addSpriteFramesWithFile("NormalEffect.plist");
+	char str[50] = {0}; // Bien tam luu ten cua cac sprite
+	Vector<SpriteFrame*> aniFrame;
+
+	for (int i = 1; i <= NORMAL_EFFECT_ANIMATION_FRAMES; i++) // Vong lap tao sprite attack
+	{
+		try
+		{
+			sprintf(str,"LightingEffect_%d.png", i);
+			auto frame = SpriteFrameCache::getInstance()->getSpriteFrameByName(str);
+			aniFrame.pushBack(frame);
+		}
+		catch (String exc)
+		{
+			break;
+		}
+	}
+
+	m_performAnimate = Animate::create(Animation::createWithSpriteFrames(aniFrame, LIGHTING_EFFECT_ANIMATION_TIME));
+	m_performAnimate->retain();
+}
+void WaterEffectAnimation :: loadAnimation(SpriteFrameCache* spriteFrameCache)
+{
+	if( m_performAnimate != nullptr)
+		break;
+	spriteFrameCache->addSpriteFramesWithFile("NormalEffect.plist");
+	char str[50] = {0}; // Bien tam luu ten cua cac sprite
+	Vector<SpriteFrame*> aniFrame;
+
+	for (int i = 1; i <= WATER_EFFECT_ANIMATION_FRAMES; i++) // Vong lap tao sprite attack
+	{
+		try
+		{
+			sprintf(str,"WaterEffect_%d.png", i);
+			auto frame = SpriteFrameCache::getInstance()->getSpriteFrameByName(str);
+			aniFrame.pushBack(frame);
+		}
+		catch (String exc)
+		{
+			break;
+		}
+	}
+
+	m_performAnimate = Animate::create(Animation::createWithSpriteFrames(aniFrame, WATER_EFFECT_ANIMATION_TIME));
+	m_performAnimate->retain();
+}
+
 
 void AnimationManager::loadAnimationByTag(MonsterType arrMonsterType[], SpriteFrameCache* spriteFrameCache)
 {
 	//for each ko dung duoc - bao loi
-	/*for each (MonsterType c in arrMonsterType)
+	PlayerAction::getInstance()->loadAnimation(spriteFrameCache);
+	FireEffectAnimation::getInstance()->loadAnimation(spriteFrameCache);
+	LightingEffectAnimation::getInstance()->loadAnimation(spriteFrameCache);
+	NormalEffectAnimation::getInstance()->loadAnimation(spriteFrameCache);
+	WaterEffectAnimation::getInstance()->loadAnimation(spriteFrameCache);
+	for (int i = 0; i < 10 , i++)
 	{
+		c = arrMonsterTypeơi[i];
 		switch (c)	
 		{
 		case MONSTER1:
@@ -185,7 +299,8 @@ void AnimationManager::loadAnimationByTag(MonsterType arrMonsterType[], SpriteFr
 		default:
 			break;
 		}
-	}*/
+	}
+	*/
 }
 
 Animate* AnimationManager::getWalkAnimationByTag (MonsterType type)
@@ -218,4 +333,34 @@ Animate* AnimationManager::getDieAnimationByTag (MonsterType type)
 	}
 
 	return nullptr;
+}
+Animate* AnimationManager::getStunAnimationByTag (MonsterType type)
+{
+	switch (type)
+	{
+	case MONSTER1:
+		//return Monster1Action::getInstance()->getMonsterDieAnimation();
+	case MONSTER2:
+		//return Monster2Action::getInstance()->getMonsterDieAnimation();
+	default:
+		break;
+	}
+
+	return nullptr;
+}
+Animate* AnimationManager::getEffectAnimationByTag(BulletType type)
+{
+	switch (type)
+	{
+	case FIRE:
+		return FireEffectAnimation::getInstance()->getEffectPerformAnimate();
+	case NORMAL:
+		return NormalEffectAnimation::getInstance()->getEffectPerformAnimate();
+	case LIGHTING:
+		return LightingEffectAnimation::getInstance()->getEffectPerformAnimate();
+	case WATER:
+		return WaterEffectAnimation::getInstance()->getEffectPerformAnimate();
+	default:
+		break;
+	}
 }

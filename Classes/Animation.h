@@ -30,7 +30,7 @@ public:
 	}
 
 private:
-	PlayerAction();
+	PlayerAction(){ m_attackAnimate = nullptr }
 	static PlayerAction* m_instance; // Doi tuong duy nhat cua class
 	Animate* m_attackAnimate; // acttack animation  player
 };
@@ -65,7 +65,13 @@ public:
 	}
 
 private:
-	Monster1Action();
+	Monster1Action() 
+	{
+		m_walkAnimate = nullptr;
+		m_dieAnimate  = nullptr;
+		m_stunAnimate = nullptr;
+	}
+	
 	static Monster1Action* m_instance;
 };
 
@@ -86,9 +92,108 @@ public:
 		return m_instance;
 	}
 private:
-	Monster2Action();
+	Monster2Action() 
+	{
+		m_walkAnimate = nullptr;
+		m_dieAnimate  = nullptr;
+		m_stunAnimate = nullptr;
+	}
 	static Monster2Action* m_instance;
 };
+
+
+class EffectAnimation : public SpriteAction
+{
+protected :
+	Animate* m_performAnimate;
+	virtual Animate* getEffectPerformAnimate() = 0; //
+};
+class FireEffectAnimation : private EffectAnimation
+{
+public:
+	void loadAnimation(SpriteFrameCache* spriteFrameCache);
+	Animate* getEffectPerformAnimate() {return m_performAnimate;}
+	static Monster1Action* getInstance()
+	{
+		if(m_instance == 0)
+		{
+			m_instance = new Monster1Action();
+			return m_instance;
+		}
+		return m_instance;
+	}
+private:
+	FireEffectAnimation()
+	{
+		m_performAnimate = nullptr;
+	}
+	static FireEffectAnimation* m_instance;
+};
+class NormalEffectAnimation : private EffectAnimation
+{
+public:
+	void loadAnimation(SpriteFrameCache* spriteFrameCache);
+	Animate* getEffectPerformAnimate() {return m_performAnimate;}
+	static Monster1Action* getInstance()
+	{
+		if(m_instance == 0)
+		{
+			m_instance = new Monster1Action();
+			return m_instance;
+		}
+		return m_instance;
+	}
+private:
+	NormalEffectAnimation()
+	{
+		m_performAnimate = nullptr;
+	}
+	static NormalEffectAnimation* m_instance;
+};
+class LightingEffectAnimation : private EffectAnimation
+{
+public:
+	void loadAnimation(SpriteFrameCache* spriteFrameCache);
+	Animate* getEffectPerformAnimate() {return m_performAnimate;}
+	static Monster1Action* getInstance()
+	{
+		if(m_instance == 0)
+		{
+			m_instance = new Monster1Action();
+			return m_instance;
+		}
+		return m_instance;
+	}
+private:
+	LightingEffectAnimation()
+	{
+		m_performAnimate = nullptr;
+	}
+	static LightingEffectAnimation* m_instance;
+};
+class WaterEffectAnimation : private EffectAnimation
+{
+public:
+	void loadAnimation(SpriteFrameCache* spriteFrameCache);
+	Animate* getEffectPerformAnimate() {return m_performAnimate;}
+	static Monster1Action* getInstance()
+	{
+		if(m_instance == 0)
+		{
+			m_instance = new Monster1Action();
+			return m_instance;
+		}
+		return m_instance;
+	}
+private:
+	WaterEffectAnimation()
+	{
+		m_performAnimate = nullptr;
+	}
+	static WaterEffectAnimation* m_instance;
+};
+
+
 
 static class AnimationManager    // class quan li cac Animation
 {
@@ -97,6 +202,7 @@ public:
 	static Animate* getWalkAnimationByTag(MonsterType type);
 	static Animate* getDieAnimationByTag(MonsterType type);
 	static Animate* getStunAnimationByTag(MonsterType type);
+	static Animate* getEffectAnimationByTag(BulletType type);
 };
 
 #endif
