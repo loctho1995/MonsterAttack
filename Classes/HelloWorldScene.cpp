@@ -4,6 +4,7 @@
 #include "LoadData.h"
 #include "Monster.h"
 #include "Animation.h"
+#include "Define.h"
 
 USING_NS_CC;
 
@@ -55,6 +56,7 @@ bool HelloWorld::init()
 	m_bullet = Sprite::create("sperm.png");	
 	this->addChild(m_bullet);
 		
+	srand(time(NULL));
 	this->schedule( schedule_selector(HelloWorld::addTarget), 1 );
 
 	auto dispatcher = Director::getInstance()-> getEventDispatcher();
@@ -73,22 +75,6 @@ bool HelloWorld::init()
 
 	dispatcher->addEventListenerWithSceneGraphPriority(contactListener, this);
 
-	// GHOST VECTOR SP
-	// Luu vao bo nho dem SpriteBatchNode , Bien spriteSheet
-	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("Ghost.plist");
-	m_spriteSheet = SpriteBatchNode :: create ("Ghost.png");
-	this->addChild(m_spriteSheet);
-
-	// Luu cac frame di vao aniFrame
-	char str[50] = {0}; // Bien tam luu ten cua cac sprite
-	for (int i = 1; i < 19; i++)
-	{
-		sprintf(str,"Ghost%d.png",i);
-		auto frame = SpriteFrameCache::getInstance()->getSpriteFrameByName(str);
-		aniFrame.pushBack(frame);
-
-	}
-
     return true;
 }
 
@@ -99,8 +85,12 @@ void HelloWorld::gameLogic(float dt)
 
 void HelloWorld:: addTarget(float dt)
 {
-	auto target = new Monster1();//Sprite :: createWithSpriteFrameName("Ghost1.png");
-	//m_spriteSheet->addChild(target);
+	Monster *target;
+
+	if(random() % 2 == 0)
+		target = new Monster1();
+	else
+		target = new Monster2();		
 
 	// calculate target position
 	int minY = target->getContentSize().height / 2;
@@ -110,37 +100,17 @@ void HelloWorld:: addTarget(float dt)
 		
 	target->setPosition(Point(m_winSize.width + (target->getContentSize().width/2), actualY));
 	auto targetBody = PhysicsBody::createCircle(target->getContentSize().width / 2);
-	target->setTag(2);
 	targetBody->setContactTestBitmask(0x1);
 	target->setPhysicsBody(targetBody);
 
-	target->setFlippedX(true);
-    this->addChild(target, 3);
-	//target->runAction(RepeatForever::create(Monster1Action::getInstance()->getMonsterWalkAnimate()->clone()));
+	this->addChild(target, 3);	
 	target->walk();
-
-
-	/*
-	int minDuration = (int)2.0;
-    int maxDuration = (int)4.0;
-    int rangeDuration = maxDuration - minDuration;
-    int actualDuration = ( rand() % rangeDuration )
-                                        + minDuration;
-	int actualDuration  = 10;
-	auto actionMove =  MoveTo::create( (float)actualDuration, Point(0 - target->getContentSize().width/2, actualY) );
-	auto actionMoveDone =   CallFuncN::create(CC_CALLBACK_1(HelloWorld::targetMoveFinished,this));
-
-	auto animation = Animation::createWithSpriteFrames(aniFrame,0.1);
-	auto walkAction = RepeatForever::create(Animate::create(animation));
-	target->runAction(walkAction);
-	target->runAction( Sequence::create(actionMove, actionMoveDone, NULL) );	
-	*/
 }
 void HelloWorld::targetMoveFinished(Node* sender)
 {
 // Hàm này có mỗi công việc là loại bỏ Target ( đang là Sprite) ra khỏi layer của game
 // Ép kiểu Contrỏ Sprite của 1 Node*
-	sender ->removeFromParentAndCleanup(true);
+	//sender ->removeFromParentAndCleanup(true);
 }
 void HelloWorld::spriteMoveFinished(Node* sender)
 {
@@ -149,6 +119,7 @@ void HelloWorld::spriteMoveFinished(Node* sender)
   auto sprite = (Sprite *)sender;
   this->removeChild(sprite, true);    
 }
+
 void HelloWorld::menuCloseCallback(Ref* pSender)
 {
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_WP8) || (CC_TARGET_PLATFORM == CC_PLATFORM_WINRT)
@@ -177,6 +148,7 @@ void HelloWorld::onTouchMoved(Touch* touches, Event* event)
 // Không xử lý gì ở đây
 
 }
+
 void HelloWorld::onTouchEnded(Touch* touches, Event* event)
 {
 	if (touches->getLocation().getDistance(m_circle->getPosition()) >= m_circle->getContentSize().width / 2)
@@ -244,25 +216,24 @@ bool HelloWorld::onContactBegin(const PhysicsContact& contact)
 {
 	auto sprite1 = (Sprite*)contact.getShapeA()->getBody()->getNode();
 	int tag = sprite1->getTag();
+
 	auto sprite2 = (Sprite*)contact.getShapeB()->getBody()->getNode();
 	int tag1 = sprite2->getTag();
-	if((tag==2&tag1==3) || (tag == 3 & tag1 == 2))
-    {
-		sprite1->removeFromParent();
-		sprite2->removeFromParent();
-	}
-	
-	if((tag== 1&tag1 == 2) || (tag==2 &tag1== 1))
-	{
-		return false;
-		auto gameOverScene = GameOverScene::create(); // Tạo 1 Scene Over của lớp GameOverScene
-		gameOverScene->getLayer()->getLabel()->setString("LOSE MOTHER FUCKER =))"); // Đặt 1 dòng thông báo lên màn hình
-		Director::getInstance()->replaceScene(gameOverScene); // Thay thế game Scene =  game Over Scene
-	}
-	if((tag== 1&tag1 == 3) || (tag==3 &tag1== 1))
-	{
 
+	if((tag== MONSTER_TAG && tag1==3) || (tag == 3 && tag1 == MONSTER_TAG))
+    {
+		if(tag == MONSTER_TAG)
+		{
+			sprite2->removeFromParentAndCleanup(true);
+			((Monster*)sprite1)->die();
+		}
+		else
+		{
+			sprite1->removeFromParentAndCleanup(true);	
+			((Monster*)sprite2)->die();
+		}
 	}
+		
 	return true;
 
 }

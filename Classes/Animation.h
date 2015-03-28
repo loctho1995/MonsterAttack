@@ -5,9 +5,8 @@
 #include "Define.h"
 USING_NS_CC;
 
-class SpriteAction : public Animation // class truu tuong 
+class SpriteAction : public Animation // class truu tuong i{
 {
-
 public:
 	~SpriteAction(void);
 	virtual void loadAnimation(SpriteFrameCache* spriteFrameCache) = 0 ; // Ham nap vao bo nho cac file .list
@@ -30,7 +29,7 @@ public:
 	}
 
 private:
-	PlayerAction(){ m_attackAnimate = nullptr }
+	PlayerAction();
 	static PlayerAction* m_instance; // Doi tuong duy nhat cua class
 	Animate* m_attackAnimate; // acttack animation  player
 };
@@ -41,12 +40,9 @@ protected:
 	 Animate* m_walkAnimate; // Di
 	 Animate* m_dieAnimate;  // Chet
 	 Animate* m_stunAnimate; // bi stun
-	 Animate* m_doneAnimate; // bi stun
 	 virtual Animate* getMonsterWalkAnimate() = 0; //
 	 virtual Animate* getMonsterDieAnimate() = 0; //
 	 virtual Animate* getMonsterStunAnimate() = 0; //
-	 virtual Animate* getMonsterDoneAnimate() = 0; 
-	 
 };
 
 class Monster1Action : public MonsterAction // Animation quai 1
@@ -56,7 +52,6 @@ public:
 	Animate* getMonsterWalkAnimate() {return m_walkAnimate;}
 	Animate* getMonsterDieAnimate() {return m_dieAnimate;}
 	Animate* getMonsterStunAnimate() {return m_stunAnimate;}
-	Animate* getMonsterDoneAnimate() { return m_doneAnimate; }
 
 	static Monster1Action* getInstance()
 	{
@@ -69,14 +64,7 @@ public:
 	}
 
 private:
-	Monster1Action() 
-	{
-		m_walkAnimate = nullptr;
-		m_dieAnimate  = nullptr;
-		m_stunAnimate = nullptr;
-		m_doneAnimate = nullptr;
-	}
-	
+	Monster1Action();
 	static Monster1Action* m_instance;
 };
 
@@ -87,7 +75,6 @@ public:
 	Animate* getMonsterWalkAnimate() {return m_walkAnimate;}
 	Animate* getMonsterDieAnimate() {return m_dieAnimate;}
 	Animate* getMonsterStunAnimate() {return m_stunAnimate;}
-	Animate* getMonsterDoneAnimate() { return m_doneAnimate; }
 	static Monster2Action* getInstance()
 	{
 		if(m_instance == 0)
@@ -98,109 +85,9 @@ public:
 		return m_instance;
 	}
 private:
-	Monster2Action() 
-	{
-		m_walkAnimate = nullptr;
-		m_dieAnimate  = nullptr;
-		m_stunAnimate = nullptr;
-		m_doneAnimate = nullptr;
-	}
+	Monster2Action();
 	static Monster2Action* m_instance;
 };
-
-
-class EffectAnimation : public SpriteAction
-{
-protected :
-	Animate* m_performAnimate;
-	virtual Animate* getEffectPerformAnimate() = 0; //
-};
-class FireEffectAnimation : private EffectAnimation
-{
-public:
-	void loadAnimation(SpriteFrameCache* spriteFrameCache);
-	Animate* getEffectPerformAnimate() {return m_performAnimate;}
-	static Monster1Action* getInstance()
-	{
-		if(m_instance == 0)
-		{
-			m_instance = new Monster1Action();
-			return m_instance;
-		}
-		return m_instance;
-	}
-private:
-	FireEffectAnimation()
-	{
-		m_performAnimate = nullptr;
-	}
-	static FireEffectAnimation* m_instance;
-};
-class NormalEffectAnimation : private EffectAnimation
-{
-public:
-	void loadAnimation(SpriteFrameCache* spriteFrameCache);
-	Animate* getEffectPerformAnimate() {return m_performAnimate;}
-	static Monster1Action* getInstance()
-	{
-		if(m_instance == 0)
-		{
-			m_instance = new Monster1Action();
-			return m_instance;
-		}
-		return m_instance;
-	}
-private:
-	NormalEffectAnimation()
-	{
-		m_performAnimate = nullptr;
-	}
-	static NormalEffectAnimation* m_instance;
-};
-class LightingEffectAnimation : private EffectAnimation
-{
-public:
-	void loadAnimation(SpriteFrameCache* spriteFrameCache);
-	Animate* getEffectPerformAnimate() {return m_performAnimate;}
-	static Monster1Action* getInstance()
-	{
-		if(m_instance == 0)
-		{
-			m_instance = new Monster1Action();
-			return m_instance;
-		}
-		return m_instance;
-	}
-private:
-	LightingEffectAnimation()
-	{
-		m_performAnimate = nullptr;
-	}
-	static LightingEffectAnimation* m_instance;
-};
-class WaterEffectAnimation : private EffectAnimation
-{
-public:
-	void loadAnimation(SpriteFrameCache* spriteFrameCache);
-	Animate* getEffectPerformAnimate() {return m_performAnimate;}
-	static Monster1Action* getInstance()
-	{
-		if(m_instance == 0)
-		{
-			m_instance = new Monster1Action();
-			return m_instance;
-		}
-		return m_instance;
-	}
-private:
-	WaterEffectAnimation()
-	{
-		m_performAnimate = nullptr;
-	}
-	static WaterEffectAnimation* m_instance;
-};
-
-
 
 static class AnimationManager    // class quan li cac Animation
 {
@@ -209,7 +96,6 @@ public:
 	static Animate* getWalkAnimationByTag(MonsterType type);
 	static Animate* getDieAnimationByTag(MonsterType type);
 	static Animate* getStunAnimationByTag(MonsterType type);
-	static Animate* getEffectAnimationByTag(BulletType type);
 };
 
 #endif

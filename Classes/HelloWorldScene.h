@@ -30,16 +30,11 @@ public:
 	bool onContactBegin(const PhysicsContact& contact);
 private:
 	Point locateBullet (Point touchPoint);
+
 	Sprite	*m_bullet,
 			*m_circle;
+
 	Size m_winSize;
-	Action* m_walk;
-	//Action* m_move;
-	SpriteBatchNode* m_spriteSheet;
-	Vector<SpriteFrame*> aniFrame;
-
-
-
 };
 
 #endif // __HELLOWORLD_SCENE_H__
