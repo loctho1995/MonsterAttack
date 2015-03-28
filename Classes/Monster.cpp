@@ -14,8 +14,7 @@ Monster1::Monster1()
 void Monster1::walk()
 {
 	this->runAction(RepeatForever::create(Monster1Action::getInstance()->getMonsterWalkAnimate()->clone()));
-	this->runAction(MoveTo::create(10, Vec2(0, this->getPosition().y)));
-						
+	this->runAction(MoveTo::create(10, Vec2(0, this->getPosition().y)));						
 }
 
 void Monster1::die()

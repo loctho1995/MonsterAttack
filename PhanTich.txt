@@ -5,18 +5,18 @@
 										bool m_isCleave;
 										bool m_isThrough;
 									protected : 
-										int m_damage;
-										
+										int m_damage;										
 									}
+
 				public class		Fire :: public Bullet
 									{
 									public:
 										Fire()
 										{
+											this->initWithFile("fire.png");
 											m_isCleave = false;
 											m_isThrough = false;
-											m_damage = 2;
-											
+											m_damage = 2;									
 										}
 									}
 				public class		Lighting : public Bullet
@@ -24,6 +24,7 @@
 									public:
 										Lighting()
 										{
+				this->initWithFile("fire.png");
 											m_isCleave = true;
 											m_isThrough = false;
 											m_damage = 1;
@@ -67,15 +68,15 @@
 										}
 									private:
 									}
-				public static class 		BulletManager
+				public static class BulletManager
 									{
 										public:
-												Bullet create(BulletType tag)
-												{
-												
+												Bullet* create(BulletType tag)
+												{											
 													switch(tag)
-													case
-													...
+													case Fire
+														
+
 												}
 									}
 				public static class Player :public  Sprite

@@ -109,8 +109,6 @@ void HelloWorld:: addTarget(float dt)
 	int actualY = (rand()% rangeY) + minY;
 		
 	target->setPosition(Point(m_winSize.width + (target->getContentSize().width/2), actualY));
-
-
 	auto targetBody = PhysicsBody::createCircle(target->getContentSize().width / 2);
 	target->setTag(2);
 	targetBody->setContactTestBitmask(0x1);
