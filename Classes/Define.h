@@ -6,7 +6,8 @@ const float PLAYER_ATTACK_ANIMATION_TIME = 0.1f; // thoi gian chuyen frame cua a
 const float MONSTER1_WALK_ANIMATION_TIME = 0.1f;
 
 const int PLAYER_ATTACK_ANIMATION_FRAMES = 6; // so frame cua Player Attack animation
-const int MONSTER_WALK_ANIMATION_FRAMES = 3; // so frame cua Monster Walk 
+const int MONSTER1_WALK_ANIMATION_FRAMES = 3; // so frame cua Monster Walk 
+const int MONSTER2_WALK_ANIMATION_FRAMES = 4;
 const int PLAYER_TAG = 0; // tag cua player
 const int MONSTER1_TAG = 1; // tag cua monster
 
