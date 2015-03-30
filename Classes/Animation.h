@@ -40,11 +40,9 @@ protected:
 	 Animate* m_walkAnimate; // Di
 	 Animate* m_dieAnimate;  // Chet
 	 Animate* m_stunAnimate; // bi stun
-	 Animate* m_doneAnimate;
 	 virtual Animate* getMonsterWalkAnimate() = 0; //
 	 virtual Animate* getMonsterDieAnimate() = 0; //
 	 virtual Animate* getMonsterStunAnimate() = 0; //
-	 virtual Animate* getMonsterDoneAnimate() = 0; 
 };
 
 class Monster1Action : public MonsterAction // Animation quai 1
@@ -54,7 +52,6 @@ public:
 	Animate* getMonsterWalkAnimate() {return m_walkAnimate;}
 	Animate* getMonsterDieAnimate() {return m_dieAnimate;}
 	Animate* getMonsterStunAnimate() {return m_stunAnimate;}
-	Animate* getMonsterDoneAnimate() { return m_doneAnimate; }
 
 	static Monster1Action* getInstance()
 	{
@@ -78,8 +75,6 @@ public:
 	Animate* getMonsterWalkAnimate() {return m_walkAnimate;}
 	Animate* getMonsterDieAnimate() {return m_dieAnimate;}
 	Animate* getMonsterStunAnimate() {return m_stunAnimate;}
-	Animate* getMonsterDoneAnimate() { return m_doneAnimate; }
-
 	static Monster2Action* getInstance()
 	{
 		if(m_instance == 0)

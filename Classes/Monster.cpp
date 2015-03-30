@@ -32,7 +32,7 @@ void Monster1::die()
 	this->setPosition(Vec2(this->getPosition().x, this->getPosition().y - this->getContentSize().height / 2 + this->getContentSize().width / 2));
 	this->stopAllActions();
 	m_die = Monster1Action::getInstance()->getMonsterDieAnimate()->clone();
-	CallFunc *func = CallFunc::create(CC_CALLBACK_0(Monster1::destroyed, this));
+	CallFunc* func = CallFunc::create(CC_CALLBACK_0(Monster1::destroyed, this));
 	m_isDieing = true;
 	this->runAction(Sequence::create(m_die, func, nullptr));
 }
@@ -44,11 +44,7 @@ void Monster1::stun()
 
 void Monster1::done()
 {
-	this->setAnchorPoint(Vec2(0, 0.5));
-	this->stopAllActions();
-	m_done = Monster1Action::getInstance()->getMonsterDoneAnimate()->clone();
-	CallFunc *func = CallFunc::create(CC_CALLBACK_0(Monster1::destroyed, this));
-	this->runAction(Sequence::create(m_done, func, nullptr));
+	destroyed();
 }
 
 #pragma endregion
@@ -80,7 +76,7 @@ void Monster2::walk()
 
 void Monster2::die()
 {
-	destroyed();
+
 }
 
 void Monster2::stun()

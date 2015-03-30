@@ -11,8 +11,8 @@ public:
 	Effect() {};
 	virtual void perform(BulletType type)
 	{
-		//auto action = AnimationManager::getEffectAnimationByTag(type);
-		//this->runAction(action);
+		auto action = AnimationManager::getEffectAnimationByTag(type);
+		this->runAction(action);
 	}
 	virtual void done()
 	{
