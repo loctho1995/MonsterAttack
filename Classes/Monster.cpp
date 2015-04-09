@@ -12,7 +12,7 @@ Monster1::Monster1()
 	m_isDieing = false;
 	m_HP = 3;
 	m_speed = 20;
-	//m_stun = Monster1Action::getInstance()->getMonsterStunAnimate()->clone();
+	m_damage = 1;
 }
 
 void Monster1::walk()
@@ -29,10 +29,11 @@ void Monster1::die()
 	if(m_isDieing)
 		return;
 
+	this->getPhysicsBody()->removeFromWorld();
 	this->setPosition(Vec2(this->getPosition().x, this->getPosition().y - this->getContentSize().height / 2 + this->getContentSize().width / 2));
 	this->stopAllActions();
 	m_die = Monster1Action::getInstance()->getMonsterDieAnimate()->clone();
-	CallFunc* func = CallFunc::create(CC_CALLBACK_0(Monster1::destroyed, this));
+	CallFunc *func = CallFunc::create(CC_CALLBACK_0(Monster1::destroyed, this));
 	m_isDieing = true;
 	this->runAction(Sequence::create(m_die, func, nullptr));
 }
@@ -44,9 +45,18 @@ void Monster1::stun()
 
 void Monster1::done()
 {
-	destroyed();
+	this->getPhysicsBody()->removeFromWorld();
+	this->stopAllActions();
+	m_done = Monster1Action::getInstance()->getMonsterDoneAnimate()->clone();
+	CallFunc *func = CallFunc::create(CC_CALLBACK_0(Monster1::destroyed, this));
+	CallFunc *func2 = CallFunc::create([&]{Player::getInstance()->attacked(this->m_damage); });
+	this->runAction(Sequence::create(m_done, func2, func, nullptr));
 }
 
+void Monster1::attacked()
+{
+
+}
 #pragma endregion
 
 #pragma region - Monster2 -
@@ -59,11 +69,8 @@ Monster2::Monster2()
 	m_isDieing = false;
 	m_HP = 3;
 	m_speed = 20;
+	m_damage = 1;
 	m_walk = Monster2Action::getInstance()->getMonsterWalkAnimate()->clone();
-	//m_die = Monster1Action::getInstance()->getMonsterDieAnimate()->clone();
-	//m_stun = Monster1Action::getInstance()->getMonsterStunAnimate()->clone();
-	//m_move = MoveTo::create(10, Vec2(0, this->getPosition().y));
-
 }
 
 void Monster2::walk()
@@ -76,7 +83,8 @@ void Monster2::walk()
 
 void Monster2::die()
 {
-
+	this->getPhysicsBody()->removeFromWorld();
+	destroyed();
 }
 
 void Monster2::stun()
@@ -85,10 +93,15 @@ void Monster2::stun()
 }
 
 void Monster2::done()
-{
+{	
+	this->getPhysicsBody()->removeFromWorld();
 	destroyed();
 }
 
+void Monster2::attacked()
+{
+
+}
 #pragma endregion
 
 #pragma region - Monster -
@@ -113,6 +126,11 @@ void Monster::stun()
 }
 
 void Monster::done()
+{
+
+}
+
+void Monster::attacked()
 {
 
 }

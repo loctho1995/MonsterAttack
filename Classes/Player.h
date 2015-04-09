@@ -13,15 +13,19 @@ class Player : public Sprite
 		void load(); // ham init ton tai nen phai dung ham khac
 		void attack(); //	ban'
 		void die(); // chet
+		void attacked(int damage); // bi tan cong
 		
 	private:	
 		static Player* m_instance;
 		Player();
-		int m_HP;
-		int m_damageBonus;
-		bool m_isDoubleDamage;
-		//BulletTypes m_bulletType;
-		bool m_isSplit;
+
+		int m_HP,
+			m_damageBonus;
+		
+		bool m_isSplit,
+			 m_isDoubleDamage,
+			 m_isGameOver;
+
 		
 	//CREATE_FUNC(Player);
 };

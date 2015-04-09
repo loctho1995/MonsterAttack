@@ -1,5 +1,9 @@
-﻿#include "cocos2d.h"
+﻿#ifndef __MONSTER__H__
+#define __MONSTER__H__
+
+#include "cocos2d.h"
 #include "Define.h"
+#include "Player.h"
 
 USING_NS_CC;
 
@@ -28,14 +32,20 @@ class Monster : public Sprite
 			m_speed = speed;
 		};
 
+		int setDamage(int damage)
+		{
+			m_damage = damage;
+		}
+
 		virtual void walk();
 		virtual void die();
 		virtual void stun();
 		virtual void done(); //ham duoc goi khi cham vao trong hinh tron cua Player
+		virtual void attacked();
 		virtual void destroyed();
 		
 	protected:
-		int m_HP;	
+		int m_HP, m_damage;	
 		float m_speed;
 		bool m_isDieing; //biến này = true khi dang chay animation die, tranh truong hop dang chay animation die thi dan ban trung animation bi cancel
 		Animate *m_walk, *m_die, *m_done, *m_stun;
@@ -49,6 +59,7 @@ public:
 	virtual void walk();
 	virtual void die();
 	virtual void stun();
+	virtual void attacked();
 	virtual void done();	
 
 private:
@@ -61,9 +72,10 @@ public:
 	virtual void walk();
 	virtual void die();
 	virtual void stun();
+	virtual void attacked();
 	virtual void done();	
 
 private:
 };
-
+#endif
 

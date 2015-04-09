@@ -49,7 +49,15 @@ void Player::attack()
 	m_instance->runAction(Sequence::create(PlayerAction::getInstance()->getPlayerActtackAnimate(), func ,nullptr));
 }
 
+void Player::attacked(int damage)
+{
+	m_HP -= damage;
+
+	if(m_HP <= 0)
+		die();
+}
+
 void Player::die()
 {
-	
+	m_isGameOver = true;
 }
