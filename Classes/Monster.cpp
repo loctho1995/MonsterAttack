@@ -53,10 +53,10 @@ void Monster1::done()
 	this->runAction(Sequence::create(m_done, func2, func, nullptr));
 }
 
-void Monster1::attacked()
-{
-
-}
+//void Monster1::attacked(Bullet* bullet)
+//{
+//
+//}
 #pragma endregion
 
 #pragma region - Monster2 -
@@ -98,10 +98,10 @@ void Monster2::done()
 	destroyed();
 }
 
-void Monster2::attacked()
-{
-
-}
+//void Monster2::attacked(Bullet* bullet)
+//{
+//
+//}
 #pragma endregion
 
 #pragma region - Monster -
@@ -130,9 +130,51 @@ void Monster::done()
 
 }
 
-void Monster::attacked()
+void Monster::attacked(Bullet* bullet)
 {
+		m_HP -= bullet->getdamage();
 
+	if(m_HP <= 0)
+	{
+		this->die();
+		return;
+	}
+	
+	#pragma region -Bullet Types-
+	switch (bullet->getBullettype())
+	{
+		case NORMAL:
+			break;
+
+		case FIRE:
+			break;
+
+		case LIGHTING:			
+			break;
+
+		case WATER:
+
+			break;
+
+		case ICE:
+			this->pauseSchedulerAndActions();
+
+			Monster1* sprite = new Monster1();
+			sprite->setVisible(false);
+			this->addChild(sprite);
+			CallFuncN* func = CallFuncN::create([&, sprite](Node* monster)
+			{
+				((Monster1*)monster)->removeFromParentAndCleanup(true); 
+				this->resumeSchedulerAndActions(); 
+			});
+
+			sprite->runAction(Sequence::create(DelayTime::create(BULLET_ICE_TIME), func, nullptr));
+
+			break;
+	}
+	#pragma endregion
+
+	bullet->removeFromParentAndCleanup(true);
 }
 
 void Monster::destroyed()

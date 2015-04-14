@@ -3,6 +3,8 @@
 
 #include "cocos2d.h"
 #include "SimpleAudioEngine.h"
+#include <d3d9.h>
+
 USING_NS_CC;
 
 class HelloWorld : public cocos2d::Layer
@@ -30,11 +32,10 @@ public:
 	bool onContactBegin(const PhysicsContact& contact);
 private:
 	Point locateBullet (Point touchPoint);
-
 	Sprite	*m_bullet,
 			*m_circle;
-
 	Size m_winSize;
+	
 };
 
 #endif // __HELLOWORLD_SCENE_H__

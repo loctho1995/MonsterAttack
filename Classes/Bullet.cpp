@@ -2,6 +2,11 @@
 
 void Bullet::move(Touch* touch, Sprite* sprite, Layer* layer)
 {
+	auto body = PhysicsBody::createCircle(BULLET_RADIUS, PHYSICSBODY_MATERIAL_DEFAULT, Vec2(15, 0));	
+	body->setContactTestBitmask(0x1);	
+	this->setPhysicsBody(body);
+	this->setTag(BULLET_TAG);
+
 	Point location = touch->getLocationInView();
 	
 	location = Director::getInstance()->convertToGL(location);
@@ -53,9 +58,9 @@ Point BulletManager::findPosition(Sprite* sprite, Touch* touch)
 
 	int spriteY = sprite->getPosition().y;
 
-	float X1 = spriteX - 200*(spriteX - touches.x) / sqrt((spriteY - touches.y)*(spriteY - touches.y) + (spriteX - touches.x)*(spriteX - touches.x));
+	float X1 = spriteX - PLAYER_DISTANCE * (spriteX - touches.x) / sqrt((spriteY - touches.y)*(spriteY - touches.y) + (spriteX - touches.x)*(spriteX - touches.x));
 
-	float X2 = spriteX + 200*(spriteX - touches.x) / sqrt((spriteY - touches.y)*(spriteY - touches.y) + (spriteX - touches.x)*(spriteX - touches.x));
+	float X2 = spriteX + PLAYER_DISTANCE * (spriteX - touches.x) / sqrt((spriteY - touches.y)*(spriteY - touches.y) + (spriteX - touches.x)*(spriteX - touches.x));
 
 	float Y;
 

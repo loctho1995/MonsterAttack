@@ -25,7 +25,6 @@ class Player : public Sprite
 		bool m_isSplit,
 			 m_isDoubleDamage,
 			 m_isGameOver;
-
 		
 	//CREATE_FUNC(Player);
 };

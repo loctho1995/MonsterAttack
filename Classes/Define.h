@@ -1,6 +1,8 @@
 #ifndef _DEFINE_H_
 #define _DEFINE_H_
 const int BULLET_VELOCITY =  480; // Toc do cua dan PIXLE / S
+const int BULLET_RADIUS = 10; // ban kinh cua vien dan dung de set physic body
+const float BULLET_ICE_TIME = 1; // 1s dong bang
 
 const float PLAYER_ATTACK_ANIMATION_TIME = 0.1f; // thoi gian chuyen frame cua animation Palyer Attack
 const int PLAYER_ATTACK_ANIMATION_FRAMES = 6; // so frame cua Player Attack animation
@@ -20,6 +22,7 @@ const int MONSTER_TAG = 1; // tag cua monster
 const int CIRCLE_TAG = 2;
 const int BULLET_TAG = 3;
 
+const int PLAYER_DISTANCE = 50;
 
 enum MonsterType // Cac loai quai chua xac dinh co bao nhieu loai
 	{

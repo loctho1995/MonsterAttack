@@ -7,6 +7,7 @@
 #include "Define.h"
 #include "Bullet.h"
 
+
 USING_NS_CC;
 
 Scene* HelloWorld::createScene()
@@ -60,14 +61,9 @@ bool HelloWorld::init()
 	this->addChild(m_circle);
 	auto circleBound = PhysicsBody::createCircle(m_circle->getContentSize().width / 2, PhysicsMaterial(0, 0, 0), Vec2::ZERO);
 	circleBound->setContactTestBitmask(0x1);
-	circleBound->setDynamic(false);
-	
+	circleBound->setDynamic(false);	
 	m_circle->setPhysicsBody(circleBound);
-
-
-	m_bullet = Sprite::create("sperm.png");	
-	this->addChild(m_bullet);
-		
+	
 	srand(time(NULL));
 	this->schedule( schedule_selector(HelloWorld::addTarget), 1.0f);
 
@@ -171,41 +167,6 @@ void HelloWorld::onTouchEnded(Touch* touches, Event* event)
 
 	auto bullet = BulletManager::create(BulletType::ICE);
 	bullet->move(touches, Player::getInstance(), this);
-
-	//Size winSize = Director::getInstance()->getVisibleSize(); 
-
-	//Point location =  touches->getLocationInView();
- //   location = Director::getInstance()->convertToGL(location); 
-	//
-	//Size wS = Director::getInstance()->getVisibleSize();
-	//auto projectile = Sprite::create("sperm.png");
-	////projectile->setPosition(Point(30 + projectile->getContentSize().width / 2 + m_player->getContentSize().width, winSize.height / 2 ));
-	//projectile->setPosition(locateBullet(location));
-	//Point Test = projectile->getPosition();
-	//
-	//int offX = location.x - projectile->getPosition().x;
- //   int offY = location.y - projectile->getPosition().y;
-	//if (offX <= 0) return;
-	//
-	//auto projectileBody = PhysicsBody::createCircle(projectile->getContentSize().width / 2);
-	//projectile->setTag(BULLET_TAG);
-	//projectileBody->setContactTestBitmask(-1);
-	//projectile->setPhysicsBody(projectileBody);
-
-	//this->addChild(projectile,1);
-
-
-	//float realX = (winSize.width + m_bullet->getContentSize().width / 2);
-	//float realY = ((projectile->getPosition().y - Player::getInstance()->getPosition().y)/ (projectile->getPosition().x - Player::getInstance()->getPosition().x)) * realX + Player::getInstance()->getPosition().y ;
-	//float length = sqrtf( pow(realX - projectile ->getPosition().x , 2 ) + pow(realY - projectile ->getPosition().y , 2));
-	//auto realDest = Point(realX, realY);
-	//float velocity = 480/1;
-	//// Thời gian bay của đạn = quãng đường đạn bay chia vận tốc ở trên
-	//float realMoveDuration = length/velocity;
-
-	//projectile ->runAction(Sequence::create(
-	//	MoveTo::create(realMoveDuration, realDest),
-	//	CallFuncN::create(CC_CALLBACK_1(HelloWorld::spriteMoveFinished, this)),NULL));
 }
 
 bool HelloWorld::onContactBegin(const PhysicsContact& contact)
@@ -223,13 +184,11 @@ bool HelloWorld::onContactBegin(const PhysicsContact& contact)
     {
 		if(tag == MONSTER_TAG)
 		{
-			sprite2->removeFromParentAndCleanup(true);
-			((Monster*)sprite1)->die();
+			((Monster*)sprite1)->attacked((Bullet*)sprite2);
 		}
 		else
 		{
-			sprite1->removeFromParentAndCleanup(true);	
-			((Monster*)sprite2)->die();
+			((Monster*)sprite2)->attacked((Bullet*)sprite1);		
 		}
 	}
 
@@ -242,28 +201,5 @@ bool HelloWorld::onContactBegin(const PhysicsContact& contact)
 	}
 		
 	return true;
-}
-
-Point HelloWorld::locateBullet( Point touchPoint)
-{	
-	Point center = Player::getInstance()->getPosition();
-	Point tempTouchPoint = touchPoint - center;
-	float radius = Player::getInstance()->getContentSize().height / 2;
-	Size size = Player::getInstance()->getContentSize();
-	Point temp;
-	float ratio = ( radius + m_bullet->getContentSize().width) / radius; 
-	temp.y = sqrtf( pow(radius, 2) / (pow( (tempTouchPoint.x / tempTouchPoint.y) , 2 ) + 1) );
-	temp.x = (tempTouchPoint.x / tempTouchPoint. y) * temp.y;
-
-	if((pow(temp.x + tempTouchPoint.x , 2) + pow((temp.y + tempTouchPoint.y),2)) < ( pow(tempTouchPoint.x ,2) + pow(tempTouchPoint.y ,2)))
-	{
-		temp.y = - sqrtf( pow(radius, 2) / (pow( (tempTouchPoint.x / tempTouchPoint.y) , 2 ) + 1) );
-		temp.x = (tempTouchPoint.x / tempTouchPoint. y) * temp.y;
-	}
-	Point locatedPoint;
-	locatedPoint = temp * ratio;
-
-	return Point(locatedPoint. x + center. x, locatedPoint.y + center. y );
-
 }
 	

@@ -4,6 +4,7 @@
 #include "cocos2d.h"
 #include "Define.h"
 #include "Player.h"
+#include "Bullet.h"
 
 USING_NS_CC;
 
@@ -41,7 +42,7 @@ class Monster : public Sprite
 		virtual void die();
 		virtual void stun();
 		virtual void done(); //ham duoc goi khi cham vao trong hinh tron cua Player
-		virtual void attacked();
+		virtual void attacked(Bullet* bullet);
 		virtual void destroyed();
 		
 	protected:
@@ -59,7 +60,7 @@ public:
 	virtual void walk();
 	virtual void die();
 	virtual void stun();
-	virtual void attacked();
+	//virtual void attacked(Bullet* bullet);
 	virtual void done();	
 
 private:
@@ -72,7 +73,7 @@ public:
 	virtual void walk();
 	virtual void die();
 	virtual void stun();
-	virtual void attacked();
+	//virtual void attacked(Bullet* bullet);
 	virtual void done();	
 
 private:
