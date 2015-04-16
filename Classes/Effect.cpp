@@ -13,5 +13,9 @@ Sprite* EffectManager::getEffectByTag(BulletType type)
 		return LightingEffect::createWithSpriteFrameName("LightingEffect_1.png");
 	case WATER:
 		return WaterEffect::createWithSpriteFrameName("WaterEffect_1.png");
+	case ICE:
+		return IceEffect::createWithSpriteFrameName("IceEffect_1.png");
+	default:
+		return nullptr;
 	}
 }

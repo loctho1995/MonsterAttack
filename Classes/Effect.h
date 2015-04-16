@@ -40,10 +40,32 @@ public:
 	LightingEffect() {}
 };
 
+class IceEffect : public Effect
+{
+public:
+	IceEffect() {}
+};
+
 
 class EffectManager
 {
 public:
 	Sprite* getEffectByTag(BulletType type);
+	static EffectManager* getInstacce() 
+	{
+		if(m_Instance == 0)
+		{
+			m_Instance = new EffectManager();
+			return m_Instance;
+		}
+		else
+		{
+			return m_Instance;
+		}
+	}
+private:
+	static EffectManager* m_Instance;
+	EffectManager() {}
+
 };
 #endif
