@@ -1,9 +1,7 @@
 #include "Item.h"
 USING_NS_CC;
 
-int ItemManager::ID = 0;
 ItemManager* ItemManager::m_Instance = 0;
-std::vector < Item*> ItemManager::m_Items;
 
 void Item::Animate()
 {
@@ -15,7 +13,6 @@ void Item::Animate()
 	this->runAction(action);
 	Sequence* newACtion = Sequence::create(DelayTime::create(4.5f), fade, NULL);
 	this->removeFromParent();
-	ItemManager::removeAt(m_ID);
 }
 Sprite* ItemManager::getItemByTag(BulletType type)
 {
@@ -25,57 +22,31 @@ Sprite* ItemManager::getItemByTag(BulletType type)
 		break;
 	case FIRE :
 		{
-			auto newitem = new FireItem(ID);
-			ID++;
-			m_Items.push_back(newitem);
+			auto newitem = new FireItem();
 			return newitem;
 		}	
 	case LIGHTING:
 		{
-			auto newitem = new LightingItem(ID);
-			ID++;
-			m_Items.push_back(newitem);
+			auto newitem = new LightingItem();
+
 			return newitem;
 		}
 	case WATER:
 		{
-			auto newitem = new WaterItem(ID);
-			ID++;
-			m_Items.push_back(newitem);
+			auto newitem = new WaterItem();
 			return newitem;
 			
 		}
 	case ICE:
 		{
-			auto newitem = new IceItem(ID);
-			ID++;
-			m_Items.push_back(newitem);
+			auto newitem = new IceItem();
 			return newitem;
 			
 		}
 	}
 }
 
-void ItemManager::removeAt( int i )
-{
-	m_Items.erase(m_Items.begin() + i);
-}
 
-BulletType ItemManager:: checkTouch(Point touchPoint)
-{
-	for (int i = 0; i < m_Items.size(); i++)
-	{
-		Item* item = m_Items.at(i);
-		if(item ->checkTouch( touchPoint))
-		{
-			item->stopAllActions();
-			item ->removeFromParent();
-			removeAt( i );
-			return item -> getType();
-			
-		}
-	}
-	return BulletType::INVALID;
-}
+
 
 

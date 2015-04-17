@@ -21,6 +21,7 @@ const int PLAYER_TAG = 0; // tag cua player
 const int MONSTER_TAG = 1; // tag cua monster
 const int CIRCLE_TAG = 2;
 const int BULLET_TAG = 3;
+const int ITEM_TAG = 4;
 
 const int PLAYER_DISTANCE = 50;
 
@@ -36,6 +37,7 @@ enum BulletType
 		FIRE,
 		LIGHTING,
 		WATER,
-		ICE
+		ICE,
+		INVALID
 	};
 #endif

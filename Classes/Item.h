@@ -12,7 +12,7 @@ class Item;
 class Item : public Sprite
 {
 public:
-	Item (int ID) : m_ID( ID)
+	Item ()
 	{}
 	bool checkTouch(Point touchPoint)  // function check if touch in ITEM or not
 	{
@@ -30,14 +30,13 @@ public:
 	}
 	virtual void Animate();
 protected:
-	int m_ID;
 	BulletType type;
 	
 };
 class FireItem : public Item
 {
 public:
-	FireItem(int ID) : Item(ID)
+	FireItem()
 	{
 		type = BulletType::FIRE;
 		this->initWithFile("FireItem_1.png");
@@ -49,7 +48,7 @@ private:
 class WaterItem : public Item
 {
 public:
-	WaterItem(int ID) : Item(ID)
+	WaterItem()
 	{
 		type = BulletType::WATER;
 		this->initWithFile("LightingItem_1.png");
@@ -59,7 +58,7 @@ private:
 class LightingItem : public Item
 {
 public:
-	LightingItem(int ID ) : Item(ID)
+	LightingItem()
 	{
 		type = BulletType::LIGHTING ;
 		this->initWithFile("WaterItem_1.png");
@@ -70,7 +69,7 @@ private:
 class IceItem : public Item 
 {
 public:
-	IceItem(int ID) : Item(ID)
+	IceItem() : Item()
 	{
 		type = BulletType::ICE; 
 		this->initWithFile("IceItem_1.png");
@@ -94,16 +93,8 @@ public:
 			return m_Instance;
 		}
 	}
-	std::vector<Item*> getItems()
-	{
-		return m_Items;
-	}
-	static void removeAt( int i);
-	BulletType checkTouch( Point touchPoint );// function check all member of item vector
 private:
-	static std::vector < Item*> m_Items;
 private:
-	static int ID;
 	static ItemManager* m_Instance;
 	ItemManager() {}
 };
