@@ -3,16 +3,24 @@ USING_NS_CC;
 
 ItemManager* ItemManager::m_Instance = 0;
 
-void Item::Animate()
+void Item::animate()
 {
-	Action* action = RepeatForever::create(JumpBy::create(0.5f, this->getPosition() , this->getPosition().y * 2 , 1 ) );
+	Action* action = RepeatForever::create(JumpTo::create(2, this->getPosition(), this->getContentSize().height * 1.5 , 1 ) );
+	
 	Action* fadeIn = FadeIn::create(0.3f);
 	Action* fadeOut = FadeOut::create(0.3f);
 	Sequence* sefade = Sequence::create(DelayTime::create(0.0f),fadeIn, fadeOut, NULL);
-	Action* fade = Repeat::create(sefade, 4 );
+	Action* fade = Repeat::create(sefade, 6 );
 	this->runAction(action);
-	Sequence* newACtion = Sequence::create(DelayTime::create(4.5f), fade, NULL);
-	this->removeFromParent();
+	Sequence* newAction = Sequence::create(DelayTime::create(4.5f), fade,  
+										CallFunc::create(CC_CALLBACK_0(Item::done, this)),
+										NULL);
+	this->runAction(newAction);
+}
+void Item::done()
+{
+	this->stopAllActions();
+	this->removeFromParentAndCleanup(true);
 }
 Sprite* ItemManager::getItemByTag(BulletType type)
 {

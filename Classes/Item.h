@@ -28,7 +28,8 @@ public:
 	{
 		return type;
 	}
-	virtual void Animate();
+	virtual void animate();
+	virtual void done();
 protected:
 	BulletType type;
 	
@@ -73,6 +74,7 @@ public:
 	{
 		type = BulletType::ICE; 
 		this->initWithFile("IceItem_1.png");
+		setTag(5);
 	}
 };
 
