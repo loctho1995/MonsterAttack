@@ -4,6 +4,7 @@
 #include "cocos2d.h"
 #include "SimpleAudioEngine.h"
 #include <d3d9.h>
+#include "Pause.h"
 
 USING_NS_CC;
 
@@ -30,11 +31,14 @@ public:
 	void onTouchMoved (cocos2d::Touch* touches, cocos2d::Event* event);
 	bool onTouchBegan (cocos2d::Touch* touches, cocos2d::Event* event);
 	bool onContactBegin(const PhysicsContact& contact);
+	void Pause(Ref *pSender);
 private:
 	Point locateBullet (Point touchPoint);
 	Sprite	*m_bullet,
 			*m_circle;
 	Size m_winSize;
+	MenuItemImage *m_btPause;
+	Menu *m_mnPause;
 	
 };
 

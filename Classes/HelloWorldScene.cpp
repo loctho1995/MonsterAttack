@@ -64,6 +64,14 @@ bool HelloWorld::init()
 	circleBound->setDynamic(false);	
 	m_circle->setPhysicsBody(circleBound);
 	
+	//tao nut pause
+	m_btPause = MenuItemImage::create("/Pause/Pause.png", "/Pause/PauseSelected.png", CC_CALLBACK_1(HelloWorld::Pause, this));
+	m_btPause->setScale(m_winSize.height / 10 / m_btPause->getContentSize().width);
+	m_mnPause = Menu::create(m_btPause, NULL);
+	m_mnPause->setPosition(0, 0);
+	m_btPause->setPosition(m_winSize.width - m_winSize.width / 10, m_winSize.height - m_winSize.height / 10);
+	this->addChild(m_mnPause);
+	
 	srand(time(NULL));
 	this->schedule( schedule_selector(HelloWorld::addTarget), 1.0f);
 
@@ -202,4 +210,10 @@ bool HelloWorld::onContactBegin(const PhysicsContact& contact)
 		
 	return true;
 }
-	
+
+void HelloWorld::Pause(Ref *pSender)
+{
+	Director::sharedDirector()->pause();
+	Scene *m_sPause = Pause::createScene();
+	Director::getInstance()->pushScene(m_sPause);
+}
