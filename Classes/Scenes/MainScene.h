@@ -3,10 +3,10 @@
 
 #include "cocos2d.h"
 #include "WorldMap.h"
-#include "AboutMenu.h"
-#include "HelpMenu.h"
+#include "Scenes/AboutScene.h"
+#include "Scenes/HelpScene.h"
 #include "Mission.h"
-#include "Exit.h"
+#include "Scenes/ExitScene.h"
 
 
 USING_NS_CC;

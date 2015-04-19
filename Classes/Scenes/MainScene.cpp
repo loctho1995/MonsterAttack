@@ -1,4 +1,4 @@
-#include "MainMenu.h"
+#include "Scenes/MainScene.h"
 
 USING_NS_CC;
 

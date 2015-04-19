@@ -1,14 +1,14 @@
 ﻿#include "HelloWorldScene.h"
-#include "GameOverScene.h"
 #include "Player.h"
 #include "LoadData.h"
 #include "Monster.h"
 #include "Animation.h"
 #include "Define.h"
 #include "Bullet.h"
-
+#include "Scenes/PauseScene.h"
 
 USING_NS_CC;
+using namespace std;
 
 Scene* HelloWorld::createScene()
 {
@@ -48,6 +48,11 @@ bool HelloWorld::init()
 	//LoadData::loadData();
     m_winSize = Director::getInstance()->getVisibleSize(); 
 
+	/*Draw by pixels on
+	auto draw = DrawNode::create();
+	this->addChild(draw);
+	draw->drawDot(Vec2(m_winSize.width / 2, m_winSize.height / 2), 1.0f, Color4F(1,1,1,0.2f));*/
+
 	auto backGround = Sprite::create("background.jpg");
 	backGround->setPosition(m_winSize.width/ 2 , m_winSize.height / 2);
 	this->addChild(backGround,0);
@@ -71,9 +76,8 @@ bool HelloWorld::init()
 	m_mnPause->setPosition(0, 0);
 	m_btPause->setPosition(m_winSize.width - m_winSize.width / 10, m_winSize.height - m_winSize.height / 10);
 	this->addChild(m_mnPause);
-	
-	srand(time(NULL));
-	this->schedule( schedule_selector(HelloWorld::addTarget), 1.0f);
+
+	this->schedule( schedule_selector(HelloWorld::addTarget), 2.0f);
 
 	auto dispatcher = Director::getInstance()-> getEventDispatcher();
 
@@ -89,6 +93,7 @@ bool HelloWorld::init()
 	contactListener ->onContactBegin = CC_CALLBACK_1(HelloWorld::onContactBegin, this);
 
 	dispatcher->addEventListenerWithSceneGraphPriority(contactListener, this);
+	srand(time(NULL));
 
     return true;
 }
@@ -153,7 +158,7 @@ void HelloWorld::menuCloseCallback(Ref* pSender)
 bool HelloWorld::onTouchBegan(Touch* touches, Event* event)
 {  
 
- return true; // Phải trả về True
+	return true; // Phải trả về True
 }
 
 void HelloWorld::onTouchMoved(Touch* touches, Event* event)
@@ -165,15 +170,25 @@ void HelloWorld::onTouchMoved(Touch* touches, Event* event)
 
 void HelloWorld::onTouchEnded(Touch* touches, Event* event)
 {
-	if (touches->getLocation().getDistance(m_circle->getPosition()) >= m_circle->getContentSize().width / 2)
+	for (int i = 0; i < ItemManager::getInstacce()->getItems().size(); i++)
 	{
+		if (ItemManager::getInstacce()->getItems().at(i)->checkTouch(touches->getLocation()))
+		{
+			Player::getInstance()->setBulletType(ItemManager::getInstacce()->getItems().at(i)->getType());
+			ItemManager::getInstacce()->eraseItem(i);
+			return;
+		}	
+	}
+
+	if (touches->getLocation().getDistance(m_circle->getPosition()) >= m_circle->getContentSize().width / 2)
+	{		
 		return;
 	}
 
 	Player::getInstance()->stopAllActions();
 	Player::getInstance()->attack();
 
-	auto bullet = BulletManager::create(BulletType::ICE);
+	auto bullet = BulletManager::create(Player::getInstance()->getBulletType());
 	bullet->move(touches, Player::getInstance(), this);
 }
 
@@ -192,11 +207,13 @@ bool HelloWorld::onContactBegin(const PhysicsContact& contact)
     {
 		if(tag == MONSTER_TAG)
 		{
-			((Monster*)sprite1)->attacked((Bullet*)sprite2);
+			if(((Monster*)sprite1)->attacked((Bullet*)sprite2))
+				((Monster*)sprite1)->die();
 		}
 		else
 		{
-			((Monster*)sprite2)->attacked((Bullet*)sprite1);		
+			if(((Monster*)sprite2)->attacked((Bullet*)sprite1))
+				((Monster*)sprite2)->die();
 		}
 	}
 
@@ -210,9 +227,9 @@ bool HelloWorld::onContactBegin(const PhysicsContact& contact)
 		
 	return true;
 }
-
+	
 void HelloWorld::Pause(Ref *pSender)
-{
+{	
 	Director::sharedDirector()->pause();
 	Scene *m_sPause = Pause::createScene();
 	Director::getInstance()->pushScene(m_sPause);

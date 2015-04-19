@@ -2,7 +2,7 @@
 #define __WORLDMAP_SCENE_H__
 
 #include "cocos2d.h"
-#include "MainMenu.h"
+#include "Scenes/MainScene.h"
 #include "HelloWorldScene.h"
 
 USING_NS_CC;

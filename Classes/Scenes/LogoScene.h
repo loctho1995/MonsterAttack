@@ -2,8 +2,6 @@
 #define __LOGOSCREEN_SCENE_H__
 
 #include "cocos2d.h"
-#include "MainMenu.h"
-
 
 USING_NS_CC;
 

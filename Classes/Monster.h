@@ -5,6 +5,7 @@
 #include "Define.h"
 #include "Player.h"
 #include "Bullet.h"
+#include "Item.h"
 
 USING_NS_CC;
 
@@ -42,8 +43,9 @@ class Monster : public Sprite
 		virtual void die();
 		virtual void stun();
 		virtual void done(); //ham duoc goi khi cham vao trong hinh tron cua Player
-		virtual void attacked(Bullet* bullet);
-		virtual void destroyed();
+		virtual bool attacked(Bullet* bullet);
+		virtual void destroyed();		 
+		virtual Item* dropItem();
 		
 	protected:
 		int m_HP, m_damage;	

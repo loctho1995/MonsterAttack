@@ -1,4 +1,4 @@
-#include "Exit.h"
+#include "Scenes/ExitScene.h"
 
 USING_NS_CC;
 

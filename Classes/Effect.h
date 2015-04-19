@@ -19,6 +19,13 @@ public:
 		this->removeFromParent();
 	}
 };
+
+class IceEffect : public Effect
+{
+public:
+	IceEffect() {}
+};
+
 class FireEffect : public Effect
 {
 public:
@@ -38,12 +45,6 @@ class LightingEffect : public Effect
 {
 public:
 	LightingEffect() {}
-};
-
-class IceEffect : public Effect
-{
-public:
-	IceEffect() {}
 };
 
 
@@ -66,6 +67,5 @@ public:
 private:
 	static EffectManager* m_Instance;
 	EffectManager() {}
-
 };
 #endif

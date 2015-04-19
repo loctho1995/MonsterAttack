@@ -1,4 +1,5 @@
 #include "WorldMap.h"
+#include "Player.h"
 
 USING_NS_CC;
 

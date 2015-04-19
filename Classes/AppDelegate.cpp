@@ -1,5 +1,6 @@
 #include "AppDelegate.h"
-#include "LogoScreen.h"
+#include "HelloWorldScene.h"
+#include "Scenes\LogoScene.h"
 
 USING_NS_CC;
 
@@ -38,8 +39,8 @@ bool AppDelegate::applicationDidFinishLaunching() {
     director->setAnimationInterval(1.0 / 60);
 
     // create a scene. it's an autorelease object
-    auto scene = LogoScreen::createScene();
-
+    //auto scene = HelloWorld::createScene();
+	auto scene = LogoScreen::createScene();
     // run
     director->runWithScene(scene);
 

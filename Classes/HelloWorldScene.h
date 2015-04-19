@@ -3,8 +3,7 @@
 
 #include "cocos2d.h"
 #include "SimpleAudioEngine.h"
-#include <d3d9.h>
-#include "Pause.h"
+
 
 USING_NS_CC;
 
@@ -22,7 +21,6 @@ public:
     void menuCloseCallback(cocos2d::Ref* pSender);
     
     // implement the "static create()" method manually
-    CREATE_FUNC(HelloWorld);
 	void gameLogic(float dt);
 	void addTarget(float dt);
 	void spriteMoveFinished(cocos2d::Node* sender);
@@ -32,6 +30,8 @@ public:
 	bool onTouchBegan (cocos2d::Touch* touches, cocos2d::Event* event);
 	bool onContactBegin(const PhysicsContact& contact);
 	void Pause(Ref *pSender);
+
+	CREATE_FUNC(HelloWorld);
 private:
 	Point locateBullet (Point touchPoint);
 	Sprite	*m_bullet,
@@ -39,7 +39,7 @@ private:
 	Size m_winSize;
 	MenuItemImage *m_btPause;
 	Menu *m_mnPause;
-	
+
 };
 
 #endif // __HELLOWORLD_SCENE_H__

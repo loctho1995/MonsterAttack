@@ -1,14 +1,14 @@
-#include "HelpMenu.h"
+#include "Scenes/AboutScene.h"
 
 USING_NS_CC;
 
-Scene* Help::createScene()
+Scene* About::createScene()
 {
     // 'scene' is an autorelease object
     auto scene = Scene::create();
     
     // 'layer' is an autorelease object
-    auto layer = Help::create();
+    auto layer = About::create();
 
     // add layer as a child to scene
     scene->addChild(layer);
@@ -18,7 +18,7 @@ Scene* Help::createScene()
 }
 
 // on "init" you need to initialize your instance
-bool Help::init()
+bool About::init()
 {
     //////////////////////////////
     // 1. super init first
@@ -41,16 +41,16 @@ bool Help::init()
 
     this->addChild(bg);
 
-	Label *title = Label::createWithTTF("Help!!!!!!!!", "fonts/Marker Felt.ttf", 50);
+	Label *title = Label::createWithTTF("Monster Attack", "fonts/Marker Felt.ttf", 50);
 	title->setPosition(visibleSize.width / 2, visibleSize.height / 7 * 6);
 	this->addChild(title);
 	
-	Label *about = Label::createWithTTF("Tu tim hieu cmn de", "fonts/Marker Felt.ttf", 20);
+	Label *about = Label::createWithTTF("Nhin clgt\n\n\nphan nay chua cai cai long gi dau\n\n\nlol", "fonts/Marker Felt.ttf", 20);
 
-	about->setPosition(visibleSize.width / 2, visibleSize.height / 7 * 5);
+	about->setPosition(visibleSize.width / 2, visibleSize.height / 7 * 3);
 	this->addChild(about);
 
-	MenuItemImage *ItemBack = MenuItemImage::create("Back.png", "BackSelected.png", CC_CALLBACK_1(Help::Back, this));
+	MenuItemImage *ItemBack = MenuItemImage::create("Back.png", "BackSelected.png", CC_CALLBACK_1(About::Back, this));
 
 	ItemBack->setScale(visibleSize.width / 10 / ItemBack->getContentSize().width);
 	//back->setPosition(selectlvl->getContentSize().width / 10, selectlvl->getContentSize().height / 5);
@@ -63,7 +63,7 @@ bool Help::init()
     return true;
 }
 
-void Help::Back(Ref *pSender)
+void About::Back(Ref *pSender)
 {
 	Scene *mainmenu = MainMenu::createScene();
 	Director::getInstance()->replaceScene(mainmenu);

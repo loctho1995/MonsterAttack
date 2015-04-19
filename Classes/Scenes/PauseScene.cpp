@@ -1,4 +1,5 @@
-#include "Pause.h"
+#include "Scenes/PauseScene.h"
+#include "Player.h"
 
 USING_NS_CC;
 
@@ -114,6 +115,7 @@ void Pause::Selectlvl(Ref* pSender)
 }
 void Pause::BacktoMenu(Ref *pSender)
 {
+	Player::getInstance()->removeFromParentAndCleanup(true);
 	Scene *mainmenu = MainMenu::createScene();
 	Director::getInstance()->replaceScene(mainmenu);
 }

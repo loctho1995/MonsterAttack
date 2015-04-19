@@ -13,9 +13,50 @@ Player::Player()
 	this->setTag(PLAYER_TAG);
 	m_HP = 10;
 	m_damageBonus = 0;
+	m_damageMulti = 1;
 	m_isDoubleDamage = false;
-	//m_bulletType = Normal;
+	m_bulletType = BulletType::NORMAL;
 	m_isSplit = false;	
+}
+
+int Player::getSouls()
+{
+	return m_souls;
+}
+
+int Player::getDamageBonus()
+{
+	return m_damageBonus;
+}
+
+int Player::getdamageMulti()
+{
+	return m_damageMulti;
+}
+
+BulletType Player::getBulletType()
+{
+	return m_bulletType;
+}
+
+void Player::setBulletType(BulletType bulletType)
+{
+	m_bulletType = bulletType;
+}
+
+void Player::setDamageBonus(int damage)
+{
+	m_damageBonus = damage;
+}
+
+void Player::setDamageMulti(int damage)
+{
+	m_damageMulti = damage;
+}
+
+void Player::setSouls(int souls)
+{
+	m_souls = souls;
 }
 
 Player* Player::getInstance()

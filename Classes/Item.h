@@ -24,6 +24,7 @@ public:
 		}
 		else return false;
 	}
+
 	BulletType getType() const
 	{
 		return type;
@@ -82,7 +83,24 @@ public:
 class ItemManager
 {
 public:
-	static Sprite* getItemByTag(BulletType type);
+	Sprite* getItemByTag(BulletType type);
+
+	std::vector<Item*> getItems()
+	{
+		return m_items;
+	}
+
+	void addItem(Item* item)
+	{
+		m_items.push_back(item);
+	}
+
+	void eraseItem(int pos)
+	{
+		m_items.at(pos)->removeFromParentAndCleanup(true);
+		m_items.erase(m_items.begin() + pos);
+	}
+
 	static ItemManager* getInstacce() 
 	{
 		if(m_Instance == 0)
@@ -95,8 +113,9 @@ public:
 			return m_Instance;
 		}
 	}
+
 private:
-private:
+	std::vector<Item*> m_items;
 	static ItemManager* m_Instance;
 	ItemManager() {}
 };
