@@ -231,6 +231,7 @@ bool HelloWorld::onContactBegin(const PhysicsContact& contact)
 void HelloWorld::Pause(Ref *pSender)
 {	
 	Director::sharedDirector()->pause();
-	Scene *m_sPause = Pause::createScene();
-	Director::getInstance()->pushScene(m_sPause);
+	Director::getInstance()->getEventDispatcher()->pauseEventListenersForTarget(this);
+	Layer *m_sPause = Pause::create();
+	this->addChild(m_sPause, 100);
 }

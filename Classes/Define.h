@@ -22,7 +22,7 @@ const int MONSTER_TAG = 1; // tag cua monster
 const int CIRCLE_TAG = 2;
 const int BULLET_TAG = 3;
 
-const int PLAYER_DISTANCE = 50;
+const int PLAYER_DISTANCE = 150;
 
 enum MonsterType // Cac loai quai chua xac dinh co bao nhieu loai
 	{

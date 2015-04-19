@@ -12,7 +12,7 @@ class PauseMenu : public Menu
 
 public:
 	typedef void (*PauseMenu::funcResume)(Ref*);
-
+	void initMenu();
 	void Restart(Ref *pSender);
 	void Selectlvl(Ref* pSender);
 	void BacktoMenu(Ref *pSender);

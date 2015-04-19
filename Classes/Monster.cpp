@@ -3,7 +3,7 @@
 #include "Define.h"
 #include "Item.h"
 
-#pragma region - Monster1 -
+#pragma region - Monster 1 -
 
 Monster1::Monster1()
 {
@@ -12,29 +12,200 @@ Monster1::Monster1()
 
 	m_isDieing = false;
 	m_HP = 3;
-	m_speed = 20;
+	m_speed = 100;
 	m_damage = 1;
 }
 
 void Monster1::walk()
 {
-	m_walk = Monster1Action::getInstance()->getMonsterWalkAnimate()->clone();
-	m_move = MoveTo::create(10, Vec2(0, this->getPosition().y));
-	CallFunc* func = CallFunc::create(CC_CALLBACK_0(Monster1::done, this));
-	this->runAction(RepeatForever::create(m_walk));
-	this->runAction(Sequence::create(m_move, func, nullptr));
+	m_walk = Monster1Action::getInstance()->getMonsterWalkAnimate()->clone();	
+	Monster::walk();
 }
 
 void Monster1::die()
 {
-	if(m_isDieing)
-		return;
+	m_die = Monster1Action::getInstance()->getMonsterDieAnimate()->clone();
+	Monster::die();
+}
 
+void Monster1::freezed()
+{
+	Monster::freezed();
+}
+
+void Monster1::done()
+{
+	m_done = Monster1Action::getInstance()->getMonsterDoneAnimate()->clone();
+	Monster::done();
+}
+
+bool Monster1::attacked(Bullet* bullet)
+{
+	return Monster::attacked(bullet);
+}
+#pragma endregion
+
+#pragma region - Monster 2 -
+
+Monster2::Monster2()
+{
+	this->initWithFile("Monster1_Stand.png");	
+	this->setTag(MONSTER_TAG);
+
+	m_isDieing = false;
+	m_HP = 3;
+	m_speed = 100;
+	m_damage = 1;
+	m_walk = Monster2Action::getInstance()->getMonsterWalkAnimate()->clone();
+}
+
+void Monster2::walk()
+{
+	m_move = MoveTo::create(this->getPosition().x / m_speed, Vec2(0, this->getPosition().y));
+	CallFunc* func = CallFunc::create(CC_CALLBACK_0(Monster2::done, this));
+	this->runAction(RepeatForever::create(m_walk));
+	this->runAction(Sequence::create(m_move, func, nullptr));
+}
+
+void Monster2::die()
+{
+	m_die = Monster1Action::getInstance()->getMonsterDieAnimate()->clone();
+	Monster::die();
+}
+
+void Monster2::freezed()
+{
+
+}
+
+void Monster2::done()
+{	
+	m_done = Monster1Action::getInstance()->getMonsterDoneAnimate()->clone();
+	Monster::done();
+}
+
+bool Monster2::attacked(Bullet* bullet)
+{
+	return Monster::attacked(bullet);
+}
+#pragma endregion
+
+#pragma region - Monster 3 -
+Monster3::Monster3()
+{
+
+}
+
+void Monster3::walk()
+{
+
+}
+
+void Monster3::die()
+{
+
+}
+
+void Monster3::freezed()
+{
+
+}
+
+void Monster3::done()
+{
+	
+}
+
+bool Monster3::attacked(Bullet* bullet)
+{
+	return Monster::attacked(bullet);
+}
+#pragma endregion
+
+#pragma region - Monster 4 -
+Monster4::Monster4()
+{
+
+}
+
+void Monster4::walk()
+{
+
+}
+
+void Monster4::die()
+{
+
+}
+
+void Monster4::freezed()
+{
+
+}
+
+void Monster4::done()
+{
+	
+}
+
+bool Monster4::attacked(Bullet* bullet)
+{
+	return Monster::attacked(bullet);
+}
+#pragma endregion
+
+#pragma region - Monster 5 -
+Monster5::Monster5()
+{
+
+}
+
+void Monster5::walk()
+{
+
+}
+
+void Monster5::die()
+{
+
+}
+
+void Monster5::freezed()
+{
+
+}
+
+void Monster5::done()
+{
+	
+}
+
+bool Monster5::attacked(Bullet* bullet)
+{
+	return Monster::attacked(bullet);
+}
+#pragma endregion
+
+#pragma region - Monster -
+Monster::Monster()
+{
+
+}
+
+void Monster::walk()
+{
+	m_move = MoveTo::create(this->getPosition().x/ m_speed, Vec2(0, this->getPosition().y));
+	CallFunc* func = CallFunc::create(CC_CALLBACK_0(Monster::done, this));
+	this->runAction(RepeatForever::create(m_walk));
+	this->runAction(Sequence::create(m_move, func, nullptr));
+}
+
+void Monster::die()
+{
 	this->getPhysicsBody()->removeFromWorld();
 	this->setPosition(Vec2(this->getPosition().x, this->getPosition().y - this->getContentSize().height / 2 + this->getContentSize().width / 2));
 	this->stopAllActions();
 
-	m_die = Monster1Action::getInstance()->getMonsterDieAnimate()->clone();
 	CallFunc *func = CallFunc::create(CC_CALLBACK_0(Monster1::destroyed, this));
 
 	CallFunc *fun2 = CallFunc::create([&] 
@@ -54,98 +225,30 @@ void Monster1::die()
 	this->runAction(Sequence::create(m_die, func, fun2, nullptr));
 }
 
-void Monster1::stun()
+void Monster::freezed()
 {
+	this->pauseSchedulerAndActions();
 
-}
+	Monster* sprite = new Monster();
+	sprite->setVisible(false);
+	this->addChild(sprite);
+	CallFuncN* func = CallFuncN::create([&, sprite](Node* monster)
+	{
+		((Monster*)monster)->removeFromParentAndCleanup(true); 
+		this->resumeSchedulerAndActions(); 
+	});
 
-void Monster1::done()
-{
-	this->getPhysicsBody()->removeFromWorld();
-	this->stopAllActions();
-	m_done = Monster1Action::getInstance()->getMonsterDoneAnimate()->clone();
-	CallFunc *func = CallFunc::create(CC_CALLBACK_0(Monster1::destroyed, this));
-	CallFunc *func2 = CallFunc::create([&]{Player::getInstance()->attacked(this->m_damage); });
-	this->runAction(Sequence::create(m_done, func2, func, nullptr));
-}
-
-//void Monster1::attacked(Bullet* bullet)
-//{
-//
-//}
-#pragma endregion
-
-#pragma region - Monster2 -
-
-Monster2::Monster2()
-{
-	this->initWithFile("Monster1_Stand.png");	
-	this->setTag(MONSTER_TAG);
-
-	m_isDieing = false;
-	m_HP = 3;
-	m_speed = 20;
-	m_damage = 1;
-	m_walk = Monster2Action::getInstance()->getMonsterWalkAnimate()->clone();
-}
-
-void Monster2::walk()
-{
-	m_move = MoveTo::create(10, Vec2(0, this->getPosition().y));
-	CallFunc* func = CallFunc::create(CC_CALLBACK_0(Monster2::done, this));
-	this->runAction(RepeatForever::create(m_walk));
-	this->runAction(Sequence::create(m_move, func, nullptr));
-}
-
-void Monster2::die()
-{
-	dropItem();
-	this->getPhysicsBody()->removeFromWorld();
-	Player::getInstance()->setSouls(Player::getInstance()->getSouls() + 1);
-	destroyed();
-}
-
-void Monster2::stun()
-{
-
-}
-
-void Monster2::done()
-{	
-	this->getPhysicsBody()->removeFromWorld();
-	destroyed();
-}
-
-//void Monster2::attacked(Bullet* bullet)
-//{
-//
-//}
-#pragma endregion
-
-#pragma region - Monster -
-Monster::Monster()
-{
-
-}
-
-void Monster::walk()
-{
-
-}
-
-void Monster::die()
-{
-
-}
-
-void Monster::stun()
-{
-
+	sprite->runAction(Sequence::create(DelayTime::create(BULLET_ICE_TIME), func, nullptr));
 }
 
 void Monster::done()
 {
-
+	this->getPhysicsBody()->removeFromWorld();
+	this->stopAllActions();
+	CallFunc *func = CallFunc::create(CC_CALLBACK_0(Monster::destroyed, this));
+	CallFunc *func2 = CallFunc::create([&]{Player::getInstance()->attacked(this->m_damage); });
+	this->runAction(Sequence::create(m_done, func2, func, nullptr));
+	this->destroyed();
 }
 
 //return true la monster chet
@@ -179,19 +282,7 @@ bool Monster::attacked(Bullet* bullet)
 			break;
 
 		case ICE:
-			this->pauseSchedulerAndActions();
-
-			Monster1* sprite = new Monster1();
-			sprite->setVisible(false);
-			this->addChild(sprite);
-			CallFuncN* func = CallFuncN::create([&, sprite](Node* monster)
-			{
-				((Monster1*)monster)->removeFromParentAndCleanup(true); 
-				this->resumeSchedulerAndActions(); 
-			});
-
-			sprite->runAction(Sequence::create(DelayTime::create(BULLET_ICE_TIME), func, nullptr));
-
+			this->freezed();
 			break;
 	}
 	#pragma endregion

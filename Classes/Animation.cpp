@@ -107,7 +107,7 @@ void Monster1Action :: loadAnimation(SpriteFrameCache* spriteFrameCache)
 	m_dieAnimate->retain();
 #pragma endregion
 
-#pragma region - MONSTER1 STUN -
+#pragma region - MONSTER1 freezed -
 	for (int i = 1; i < MONSTER1_STUN_ANIMATION_FRAMES; i++) // Vong lap tao sprite attack
 	{
 		try

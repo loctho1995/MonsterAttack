@@ -1,4 +1,4 @@
-#include "Pause.h"
+#include "PauseScene.h"
 
 USING_NS_CC;
 

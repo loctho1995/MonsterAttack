@@ -40,7 +40,7 @@ class MonsterAction : public SpriteAction   // Animation cua cac con quai abstra
 protected:
 	 Animate* m_walkAnimate; // Di
 	 Animate* m_dieAnimate;  // Chet
-	 Animate* m_stunAnimate; // bi stun
+	 Animate* m_stunAnimate; // bi freezed
 	 Animate* m_doneAnimate;
 	 virtual Animate* getMonsterWalkAnimate() = 0; //
 	 virtual Animate* getMonsterDieAnimate() = 0; //

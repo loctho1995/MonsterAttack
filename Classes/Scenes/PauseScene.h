@@ -2,7 +2,7 @@
 #define __PAUSE_SCENE_H__
 
 #include "cocos2d.h"
-#include "MainMenu.h"
+#include "MainScene.h"
 #include "WorldMap.h"
 #include "HelloWorldScene.h"
 

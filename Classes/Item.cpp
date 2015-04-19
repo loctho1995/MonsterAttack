@@ -28,23 +28,26 @@ Sprite* ItemManager::getItemByTag(BulletType type)
 	{
 	case NORMAL:
 		break;
+
 	case FIRE :
 		{
 			auto newitem = new FireItem();
 			return newitem;
 		}	
+
 	case LIGHTING:
 		{
 			auto newitem = new LightingItem();
-
 			return newitem;
 		}
+
 	case WATER:
 		{
 			auto newitem = new WaterItem();
 			return newitem;
 			
 		}
+
 	case ICE:
 		{
 			auto newitem = new IceItem();

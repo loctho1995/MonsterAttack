@@ -53,7 +53,7 @@ public:
 	WaterItem()
 	{
 		type = BulletType::WATER;
-		this->initWithFile("LightingItem_1.png");
+		this->initWithFile("WaterItem_1.png");
 	}
 private:
 };
@@ -63,7 +63,7 @@ public:
 	LightingItem()
 	{
 		type = BulletType::LIGHTING ;
-		this->initWithFile("WaterItem_1.png");
+		this->initWithFile("LightingItem_1.png");
 	}
 private:
 

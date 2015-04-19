@@ -41,7 +41,7 @@ class Monster : public Sprite
 
 		virtual void walk();
 		virtual void die();
-		virtual void stun();
+		virtual void freezed();
 		virtual void done(); //ham duoc goi khi cham vao trong hinh tron cua Player
 		virtual bool attacked(Bullet* bullet);
 		virtual void destroyed();		 
@@ -61,8 +61,8 @@ public:
 	Monster1();
 	virtual void walk();
 	virtual void die();
-	virtual void stun();
-	//virtual void attacked(Bullet* bullet);
+	virtual void freezed();
+	virtual bool attacked(Bullet* bullet);
 	virtual void done();	
 
 private:
@@ -74,8 +74,47 @@ public:
 	Monster2();
 	virtual void walk();
 	virtual void die();
-	virtual void stun();
-	//virtual void attacked(Bullet* bullet);
+	virtual void freezed();
+	virtual bool attacked(Bullet* bullet);
+	virtual void done();	
+
+private:
+};
+
+class Monster3 : public Monster
+{
+public:
+	Monster3();
+	virtual void walk();
+	virtual void die();
+	virtual void freezed();
+	virtual bool attacked(Bullet* bullet);
+	virtual void done();	
+
+private:
+};
+
+class Monster4 : public Monster
+{
+public:
+	Monster4();
+	virtual void walk();
+	virtual void die();
+	virtual void freezed();
+	virtual bool attacked(Bullet* bullet);
+	virtual void done();	
+
+private:
+};
+
+class Monster5 : public Monster
+{
+public:
+	Monster5();
+	virtual void walk();
+	virtual void die();
+	virtual void freezed();
+	virtual bool attacked(Bullet* bullet);
 	virtual void done();	
 
 private:
