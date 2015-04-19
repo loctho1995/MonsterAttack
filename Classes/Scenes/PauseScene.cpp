@@ -1,5 +1,4 @@
-#include "Scenes/PauseScene.h"
-#include "Player.h"
+#include "Pause.h"
 
 USING_NS_CC;
 
@@ -31,11 +30,11 @@ bool Pause::init()
     Size visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
-	Sprite *bg = Sprite::create("background.jpg");
+	//Sprite *bg = Sprite::create("background.jpg");
 	/*bg->setScaleX(visibleSize.width / bg->getContentSize().width);
 	bg->setScaleY(visibleSize.height / bg->getContentSize().height);*/
-	bg->setPosition(visibleSize.width / 2, visibleSize.height / 2);
-	this->addChild(bg);
+	//bg->setPosition(visibleSize.width / 2, visibleSize.height / 2);
+	//this->addChild(bg);
 
 	Sprite *paused = Sprite::create("/Pause/PauseSprite.png");
 	paused->setScaleX(visibleSize.height / 2 * 1.5 / paused->getContentSize().height);
@@ -100,9 +99,10 @@ bool Pause::init()
 
 void Pause::Resume(Ref* pSender)
 {
-	Director::getInstance()->popScene();
-	Director::sharedDirector()->resume();
+	Director::getInstance()->getEventDispatcher()->resumeEventListenersForTarget(this->getParent());
 	this->removeFromParentAndCleanup(true);
+	//HelloWorld::EnablePausebt();
+	Director::sharedDirector()->resume();
 }
 void Pause::Restart(Ref *pSender)
 {
@@ -110,12 +110,15 @@ void Pause::Restart(Ref *pSender)
 }
 void Pause::Selectlvl(Ref* pSender)
 {
+	//Director::getInstance()->release();
 	Scene *lvlselect = WorldMap::createScene();
 	Director::getInstance()->replaceScene(lvlselect);
+	Director::sharedDirector()->resume();
 }
 void Pause::BacktoMenu(Ref *pSender)
 {
-	Player::getInstance()->removeFromParentAndCleanup(true);
+	//Director::getInstance()->release();
 	Scene *mainmenu = MainMenu::createScene();
 	Director::getInstance()->replaceScene(mainmenu);
+	Director::sharedDirector()->resume();
 }

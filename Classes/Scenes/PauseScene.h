@@ -2,7 +2,7 @@
 #define __PAUSE_SCENE_H__
 
 #include "cocos2d.h"
-#include "Scenes/MainScene.h"
+#include "MainMenu.h"
 #include "WorldMap.h"
 #include "HelloWorldScene.h"
 
@@ -20,7 +20,7 @@ public:
 	void Restart(Ref *pSender);
 	void Selectlvl(Ref* pSender);
 	void BacktoMenu(Ref *pSender);
-
+	
 	CREATE_FUNC(Pause);
 };
 
