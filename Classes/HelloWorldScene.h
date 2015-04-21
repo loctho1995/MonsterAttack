@@ -30,7 +30,8 @@ public:
 	bool onTouchBegan (cocos2d::Touch* touches, cocos2d::Event* event);
 	bool onContactBegin(const PhysicsContact& contact);
 	void Pause(Ref *pSender);
-
+	static void EnablePausebt();
+	static void DisablePausebt();
 	CREATE_FUNC(HelloWorld);
 private:
 	Point locateBullet (Point touchPoint);
@@ -38,7 +39,7 @@ private:
 			*m_circle;
 	Size m_winSize;
 	MenuItemImage *m_btPause;
-	Menu *m_mnPause;
+	static Menu *m_mnPause;
 
 };
 

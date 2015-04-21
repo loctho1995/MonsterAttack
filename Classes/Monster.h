@@ -42,8 +42,10 @@ class Monster : public Sprite
 		virtual void walk();
 		virtual void die();
 		virtual void freezed();
+		virtual void burning();
 		virtual void done(); //ham duoc goi khi cham vao trong hinh tron cua Player
 		virtual bool attacked(Bullet* bullet);
+		virtual bool attackedByLightingCircle();
 		virtual void destroyed();		 
 		virtual Item* dropItem();
 		
@@ -62,7 +64,9 @@ public:
 	virtual void walk();
 	virtual void die();
 	virtual void freezed();
+	virtual void burning();
 	virtual bool attacked(Bullet* bullet);
+	virtual bool attackedByLightingCircle();
 	virtual void done();	
 
 private:
@@ -75,7 +79,9 @@ public:
 	virtual void walk();
 	virtual void die();
 	virtual void freezed();
+	virtual void burning();
 	virtual bool attacked(Bullet* bullet);
+	virtual bool attackedByLightingCircle();
 	virtual void done();	
 
 private:
@@ -88,7 +94,9 @@ public:
 	virtual void walk();
 	virtual void die();
 	virtual void freezed();
+	virtual void burning();
 	virtual bool attacked(Bullet* bullet);
+	virtual bool attackedByLightingCircle();
 	virtual void done();	
 
 private:
@@ -101,7 +109,9 @@ public:
 	virtual void walk();
 	virtual void die();
 	virtual void freezed();
+	virtual void burning();
 	virtual bool attacked(Bullet* bullet);
+	virtual bool attackedByLightingCircle();
 	virtual void done();	
 
 private:
@@ -114,7 +124,9 @@ public:
 	virtual void walk();
 	virtual void die();
 	virtual void freezed();
+	virtual void burning();
 	virtual bool attacked(Bullet* bullet);
+	virtual bool attackedByLightingCircle();
 	virtual void done();	
 
 private:

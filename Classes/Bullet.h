@@ -13,7 +13,7 @@ protected:
 	bool m_isCleave;
 	bool m_isThrough;
 	BulletType m_bullettype;
-
+	ParticleSystemQuad *prt;// paticle va bullet chua resize
 public:
 	Bullet()
 	{
@@ -54,7 +54,12 @@ class Normal: public Bullet
 public:
 	Normal()
 	{
-		this->initWithFile("Normal.png");
+		this->initWithFile("BulletParticle/Normal.png");
+		prt = ParticleSystemQuad::create("BulletParticle/Normal.plist");
+		this->addChild(prt);
+		prt->setPosition(this->getContentSize().width / 2, this->getContentSize().height / 2);
+		prt->setScale(0.75f);
+		prt->setLife(0.01f);
 		m_isCleave = false;
 		m_isThrough = false;
 		m_damage = 1;
@@ -91,7 +96,12 @@ class Fire: public Bullet
 public:
 	Fire()
 	{
-		this->initWithFile("Fire.png");
+		this->initWithFile("BulletParticle/Fire.png");
+		prt = ParticleSystemQuad::create("BulletParticle/Fire.plist");
+		this->addChild(prt);
+		prt->setPosition(this->getContentSize().width / 2, this->getContentSize().height / 2);
+		//prt->setScale(0.5f);
+		prt->setLife(0.05f);
 		m_isCleave = false;
 		m_isThrough = false;
 		m_damage = 2;
@@ -130,7 +140,12 @@ private:
 public:
 	Lighting()
 	{
-		this->initWithFile("Lighting.png");
+		this->initWithFile("BulletParticle/Lighting.png");
+		prt = ParticleSystemQuad::create("BulletParticle/Lighting.plist");
+		this->addChild(prt);
+		prt->setPosition(this->getContentSize().width / 2, this->getContentSize().height / 2);
+		prt->setScale(0.75f);
+		prt->setLife(0.01f);
 		m_isCleave = true;
 		m_isThrough = false;
 		m_damage = 1;
@@ -174,7 +189,12 @@ private:
 public:
 	Ice()
 	{
-		this->initWithFile("Ice.png");
+		this->initWithFile("BulletParticle/Ice.png");
+		prt = ParticleSystemQuad::create("BulletParticle/Ice.plist");
+		this->addChild(prt);
+		prt->setPosition(this->getContentSize().width / 2, this->getContentSize().height / 2);
+		prt->setScale(0.75f);
+		prt->setLife(0.05f);
 		m_isCleave = false;
 		m_isThrough = false;
 		m_damage = 1;
@@ -217,7 +237,12 @@ class Water: public Bullet
 public:
 	Water()
 	{
-		this->initWithFile("Water.png");
+		this->initWithFile("BulletParticle/Water.png");
+		prt = ParticleSystemQuad::create("BulletParticle/Water.plist");
+		this->addChild(prt);
+		prt->setPosition(this->getContentSize().width / 2, this->getContentSize().height / 2);
+		//prt->setScale(0.5f);
+		prt->setLife(0.01f);
 		m_isCleave = false;
 		m_isThrough = true;
 		m_damage = 1;

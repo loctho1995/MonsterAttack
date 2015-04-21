@@ -18,7 +18,7 @@ Scene* HelloWorld::createScene()
 	//scene->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
 
 	scene->getPhysicsWorld()->setGravity(Vect(0.0f, 0.0f));
-	scene->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
+	//scene->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
 
     // 'layer' is an autorelease object
     auto layer = HelloWorld::create();
@@ -30,6 +30,8 @@ Scene* HelloWorld::createScene()
     return scene;
 }
 
+Menu* HelloWorld::m_mnPause = nullptr;
+
 // on "init" you need to initialize your instance
 bool HelloWorld::init()
 {
@@ -40,7 +42,7 @@ bool HelloWorld::init()
     {
         return false;
     }
-    
+
 	Monster1Action::getInstance()->loadAnimation(SpriteFrameCache::getInstance());
 	Monster2Action::getInstance()->loadAnimation(SpriteFrameCache::getInstance());
 	PlayerAction::getInstance()->loadAnimation(SpriteFrameCache::getInstance());
@@ -224,7 +226,19 @@ bool HelloWorld::onContactBegin(const PhysicsContact& contact)
 		else
 			((Monster*)sprite2)->done();
 	}
-		
+	
+	if((tag == MONSTER_TAG && tag1 == LIGHTINGCIRCLE_TAG) || (tag1 == MONSTER_TAG && tag == LIGHTINGCIRCLE_TAG))
+	{
+		if(tag == MONSTER_TAG)
+		{
+			if(((Monster*)sprite1)->attackedByLightingCircle())
+				((Monster*)sprite1)->die();
+		}
+		else
+			if(((Monster*)sprite2)->attackedByLightingCircle())
+				((Monster*)sprite2)->die();
+	}
+
 	return true;
 }
 	
@@ -232,6 +246,17 @@ void HelloWorld::Pause(Ref *pSender)
 {	
 	Director::sharedDirector()->pause();
 	Director::getInstance()->getEventDispatcher()->pauseEventListenersForTarget(this);
+	DisablePausebt();
 	Layer *m_sPause = Pause::create();
 	this->addChild(m_sPause, 100);
+}
+
+void HelloWorld::EnablePausebt()
+{
+	m_mnPause->setEnabled(true);
+}
+
+void HelloWorld::DisablePausebt()
+{
+	m_mnPause->setEnabled(false);
 }

@@ -1,29 +1,27 @@
-#ifndef __PAUSE_MENU_H__
-#define __PAUSE_MENU_H__
+#ifndef __PAUSE_SCENE_H__
+#define __PAUSE_SCENE_H__
 
 #include "cocos2d.h"
-#include "Scenes/MainScene.h"
+#include "MainMenu.h"
+#include "WorldMap.h"
 #include "HelloWorldScene.h"
 
 USING_NS_CC;
 
-class PauseMenu : public Menu
+class Pause : public cocos2d::Layer
 {
-
 public:
-	typedef void (*PauseMenu::funcResume)(Ref*);
-	void initMenu();
+
+    static cocos2d::Scene* createScene();
+
+    virtual bool init();
+
+	void Resume(Ref* pSender);
 	void Restart(Ref *pSender);
 	void Selectlvl(Ref* pSender);
 	void BacktoMenu(Ref *pSender);
-	void Resume(Ref* pSender);
-	void setResumeFunc(funcResume func);
-	static PauseMenu* getInstance();	
-
-private:
-	static PauseMenu *m_instance;
-	funcResume m_funcPtr;
-	PauseMenu();
+	
+	CREATE_FUNC(Pause);
 };
 
 #endif // __ABOUT_SCENE_H__

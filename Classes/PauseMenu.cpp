@@ -1,36 +1,46 @@
 #include "PauseMenu.h"
-#include "Player.h"
-#include "cocos2d.h"
 
 USING_NS_CC;
-PauseMenu* PauseMenu::m_instance = 0;
 
-PauseMenu::PauseMenu()
+Scene* Pause::createScene()
 {
-	initMenu();	
+    // 'scene' is an autorelease object
+    auto scene = Scene::create();
+    
+    // 'layer' is an autorelease object
+    auto layer = Pause::create();
+
+    // add layer as a child to scene
+    scene->addChild(layer);
+
+    // return the scene
+    return scene;
 }
 
-PauseMenu* PauseMenu::getInstance()
+// on "init" you need to initialize your instance
+bool Pause::init()
 {
-	if(!m_instance)
-	{
-		m_instance = new PauseMenu();		
-		m_instance->setResumeFunc(&PauseMenu::Resume);
-		return m_instance;
-	}
-	else 
-		return m_instance;
-}
-
-void PauseMenu::initMenu()
-{
-	Size visibleSize = Director::getInstance()->getVisibleSize();
+    //////////////////////////////
+    // 1. super init first
+    if ( !Layer::init() )
+    {
+        return false;
+    }
+    
+    Size visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
+
+	//Sprite *bg = Sprite::create("background.jpg");
+	/*bg->setScaleX(visibleSize.width / bg->getContentSize().width);
+	bg->setScaleY(visibleSize.height / bg->getContentSize().height);*/
+	//bg->setPosition(visibleSize.width / 2, visibleSize.height / 2);
+	//this->addChild(bg);
 
 	Sprite *paused = Sprite::create("/Pause/PauseSprite.png");
 	paused->setScaleX(visibleSize.height / 2 * 1.5 / paused->getContentSize().height);
 	paused->setScaleY(visibleSize.height / 2 * 1.5 / paused->getContentSize().width);
-	paused->setPosition(visibleSize.width / 2, visibleSize.height / 2);	
+	paused->setPosition(visibleSize.width / 2, visibleSize.height / 2);
+	this->addChild(paused);
 
 	Sprite *resumeIcon = Sprite::create("/Pause/Playbtp.png");
 	Sprite *restartIcon = Sprite::create("/Pause/Restartbtp.png");
@@ -47,10 +57,15 @@ void PauseMenu::initMenu()
 	selectlvlIcon->setScale( paused->getContentSize().height / 7 / selectlvlIcon->getContentSize().width);
 	backtomenuIcon->setScale( paused->getContentSize().height / 7 / backtomenuIcon->getContentSize().width);
 
-	MenuItemImage *resume = MenuItemImage::create("/Pause/Resume.png", "/Pause/ResumeSelected.png", CC_CALLBACK_1(PauseMenu::Resume, m_instance));
-	MenuItemImage *restart = MenuItemImage::create("/Pause/Restart.png", "/Pause/RestartSelected.png", CC_CALLBACK_1(PauseMenu::Restart,m_instance));
-	MenuItemImage *selectlvl = MenuItemImage::create("/Pause/Selectlvl.png", "/Pause/SelectlvlSelected.png", CC_CALLBACK_1(PauseMenu::Selectlvl,m_instance));
-	MenuItemImage *backtomenu = MenuItemImage::create("/Pause/BacktoMenu.png", "/Pause/BacktoMenuSelected.png", CC_CALLBACK_1(PauseMenu::BacktoMenu,m_instance));
+	this->addChild(resumeIcon);
+	this->addChild(restartIcon);
+	this->addChild(selectlvlIcon);
+	this->addChild(backtomenuIcon);
+
+	MenuItemImage *resume = MenuItemImage::create("/Pause/Resume.png", "/Pause/ResumeSelected.png", CC_CALLBACK_1(Pause::Resume,this));
+	MenuItemImage *restart = MenuItemImage::create("/Pause/Restart.png", "/Pause/RestartSelected.png", CC_CALLBACK_1(Pause::Restart,this));
+	MenuItemImage *selectlvl = MenuItemImage::create("/Pause/Selectlvl.png", "/Pause/SelectlvlSelected.png", CC_CALLBACK_1(Pause::Selectlvl,this));
+	MenuItemImage *backtomenu = MenuItemImage::create("/Pause/BacktoMenu.png", "/Pause/BacktoMenuSelected.png", CC_CALLBACK_1(Pause::BacktoMenu,this));
 
 	//resume->setScaleX(paused->getContentSize().height / 7 / resume->getContentSize().width);
 	resume->setScaleY(paused->getContentSize().height / 9 / resume->getContentSize().height);
@@ -68,46 +83,42 @@ void PauseMenu::initMenu()
 	selectlvl->setAnchorPoint(point);
 	backtomenu->setAnchorPoint(point);
 
+	Menu *menupause = Menu::create(resume, restart, selectlvl, backtomenu, NULL);
+	menupause->setPosition(0,0);
+
 	resume->setPosition(visibleSize.width / 2 - resumeIcon->getContentSize().width, visibleSize.height / 2 + paused->getContentSize().height /6);
 	restart->setPosition(visibleSize.width / 2 - resumeIcon->getContentSize().width, visibleSize.height / 2);
 	selectlvl->setPosition(visibleSize.width / 2 - resumeIcon->getContentSize().width, visibleSize.height / 2 - paused->getContentSize().height /6);
 	backtomenu->setPosition(visibleSize.width / 2 - resumeIcon->getContentSize().width, visibleSize.height / 2 - paused->getContentSize().height /6 * 2);
 
-	Vector<MenuItem*> listMenuItem;
-	listMenuItem.pushBack(resume);
-	listMenuItem.pushBack(restart);
-	listMenuItem.pushBack(selectlvl);
-	listMenuItem.pushBack(backtomenu);
-	//Menu *menupause = Menu::create(resume, restart, selectlvl, backtomenu, NULL);
-	//menupause->setPosition(0,0);	
-	m_instance->initWithArray(listMenuItem);
+	this->addChild(menupause);
+
+    return true;
 }
 
-void PauseMenu::setResumeFunc(funcResume func)
-{
-	this->m_funcPtr = func;
-}
 
-void PauseMenu::Resume(Ref* pSender)
+void Pause::Resume(Ref* pSender)
 {
-	Director::getInstance()->popScene();
-	Director::sharedDirector()->resume();
+	Director::getInstance()->getEventDispatcher()->resumeEventListenersForTarget(this->getParent());
 	this->removeFromParentAndCleanup(true);
+	//HelloWorld::EnablePausebt();
+	Director::sharedDirector()->resume();
 }
-
-void PauseMenu::Restart(Ref *pSender)
+void Pause::Restart(Ref *pSender)
 {
 
 }
-
-void PauseMenu::Selectlvl(Ref* pSender)
+void Pause::Selectlvl(Ref* pSender)
 {
+	//Director::getInstance()->release();
 	Scene *lvlselect = WorldMap::createScene();
 	Director::getInstance()->replaceScene(lvlselect);
+	Director::sharedDirector()->resume();
 }
-void PauseMenu::BacktoMenu(Ref *pSender)
+void Pause::BacktoMenu(Ref *pSender)
 {
-	Player::getInstance()->removeFromParentAndCleanup(true);
+	//Director::getInstance()->release();
 	Scene *mainmenu = MainMenu::createScene();
 	Director::getInstance()->replaceScene(mainmenu);
+	Director::sharedDirector()->resume();
 }
