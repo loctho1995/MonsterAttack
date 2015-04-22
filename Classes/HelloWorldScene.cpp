@@ -10,6 +10,8 @@
 USING_NS_CC;
 using namespace std;
 
+Menu* HelloWorld::m_mnPause = nullptr;
+
 Scene* HelloWorld::createScene()
 {
     // 'scene' is an autorelease object
@@ -18,7 +20,7 @@ Scene* HelloWorld::createScene()
 	//scene->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
 
 	scene->getPhysicsWorld()->setGravity(Vect(0.0f, 0.0f));
-	//scene->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
+	scene->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
 
     // 'layer' is an autorelease object
     auto layer = HelloWorld::create();
@@ -30,8 +32,6 @@ Scene* HelloWorld::createScene()
     return scene;
 }
 
-Menu* HelloWorld::m_mnPause = nullptr;
-
 // on "init" you need to initialize your instance
 bool HelloWorld::init()
 {
@@ -42,8 +42,12 @@ bool HelloWorld::init()
     {
         return false;
     }
+<<<<<<< HEAD
 
 	
+=======
+    
+>>>>>>> origin/master
 	Monster1Action::getInstance()->loadAnimation(SpriteFrameCache::getInstance());
 	Monster2Action::getInstance()->loadAnimation(SpriteFrameCache::getInstance());
 	PlayerAction::getInstance()->loadAnimation(SpriteFrameCache::getInstance());
@@ -72,8 +76,10 @@ bool HelloWorld::init()
 	m_circle->setTag(CIRCLE_TAG);
 	this->addChild(m_circle);
 	auto circleBound = PhysicsBody::createCircle(m_circle->getContentSize().width / 2, PhysicsMaterial(0, 0, 0), Vec2::ZERO);
-	circleBound->setContactTestBitmask(0x1);
+	circleBound->setContactTestBitmask(CIRCLE_CONTACT_TEST_BITMASK);
 	circleBound->setDynamic(false);	
+	circleBound->setCollisionBitmask(CIRCLE_CONLLISION_BITMASK);
+	circleBound->setCategoryBitmask(CIRCLE_CONTACT_CATEGORY);
 	m_circle->setPhysicsBody(circleBound);
 	
 	//tao nut pause
@@ -84,7 +90,7 @@ bool HelloWorld::init()
 	m_btPause->setPosition(m_winSize.width - m_winSize.width / 10, m_winSize.height - m_winSize.height / 10);
 	this->addChild(m_mnPause);
 
-	this->schedule( schedule_selector(HelloWorld::addTarget), 2.0f);
+	this->schedule( schedule_selector(HelloWorld::addTarget), 0.8f);
 
 	auto dispatcher = Director::getInstance()-> getEventDispatcher();
 
@@ -126,9 +132,12 @@ void HelloWorld:: addTarget(float dt)
 	int actualY = (rand()% rangeY) + minY;
 		
 	target->setPosition(Point(m_winSize.width + (target->getContentSize().width/2), actualY));
-	auto targetBody = PhysicsBody::createCircle(target->getContentSize().width / 2);
-	targetBody->setContactTestBitmask(0x1);	
+	auto targetBody = PhysicsBody::createCircle(target->getContentSize().width / 2, PhysicsMaterial(0.1f, 1.0f, 0.0f));
+	targetBody->setContactTestBitmask(MONSTER_CONTACT_TEST_BITMASK);
+	targetBody->setCollisionBitmask(MONSTER_COLLISION_BITMASK);
+	targetBody->setCategoryBitmask(MONSTER_CONTACT_CATEGORY);
 	target->setPhysicsBody(targetBody);
+	//target->initPhySicBody();
 
 	this->addChild(target, 3);	
 	target->walk();
@@ -201,11 +210,12 @@ void HelloWorld::onTouchEnded(Touch* touches, Event* event)
 
 bool HelloWorld::onContactBegin(const PhysicsContact& contact)
 {
+	/*if((contact.getShapeA()->getBody()->getCollisionBitmask() & contact.getShapeB()->getBody()->getCategoryBitmask() == 0) 
+		|| (contact.getShapeB()->getBody()->getCollisionBitmask() & contact.getShapeA()->getBody()->getCategoryBitmask()) == 0)
+		return false;*/
+
 	auto sprite1 = (Sprite*)contact.getShapeA()->getBody()->getNode();
 	auto sprite2 = (Sprite*)contact.getShapeB()->getBody()->getNode();
-
-	if(sprite1 == nullptr || sprite2 == nullptr)
-		return false;
 
 	int tag = sprite1->getTag();
 	int tag1 = sprite2->getTag();
@@ -224,14 +234,6 @@ bool HelloWorld::onContactBegin(const PhysicsContact& contact)
 		}
 	}
 
-	if ((tag == CIRCLE_TAG && tag1 == MONSTER_TAG) || (tag1 == CIRCLE_TAG && tag == MONSTER_TAG) )
-	{
-		if (tag == MONSTER_TAG)
-			((Monster*)sprite1)->done();
-		else
-			((Monster*)sprite2)->done();
-	}
-	
 	if((tag == MONSTER_TAG && tag1 == LIGHTINGCIRCLE_TAG) || (tag1 == MONSTER_TAG && tag == LIGHTINGCIRCLE_TAG))
 	{
 		if(tag == MONSTER_TAG)
@@ -244,6 +246,14 @@ bool HelloWorld::onContactBegin(const PhysicsContact& contact)
 				((Monster*)sprite2)->die();
 	}
 
+	if ((tag == CIRCLE_TAG && tag1 == MONSTER_TAG) || (tag1 == CIRCLE_TAG && tag == MONSTER_TAG) )
+	{
+		if (tag == MONSTER_TAG)
+			((Monster*)sprite1)->done();
+		else
+			((Monster*)sprite2)->done();
+	}
+		
 	return true;
 }
 	

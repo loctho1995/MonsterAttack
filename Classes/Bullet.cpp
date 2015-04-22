@@ -3,7 +3,9 @@
 void Bullet::move(Touch* touch, Sprite* sprite, Layer* layer)
 {
 	auto body = PhysicsBody::createCircle(BULLET_RADIUS, PHYSICSBODY_MATERIAL_DEFAULT, Vec2(15, 0));	
-	body->setContactTestBitmask(0x1);	
+	body->setContactTestBitmask(BULLET_CONTACT_TEST_BITMASK);	
+	body->setCollisionBitmask(BULLET_CONLLISION_BITMASK);
+	body->setCategoryBitmask(BULLET_CONTACT_CATEGORY);
 	this->setPhysicsBody(body);
 	this->setTag(BULLET_TAG);
 
