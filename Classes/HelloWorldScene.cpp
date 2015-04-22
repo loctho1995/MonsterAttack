@@ -43,9 +43,14 @@ bool HelloWorld::init()
         return false;
     }
 
+	
 	Monster1Action::getInstance()->loadAnimation(SpriteFrameCache::getInstance());
 	Monster2Action::getInstance()->loadAnimation(SpriteFrameCache::getInstance());
 	PlayerAction::getInstance()->loadAnimation(SpriteFrameCache::getInstance());
+
+	//Tao hieu ung particle cho man hinh
+	ParticleSystemQuad *backGroundprt = ParticleSystemQuad::create("/BulletParticle/LeaveStorm.plist");
+	this->addChild(backGroundprt,200);
 
 	//LoadData::loadData();
     m_winSize = Director::getInstance()->getVisibleSize(); 

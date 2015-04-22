@@ -78,3 +78,60 @@ Point BulletManager::findPosition(Sprite* sprite, Touch* touch)
 	return position;
 }
 
+//circle lighting
+void Lighting::createLightingCircle(Node* monster)
+{
+	Sprite *LightingCircle = Sprite::create("thunderCircle.png");
+	LightingCircle->setTag(LIGHTINGCIRCLE_TAG);
+	monster->getParent()->addChild(LightingCircle);
+	LightingCircle->setPosition(monster->getPosition().x, monster->getPosition().y);
+	//LightingCircle->setVisible(false);
+
+
+	//particle
+	/*static ParticleSystemQuad *prtmid = ParticleSystemQuad::create("thunderCircleprt.plist");
+	static ParticleSystemQuad *prttopleft = ParticleSystemQuad::create("thunderCircleprt.plist");
+	static ParticleSystemQuad *prttopright = ParticleSystemQuad::create("thunderCircleprt.plist");
+	static ParticleSystemQuad *prtbotleft = ParticleSystemQuad::create("thunderCircleprt.plist");
+	static ParticleSystemQuad *prtbotright = ParticleSystemQuad::create("thunderCircleprt.plist");
+	prtmid->setLife(0.02);
+	prttopleft->setLife(0.02);
+	prttopright->setLife(0.02);
+	prtbotleft->setLife(0.02);
+	prtbotright->setLife(0.02);
+	LightingCircle->addChild(prtmid);
+	LightingCircle->addChild(prttopleft);
+	LightingCircle->addChild(prttopright);
+	LightingCircle->addChild(prtbotleft);
+	LightingCircle->addChild(prtbotright);
+	prtmid->setPosition(LightingCircle->getContentSize().width / 2, LightingCircle->getContentSize().height / 2);
+	prttopleft->setPosition(LightingCircle->getContentSize().width / 4, LightingCircle->getContentSize().height / 4 * 3);
+	prttopright->setPosition(LightingCircle->getContentSize().width / 4 * 3, LightingCircle->getContentSize().height / 4 * 3);
+	prtbotleft->setPosition(LightingCircle->getContentSize().width / 4, LightingCircle->getContentSize().height / 4);
+	prtbotright->setPosition(LightingCircle->getContentSize().width / 4 * 3, LightingCircle->getContentSize().height / 4);*/
+
+
+	//physics
+	PhysicsBody *LightingCircleBody = PhysicsBody::createCircle(0.1 * this->getContentSize().width * 4 / 2, PhysicsMaterial(0, 0, 0), Vec2::ZERO);
+	LightingCircleBody->setDynamic(false);
+	LightingCircleBody->setContactTestBitmask(0x1);
+	//LightingCircleBody->setCategoryBitmask(0x00); // va cham
+	LightingCircleBody->setCollisionBitmask(0x00); //chat lieu
+
+	LightingCircle->setScale(0.1 * this->getContentSize().width * 4 / LightingCircle->getContentSize().width);
+	LightingCircle->runAction(ScaleTo::create(0.5, this->getContentSize().width * 4 / LightingCircle->getContentSize().width));
+	//thunderCircle->setScale(bullet->getContentSize().width * 4 / thunderCircle->getContentSize().width);
+			
+	LightingCircle->setPhysicsBody(LightingCircleBody);
+
+	LightingCircle->runAction(RepeatForever::create(RotateBy::create(3, 360)));
+
+	//LightingCircle->runAction(RepeatForever::create(TintBy::create(0.5, (rand()%256),(rand()%256), (rand()%256))));
+
+	CallFuncN* func = CallFuncN::create([&, LightingCircle](Node* circle)
+	{
+		((Sprite*)circle)->removeFromParentAndCleanup(true); 
+	});
+
+	LightingCircle->runAction(Sequence::create(DelayTime::create(LIGHTINGCIRCLE_TIME), func, nullptr));
+}

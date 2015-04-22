@@ -3,6 +3,7 @@
 
 #include "cocos2d.h"
 #include "Define.h"
+//#include "Monster.h"
 
 USING_NS_CC;
 
@@ -177,6 +178,8 @@ public:
 	{
 		return this->m_radius;
 	}
+
+	void createLightingCircle(Node* monster);
 
 	//virtual void move(cocos2d::Touch* touch);
 };
