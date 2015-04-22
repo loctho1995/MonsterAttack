@@ -79,7 +79,7 @@ void Monster2::die()
 
 void Monster2::freezed()
 {
-
+	Monster::freezed();
 }
 
 void Monster2::done()
@@ -255,9 +255,9 @@ void Monster::freezed()
 	sprite->setPosition(this->getContentSize().width / 2, this->getContentSize().height / 2);
 	this->addChild(sprite);
 
-	CallFuncN* func = CallFuncN::create([&, sprite](Node* monster)
+	CallFuncN* func = CallFuncN::create([&, sprite](Node* sprite)
 	{
-		((Monster*)monster)->removeFromParentAndCleanup(true); 
+		((Sprite*)sprite)->removeFromParentAndCleanup(true); 
 		this->resumeSchedulerAndActions(); 
 	});
 

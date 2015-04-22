@@ -90,7 +90,7 @@ bool HelloWorld::init()
 	m_btPause->setPosition(m_winSize.width - m_winSize.width / 10, m_winSize.height - m_winSize.height / 10);
 	this->addChild(m_mnPause);
 
-	this->schedule( schedule_selector(HelloWorld::addTarget), 0.8f);
+	this->schedule( schedule_selector(HelloWorld::addTarget), 1.5f);
 
 	auto dispatcher = Director::getInstance()-> getEventDispatcher();
 
