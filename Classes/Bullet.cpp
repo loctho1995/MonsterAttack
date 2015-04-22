@@ -5,7 +5,7 @@ void Bullet::move(Touch* touch, Sprite* sprite, Layer* layer)
 	auto body = PhysicsBody::createCircle(BULLET_RADIUS, PHYSICSBODY_MATERIAL_DEFAULT, Vec2(15, 0));	
 	body->setContactTestBitmask(BULLET_CONTACT_TEST_BITMASK);	
 	body->setCollisionBitmask(BULLET_CONLLISION_BITMASK);
-	body->setCategoryBitmask(BULLET_CONTACT_CATEGORY);
+	body->setCategoryBitmask(BULLET_CONTACT_CATEGORY);	
 	this->setPhysicsBody(body);
 	this->setTag(BULLET_TAG);
 
@@ -116,8 +116,8 @@ void Lighting::createLightingCircle(Node* monster)
 	//physics
 	PhysicsBody *LightingCircleBody = PhysicsBody::createCircle(0.1 * this->getContentSize().width * 4 / 2, PhysicsMaterial(0, 0, 0), Vec2::ZERO);
 	LightingCircleBody->setDynamic(false);
-	LightingCircleBody->setContactTestBitmask(0x1);
-	//LightingCircleBody->setCategoryBitmask(0x00); // va cham
+	LightingCircleBody->setContactTestBitmask(BULLET_CONTACT_TEST_BITMASK);
+	//LightingCircleBody->setCategoryBitmask(BULLET_CONTACT_CATEGORY); // va cham
 	LightingCircleBody->setCollisionBitmask(0x00); //chat lieu
 
 	LightingCircle->setScale(0.1 * this->getContentSize().width * 4 / LightingCircle->getContentSize().width);

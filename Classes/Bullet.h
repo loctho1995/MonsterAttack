@@ -15,7 +15,6 @@ protected:
 	bool m_isThrough;
 	BulletType m_bullettype;
 	ParticleSystemQuad *prt;// paticle va bullet chua resize
-
 public:
 	Bullet()
 	{
@@ -65,6 +64,7 @@ public:
 		m_isCleave = false;
 		m_isThrough = false;
 		m_damage = 1;
+		m_bullettype = NORMAL;
 	}
 
 	virtual bool isCleave()
@@ -106,6 +106,7 @@ public:
 		m_isCleave = false;
 		m_isThrough = false;
 		m_damage = 2;
+		m_bullettype = FIRE;
 	}
 
 	virtual bool isCleave()
@@ -149,6 +150,8 @@ public:
 		m_isCleave = true;
 		m_isThrough = false;
 		m_damage = 1;
+		m_radius = 50;
+		m_bullettype = LIGHTING;
 	}
 
 	virtual bool isCleave()
@@ -198,6 +201,8 @@ public:
 		m_isCleave = false;
 		m_isThrough = false;
 		m_damage = 1;
+		m_stunTime = 1;
+		m_bullettype = ICE;
 	}
 
 	virtual bool isCleave()
@@ -244,6 +249,7 @@ public:
 		m_isCleave = false;
 		m_isThrough = true;
 		m_damage = 1;
+		m_bullettype = WATER;
 	}
 
 	virtual bool isCleave()

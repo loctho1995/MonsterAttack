@@ -1,6 +1,5 @@
 #ifndef _DEFINE_H_
 #define _DEFINE_H_
-
 const int BULLET_VELOCITY =  480; // Toc do cua dan PIXLE / S
 const int BULLET_RADIUS = 10; // ban kinh cua vien dan dung de set physic body
 const float BULLET_ICE_TIME = 1; // 1s dong bang
@@ -43,6 +42,8 @@ const int BULLET_CONTACT_TEST_BITMASK = 0x04;
 const int CIRCLE_CONTACT_TEST_BITMASK = 0x04;
 
 //so sanh category - collision, category - test bitmask
+
+
 enum MonsterType // Cac loai quai chua xac dinh co bao nhieu loai
 	{
 		MONSTER1,

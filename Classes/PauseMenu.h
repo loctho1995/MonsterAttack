@@ -1,9 +1,9 @@
-#ifndef __PAUSE_MENU_H__
-#define __PAUSE_MENU_H__
+#ifndef __PAUSE_SCENE_H__
+#define __PAUSE_SCENE_H__
 
 #include "cocos2d.h"
-#include "Scenes/MainScene.h"
-#include "Scenes/WorldMap.h"
+#include "MainMenu.h"
+#include "WorldMap.h"
 #include "HelloWorldScene.h"
 
 USING_NS_CC;

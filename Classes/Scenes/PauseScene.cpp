@@ -96,19 +96,18 @@ bool Pause::init()
     return true;
 }
 
+
 void Pause::Resume(Ref* pSender)
 {
 	Director::getInstance()->getEventDispatcher()->resumeEventListenersForTarget(this->getParent());
 	this->removeFromParentAndCleanup(true);
-	//HelloWorld::EnablePausebt();
+	HelloWorld::EnablePausebt();
 	Director::sharedDirector()->resume();
 }
-
 void Pause::Restart(Ref *pSender)
 {
 
 }
-
 void Pause::Selectlvl(Ref* pSender)
 {
 	//Director::getInstance()->release();
@@ -116,7 +115,6 @@ void Pause::Selectlvl(Ref* pSender)
 	Director::getInstance()->replaceScene(lvlselect);
 	Director::sharedDirector()->resume();
 }
-
 void Pause::BacktoMenu(Ref *pSender)
 {
 	//Director::getInstance()->release();
