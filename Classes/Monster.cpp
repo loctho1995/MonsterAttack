@@ -28,16 +28,6 @@ void Monster1::die()
 	Monster::die();
 }
 
-void Monster1::freezed()
-{
-	Monster::freezed();
-}
-
-void Monster1::burning()
-{
-	Monster::burning();
-}
-
 void Monster1::done()
 {
 	m_done = Monster1Action::getInstance()->getMonsterDoneAnimate()->clone();
@@ -83,16 +73,6 @@ void Monster2::die()
 	Monster::die();
 }
 
-void Monster2::freezed()
-{
-	Monster::freezed();
-}
-
-void Monster2::burning()
-{
-	Monster::burning();
-}
-
 void Monster2::done()
 {	
 	m_done = Monster1Action::getInstance()->getMonsterDoneAnimate()->clone();
@@ -127,16 +107,6 @@ void Monster3::die()
 
 }
 
-void Monster3::freezed()
-{
-	Monster::freezed();
-}
-
-void Monster3::burning()
-{
-	Monster::burning();
-}
-
 void Monster3::done()
 {
 	
@@ -169,16 +139,6 @@ void Monster4::die()
 
 }
 
-void Monster4::freezed()
-{
-	Monster::freezed();
-}
-
-void Monster4::burning()
-{
-	Monster::burning();
-}
-
 void Monster4::done()
 {
 	
@@ -209,16 +169,6 @@ void Monster5::walk()
 void Monster5::die()
 {
 
-}
-
-void Monster5::freezed()
-{
-	Monster::freezed();
-}
-
-void Monster5::burning()
-{
-	Monster::burning();
 }
 
 void Monster5::done()
@@ -297,7 +247,7 @@ void Monster::freezed()
 	sprite->runAction(Sequence::create(DelayTime::create(BULLET_ICE_TIME), func, nullptr));
 }
 
-void Monster::burning()
+void Monster::burned()
 {
 	ParticleSystemQuad *prtBurning = ParticleSystemQuad::create("burning.plist"); //particle tu tao
 	//ParticleFire *prtBurning = ParticleFire::create();//particle cua cocos
@@ -342,7 +292,7 @@ bool Monster::attacked(Bullet* bullet)
 			break;
 
 		case FIRE:
-			this->burning();
+			this->burned();
 			this->runAction(Sequence::create(TintTo::create(0, 255, 0, 0), DelayTime::create(0.25), TintTo::create(0, 255, 255, 255), nullptr));
 			break;
 
