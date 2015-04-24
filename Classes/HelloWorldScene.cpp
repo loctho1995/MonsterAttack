@@ -44,7 +44,6 @@ bool HelloWorld::init()
         return false;
     }
 
-	
 	Monster1Action::getInstance()->loadAnimation(SpriteFrameCache::getInstance());
 	Monster2Action::getInstance()->loadAnimation(SpriteFrameCache::getInstance());
 	PlayerAction::getInstance()->loadAnimation(SpriteFrameCache::getInstance());

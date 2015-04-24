@@ -7,14 +7,15 @@ void Item::animate()
 {
 	Action* action = RepeatForever::create(JumpTo::create(2, this->getPosition(), this->getContentSize().height * 1.5 , 1 ) );
 	
-	Action* fadeIn = FadeIn::create(0.3f);
-	Action* fadeOut = FadeOut::create(0.3f);
-	Sequence* sefade = Sequence::create(DelayTime::create(0.0f),fadeIn, fadeOut, NULL);
-	Action* fade = Repeat::create(sefade, 6 );
+	auto fadeIn = FadeIn::create(0.3f);
+	auto fadeOut = FadeOut::create(0.3f);
+	Sequence* sefade = Sequence::create(DelayTime::create(0.0f),fadeIn, fadeOut, nullptr);
+	auto fade = Repeat::create(sefade, 6 );
+
 	this->runAction(action);
 	Sequence* newAction = Sequence::create(DelayTime::create(4.5f), fade,  
 										CallFunc::create(CC_CALLBACK_0(Item::done, this)),
-										NULL);
+										nullptr);
 	this->runAction(newAction);
 }
 void Item::done()

@@ -317,16 +317,62 @@ bool Monster::attacked(Bullet* bullet)
 		{
 			((Lighting*)bullet)->createLightingCircle(this);
 			bullet->removeFromParentAndCleanup(true);
+
+			////particle
+			//ParticleSystemQuad *prtmid = ParticleSystemQuad::create("thunderCircleprt.plist");
+			////ParticleSystemQuad *prttopleft = ParticleSystemQuad::create("thunderCircleprt.plist");
+			////ParticleSystemQuad *prttopright = ParticleSystemQuad::create("thunderCircleprt.plist");
+			////ParticleSystemQuad *prtbotleft = ParticleSystemQuad::create("thunderCircleprt.plist");
+			////ParticleSystemQuad *prtbotright = ParticleSystemQuad::create("thunderCircleprt.plist");
+			////prtmid->setLife(0.01);
+			////prttopleft->setLife(0.01);
+			////prttopright->setLife(0.01);
+			////prtbotleft->setLife(0.01);
+			////prtbotright->setLife(0.01);
+			//LightingCircle->addChild(prtmid);
+			////thunderCircle->addChild(prttopleft);
+			////thunderCircle->addChild(prttopright);
+			////thunderCircle->addChild(prtbotleft);
+			////thunderCircle->addChild(prtbotright);
+			//prtmid->setPosition(LightingCircle->getContentSize().width / 2, LightingCircle->getContentSize().height / 2);
+			////prttopleft->setPosition(thunderCircle->getContentSize().width / 4, thunderCircle->getContentSize().height / 4 * 3);
+			////prttopright->setPosition(thunderCircle->getContentSize().width / 4 * 3, thunderCircle->getContentSize().height / 4 * 3);
+			////prtbotleft->setPosition(thunderCircle->getContentSize().width / 4, thunderCircle->getContentSize().height / 4);
+			////prtbotright->setPosition(thunderCircle->getContentSize().width / 4 * 3, thunderCircle->getContentSize().height / 4);
+
+			//physics
+			PhysicsBody *LightingCircleBody = PhysicsBody::createCircle(0.1 * bullet->getContentSize().width * 4 / 2, PhysicsMaterial(0, 0, 0), Vec2::ZERO);
+			LightingCircleBody->setDynamic(false);
+			LightingCircleBody->setContactTestBitmask(0x1);
+			//LightingCircleBody->setCategoryBitmask(0x00); // va cham
+			LightingCircleBody->setCollisionBitmask(0x00); //chat lieu
+
+			LightingCircle->setScale(0.1 * bullet->getContentSize().width * 4 / LightingCircle->getContentSize().width);
+			LightingCircle->runAction(ScaleTo::create(0.5, bullet->getContentSize().width * 4 / LightingCircle->getContentSize().width));
+			//thunderCircle->setScale(bullet->getContentSize().width * 4 / thunderCircle->getContentSize().width);
+			
+			LightingCircle->setPhysicsBody(LightingCircleBody);
+
+			LightingCircle->runAction(RepeatForever::create(RotateBy::create(3, 360)));
+
+
+			CallFuncN* func = CallFuncN::create([&, LightingCircle](Node* monster)
+			{
+				((Monster*)monster)->removeFromParentAndCleanup(true); 
+			});
+
+			LightingCircle->runAction(Sequence::create(DelayTime::create(LIGHTINGCIRCLE_TIME), func, nullptr));
+
 		}
 		else*/
-			bullet->removeFromParentAndCleanup(true);
+		bullet->removeFromParentAndCleanup(true);
 	}
 
 	if(m_HP <= 0)
 	{
 		return true;
 	}
-	
+
 	return false;
 }
 
