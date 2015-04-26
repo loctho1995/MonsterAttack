@@ -105,3 +105,8 @@ void MainMenu::Exit(Ref *pSender)
 	Scene *exit = Exit::createScene();
 	this->addChild(exit);
 }
+
+void MainMenu::onBackButtonPressed()
+{
+	PlatformCenter::callFunc("exit");
+}

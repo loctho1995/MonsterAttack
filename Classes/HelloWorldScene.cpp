@@ -275,3 +275,8 @@ void HelloWorld::DisablePausebt()
 {
 	m_mnPause->setEnabled(false);
 }
+
+void HelloWorld::onBackPressed()
+{
+	PlatformCenter::callFunc("exit");
+}

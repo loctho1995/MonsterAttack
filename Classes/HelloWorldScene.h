@@ -3,11 +3,15 @@
 
 #include "cocos2d.h"
 #include "SimpleAudioEngine.h"
+#include "CallBackWP.h"
 
 
 USING_NS_CC;
 
+#if CC_TARGET_PLATFORM != CC_PLATFORM_WP8
 class HelloWorld : public cocos2d::Layer
+#else
+class HelloWorld : public cocos2d::Layer, BackButtonPressed
 {
 public:
 	
@@ -30,6 +34,7 @@ public:
 	bool onTouchBegan (cocos2d::Touch* touches, cocos2d::Event* event);
 	bool onContactBegin(const PhysicsContact& contact);
 	void Pause(Ref *pSender);
+	void onBackPressed();
 	static void EnablePausebt();
 	static void DisablePausebt();
 	CREATE_FUNC(HelloWorld);
@@ -42,5 +47,5 @@ private:
 	static Menu *m_mnPause;
 
 };
-
+#endif
 #endif // __HELLOWORLD_SCENE_H__
