@@ -27,7 +27,9 @@ bool LogoScreen::init()
     {
         return false;
     }
-    
+
+    PlatformCenter::callFunc("portrait");
+
     Size visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 

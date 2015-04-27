@@ -40,6 +40,8 @@ class Player : public Sprite
 			 m_isDoubleDamage,
 			 m_isGameOver,
 			 m_isWinGame; // true khi thua
+
+		float m_attackSpeed;
 			
 		
 	//CREATE_FUNC(Player);

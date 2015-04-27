@@ -44,6 +44,8 @@ bool HelloWorld::init()
         return false;
     }
 
+	PlatformCenter::callFunc("landscape");
+
 	Monster1Action::getInstance()->loadAnimation(SpriteFrameCache::getInstance());
 	Monster2Action::getInstance()->loadAnimation(SpriteFrameCache::getInstance());
 	PlayerAction::getInstance()->loadAnimation(SpriteFrameCache::getInstance());

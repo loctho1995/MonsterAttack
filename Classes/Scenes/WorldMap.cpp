@@ -28,6 +28,8 @@ bool WorldMap::init()
         return false;
     }
     
+	PlatformCenter::callFunc("landscape");
+
     Size visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 

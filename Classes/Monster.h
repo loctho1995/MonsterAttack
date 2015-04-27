@@ -13,6 +13,7 @@ class Monster : public Sprite
 {
 	public:
 		Monster();
+		~Monster();
 
 		int getHP()
 		{
@@ -113,6 +114,71 @@ class Monster5 : public Monster
 {
 public:
 	Monster5();
+	virtual void walk();
+	virtual void die();
+	virtual bool attacked(Bullet* bullet);
+	virtual bool attackedByLightingCircle();
+	virtual void done();	
+
+private:
+};
+
+class Monster6 : public Monster
+{
+public:
+	Monster6();
+	virtual void walk();
+	virtual void die();
+	virtual bool attacked(Bullet* bullet);
+	virtual bool attackedByLightingCircle();
+	virtual void done();	
+
+private:
+};
+
+class Monster7 : public Monster
+{
+public:
+	Monster7();
+	virtual void walk();
+	virtual void die();
+	virtual bool attacked(Bullet* bullet);
+	virtual bool attackedByLightingCircle();
+	virtual void done();	
+
+private:
+};
+
+class Monster8 : public Monster
+{
+public:
+	Monster8();
+	virtual void walk();
+	virtual void die();
+	virtual bool attacked(Bullet* bullet);
+	virtual bool attackedByLightingCircle();
+	virtual void done();	
+
+private:
+};
+
+class Monster9 : public Monster
+{
+public:
+	Monster9();
+	virtual void walk();
+	virtual void die();
+	virtual bool attacked(Bullet* bullet);
+	virtual bool attackedByLightingCircle();
+	virtual void done();	
+
+private:
+};
+
+class Monster10 : public Monster
+{
+public:
+	Monster10();
 	virtual void walk();
 	virtual void die();
 	virtual bool attacked(Bullet* bullet);
