@@ -44,8 +44,7 @@ bool HelloWorld::init()
         return false;
     }
 
-	PlatformCenter::callFunc("landscape");
-
+	
 	Monster1Action::getInstance()->loadAnimation(SpriteFrameCache::getInstance());
 	Monster2Action::getInstance()->loadAnimation(SpriteFrameCache::getInstance());
 	PlayerAction::getInstance()->loadAnimation(SpriteFrameCache::getInstance());
@@ -276,9 +275,4 @@ void HelloWorld::EnablePausebt()
 void HelloWorld::DisablePausebt()
 {
 	m_mnPause->setEnabled(false);
-}
-
-void HelloWorld::onBackPressed()
-{
-	PlatformCenter::callFunc("exit");
 }

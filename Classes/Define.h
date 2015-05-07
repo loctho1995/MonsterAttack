@@ -29,17 +29,29 @@ const int LIGHTINGCIRCLE_TAG = 4;
 //dung thuat toan & tren bit
 // 0 & 0 = 0; 0 & 1 = 0; 1 & 1 = 1 ; 1 & 0 = 0
 // 0001 & 0010 = 0 ; 0x003 = 0011
-const int MONSTER_COLLISION_BITMASK = 0x01;	// 0001
-const int BULLET_CONLLISION_BITMASK = 0x02; // 0010
-const int CIRCLE_CONLLISION_BITMASK = 0x04; // 0100
+////const int MONSTER_COLLISION_BITMASK = 0x01;	// 0001
+////const int BULLET_CONLLISION_BITMASK = 0x02; // 0010
+////const int CIRCLE_CONLLISION_BITMASK = 0x04; // 0100
+////
+////const int MONSTER_CONTACT_CATEGORY = 0x06;	// 0110
+////const int BULLET_CONTACT_CATEGORY = 0x01;	// 0001
+////const int CIRCLE_CONTACT_CATEGORY = 0x01;	// 0001
+////
+////const int MONSTER_CONTACT_TEST_BITMASK = 0x01;
+////const int BULLET_CONTACT_TEST_BITMASK = 0x04;
+////const int CIRCLE_CONTACT_TEST_BITMASK = 0x04;
 
-const int MONSTER_CONTACT_CATEGORY = 0x06;	// 0110
-const int BULLET_CONTACT_CATEGORY = 0x01;	// 0001
-const int CIRCLE_CONTACT_CATEGORY = 0x01;	// 0001
+const int MONSTER_COLLISION_BITMASK = 0x01;
+const int BULLET_CONLLISION_BITMASK = 0x02;
+const int CIRCLE_CONLLISION_BITMASK = 0x02;
+
+const int MONSTER_CONTACT_CATEGORY = 0x02;
+const int BULLET_CONTACT_CATEGORY = 0x01;
+const int CIRCLE_CONTACT_CATEGORY = 0x01;
 
 const int MONSTER_CONTACT_TEST_BITMASK = 0x01;
-const int BULLET_CONTACT_TEST_BITMASK = 0x04;
-const int CIRCLE_CONTACT_TEST_BITMASK = 0x04;
+const int BULLET_CONTACT_TEST_BITMASK = 0x02;
+const int CIRCLE_CONTACT_TEST_BITMASK = 0x02;
 
 //so sanh category - collision, category - test bitmask
 

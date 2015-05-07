@@ -46,8 +46,10 @@ bool Exit::init()
 	//menu->setPosition(visibleSize.width / 2, warning->getContentSize().height / 2 + warning->getContentSize().height);
 
 	menu->setPosition(0,0);
-	acept->setPosition(visibleSize.width / 2 + warning->getContentSize().width / 4, warning->getContentSize().height / 2 + warning->getContentSize().height);
-	x->setPosition(visibleSize.width / 2 - warning->getContentSize().width / 4, warning->getContentSize().height / 2 + warning->getContentSize().height);
+	/*acept->setPosition(visibleSize.width / 2 + warning->getContentSize().width / 3, warning->getContentSize().height / 2 - warning->getContentSize().height);
+	x->setPosition(visibleSize.width / 2 - warning->getContentSize().width / 3, warning->getContentSize().height / 2 - warning->getContentSize().height);*/
+	acept->setPosition(visibleSize.width / 2 + warning->getContentSize().width / 5, visibleSize.height / 2 - warning->getContentSize().height / 2 + acept->getContentSize().width / 2);
+	x->setPosition(visibleSize.width / 2 - warning->getContentSize().width / 5, visibleSize.height / 2 - warning->getContentSize().height / 2 + x->getContentSize().width / 2);
 
 	this->addChild(menu);
 
@@ -61,4 +63,5 @@ void Exit::Accept(Ref *pSender)
 void Exit::X(Ref *pSender)
 {
 	this->removeFromParentAndCleanup(true);
+	MainMenu::EnableMenu();
 }

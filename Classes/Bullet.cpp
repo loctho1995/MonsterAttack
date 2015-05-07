@@ -91,6 +91,7 @@ void Lighting::createLightingCircle(Node* monster)
 
 
 	//particle
+	ParticleSystemQuad *prtCircle = ParticleSystemQuad::create("/BulletParticle/Circleprt.plist");
 	/*static ParticleSystemQuad *prtmid = ParticleSystemQuad::create("thunderCircleprt.plist");
 	static ParticleSystemQuad *prttopleft = ParticleSystemQuad::create("thunderCircleprt.plist");
 	static ParticleSystemQuad *prttopright = ParticleSystemQuad::create("thunderCircleprt.plist");
@@ -105,8 +106,10 @@ void Lighting::createLightingCircle(Node* monster)
 	LightingCircle->addChild(prttopleft);
 	LightingCircle->addChild(prttopright);
 	LightingCircle->addChild(prtbotleft);
-	LightingCircle->addChild(prtbotright);
-	prtmid->setPosition(LightingCircle->getContentSize().width / 2, LightingCircle->getContentSize().height / 2);
+	LightingCircle->addChild(prtbotright);*/
+	LightingCircle->addChild(prtCircle);
+	prtCircle->setPosition(LightingCircle->getContentSize().width / 2, LightingCircle->getContentSize().height / 2);
+	/*prtmid->setPosition(LightingCircle->getContentSize().width / 2, LightingCircle->getContentSize().height / 2);
 	prttopleft->setPosition(LightingCircle->getContentSize().width / 4, LightingCircle->getContentSize().height / 4 * 3);
 	prttopright->setPosition(LightingCircle->getContentSize().width / 4 * 3, LightingCircle->getContentSize().height / 4 * 3);
 	prtbotleft->setPosition(LightingCircle->getContentSize().width / 4, LightingCircle->getContentSize().height / 4);

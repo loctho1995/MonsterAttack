@@ -14,7 +14,6 @@ Player::Player()
 	m_HP = 10;
 	m_damageBonus = 0;
 	m_damageMulti = 1;
-	m_attackSpeed = 1;
 	m_isDoubleDamage = false;
 	m_bulletType = BulletType::NORMAL;
 	m_isSplit = false;	

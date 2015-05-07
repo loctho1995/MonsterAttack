@@ -7,13 +7,11 @@
 #include "Scenes/HelpScene.h"
 #include "Mission.h"
 #include "Scenes/ExitScene.h"
-#include "CallBackWP.h"
+
 
 USING_NS_CC;
 
-#if CC_TARGET_PLATFORM != CC_PLATFORM_WP8
-#else
-class MainMenu : public cocos2d::Layer, BackButtonPressed
+class MainMenu : public cocos2d::Layer
 {
 public:
 
@@ -33,9 +31,15 @@ public:
 
 	void Exit(Ref *pSender);
 
-	void onBackButtonPressed();
+	static void DisableMenu();
+
+	static void EnableMenu();
+
+private:
+	static Menu *menu;
+
 
 	CREATE_FUNC(MainMenu);
 };
-#endif
+
 #endif // __MAINMENU_SCENE_H__

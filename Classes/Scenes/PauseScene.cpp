@@ -47,15 +47,15 @@ bool Pause::init()
 	Sprite *selectlvlIcon = Sprite::create("/Pause/LvlSelectbtp.png");
 	Sprite *backtomenuIcon = Sprite::create("/Pause/MainMenubtp.png");
 
-	resumeIcon->setPosition(visibleSize.width / 2 - paused->getContentSize().width / 4, visibleSize.height / 2 + paused->getContentSize().height /6);
-	restartIcon->setPosition(visibleSize.width / 2 - paused->getContentSize().width / 4, visibleSize.height / 2);
-	selectlvlIcon->setPosition(visibleSize.width / 2 - paused->getContentSize().width / 4, visibleSize.height / 2 - paused->getContentSize().height /6 );
-	backtomenuIcon->setPosition(visibleSize.width / 2 - paused->getContentSize().width / 4, visibleSize.height / 2 - paused->getContentSize().height /6 * 2);
+	resumeIcon->setPosition(visibleSize.width / 2 - paused->getContentSize().width / 5, visibleSize.height / 2 + paused->getContentSize().height /7 + resumeIcon->getContentSize().width * 0.2);
+	restartIcon->setPosition(visibleSize.width / 2 - paused->getContentSize().width / 5, visibleSize.height / 2 + resumeIcon->getContentSize().width * 0.2);
+	selectlvlIcon->setPosition(visibleSize.width / 2 - paused->getContentSize().width / 5, visibleSize.height / 2 - paused->getContentSize().height / 7 + resumeIcon->getContentSize().width * 0.2);
+	backtomenuIcon->setPosition(visibleSize.width / 2 - paused->getContentSize().width / 5, visibleSize.height / 2 - paused->getContentSize().height /7 * 2 + resumeIcon->getContentSize().width * 0.2);
 
-	resumeIcon->setScale( paused->getContentSize().height / 7 / resumeIcon->getContentSize().width);
-	restartIcon->setScale( paused->getContentSize().height / 7 / restartIcon->getContentSize().width);
-	selectlvlIcon->setScale( paused->getContentSize().height / 7 / selectlvlIcon->getContentSize().width);
-	backtomenuIcon->setScale( paused->getContentSize().height / 7 / backtomenuIcon->getContentSize().width);
+	resumeIcon->setScale( paused->getContentSize().height / 8 / resumeIcon->getContentSize().width);
+	restartIcon->setScale( paused->getContentSize().height / 8 / restartIcon->getContentSize().width);
+	selectlvlIcon->setScale( paused->getContentSize().height / 8 / selectlvlIcon->getContentSize().width);
+	backtomenuIcon->setScale( paused->getContentSize().height / 8 / backtomenuIcon->getContentSize().width);
 
 	this->addChild(resumeIcon);
 	this->addChild(restartIcon);
@@ -68,13 +68,16 @@ bool Pause::init()
 	MenuItemImage *backtomenu = MenuItemImage::create("/Pause/BacktoMenu.png", "/Pause/BacktoMenuSelected.png", CC_CALLBACK_1(Pause::BacktoMenu,this));
 
 	//resume->setScaleX(paused->getContentSize().height / 7 / resume->getContentSize().width);
-	resume->setScaleY(paused->getContentSize().height / 9 / resume->getContentSize().height);
+	resume->setScaleY(paused->getContentSize().height / 10 / resume->getContentSize().height);
+
 	//restart->setScaleX(paused->getContentSize().height / 7 / restart->getContentSize().width);
-	restart->setScaleY(paused->getContentSize().height / 9 / restart->getContentSize().height);
+	restart->setScaleY(paused->getContentSize().height / 10 / restart->getContentSize().height);
+
 	//selectlvl->setScaleX(paused->getContentSize().height / 7 / selectlvl->getContentSize().width);
-	selectlvl->setScaleY(paused->getContentSize().height / 9 / selectlvl->getContentSize().height);
+	selectlvl->setScaleY(paused->getContentSize().height / 10 / selectlvl->getContentSize().height);
+
 	//backtomenu->setScaleX(paused->getContentSize().height / 7 / backtomenu->getContentSize().width);
-	backtomenu->setScaleY(paused->getContentSize().height / 9 / backtomenu->getContentSize().height);
+	backtomenu->setScaleY(paused->getContentSize().height / 10 / backtomenu->getContentSize().height);
 
 	Vec2 point;
 	point.setPoint(0, 0.5);
@@ -86,10 +89,10 @@ bool Pause::init()
 	Menu *menupause = Menu::create(resume, restart, selectlvl, backtomenu, NULL);
 	menupause->setPosition(0,0);
 
-	resume->setPosition(visibleSize.width / 2 - resumeIcon->getContentSize().width, visibleSize.height / 2 + paused->getContentSize().height /6);
-	restart->setPosition(visibleSize.width / 2 - resumeIcon->getContentSize().width, visibleSize.height / 2);
-	selectlvl->setPosition(visibleSize.width / 2 - resumeIcon->getContentSize().width, visibleSize.height / 2 - paused->getContentSize().height /6);
-	backtomenu->setPosition(visibleSize.width / 2 - resumeIcon->getContentSize().width, visibleSize.height / 2 - paused->getContentSize().height /6 * 2);
+	resume->setPosition(visibleSize.width / 2 - resumeIcon->getContentSize().width * 0.75, visibleSize.height / 2 + paused->getContentSize().height /7 + resumeIcon->getContentSize().width * 0.2);
+	restart->setPosition(visibleSize.width / 2 - resumeIcon->getContentSize().width * 0.75, visibleSize.height / 2 + resumeIcon->getContentSize().width * 0.2);
+	selectlvl->setPosition(visibleSize.width / 2 - resumeIcon->getContentSize().width * 0.75, visibleSize.height / 2 - paused->getContentSize().height /7 + resumeIcon->getContentSize().width * 0.2);
+	backtomenu->setPosition(visibleSize.width / 2 - resumeIcon->getContentSize().width * 0.75, visibleSize.height / 2 - paused->getContentSize().height / 7*2 + resumeIcon->getContentSize().width * 0.2);
 
 	this->addChild(menupause);
 
