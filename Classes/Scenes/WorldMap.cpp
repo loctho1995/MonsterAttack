@@ -27,8 +27,11 @@ bool WorldMap::init()
     {
         return false;
     }
-    
+
+#if CC_TARGET_PLATFORM != CC_PLATFORM_WP8
+#else
 	PlatformCenter::callFunc("landscape");
+#endif
 
     Size visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
@@ -92,10 +95,10 @@ bool WorldMap::init()
 	comingsoon5->setScale(selectlvl->getContentSize().width / 5 / comingsoon2->getContentSize().width);
 	comingsoon6->setScale(selectlvl->getContentSize().width / 5 / comingsoon2->getContentSize().width);
 	comingsoon7->setScale(selectlvl->getContentSize().width / 5 / comingsoon2->getContentSize().width);
-	//empty->setScale(selectlvl->getContentSize().width / 5 / comingsoon2->getContentSize().width);
-
+	empty->setScale(selectlvl->getContentSize().width / 5 / comingsoon2->getContentSize().width);
+	
 	Menu *lvl = Menu::create(man01, man02, man03, comingsoon1, comingsoon2, comingsoon3, comingsoon4, comingsoon5, 
-								comingsoon6, comingsoon7, nullptr);
+								comingsoon6, nullptr);
 	lvl->alignItemsInColumns(5, 1, 5);
 
 	this->addChild(lvl);

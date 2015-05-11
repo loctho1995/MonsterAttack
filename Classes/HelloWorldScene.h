@@ -12,6 +12,7 @@ USING_NS_CC;
 class HelloWorld : public cocos2d::Layer
 #else
 class HelloWorld : public cocos2d::Layer, BackButtonPressed
+#endif
 {
 public:
 	
@@ -48,4 +49,4 @@ private:
 
 };
 #endif
-#endif // __HELLOWORLD_SCENE_H__
+// __HELLOWORLD_SCENE_H__

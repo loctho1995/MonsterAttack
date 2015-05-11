@@ -43,8 +43,10 @@ bool HelloWorld::init()
     {
         return false;
     }
-
+#if CC_TARGET_PLATFORM != CC_PLATFORM_WP8
+#else
 	PlatformCenter::callFunc("landscape");
+#endif
 
 	Monster1Action::getInstance()->loadAnimation(SpriteFrameCache::getInstance());
 	Monster2Action::getInstance()->loadAnimation(SpriteFrameCache::getInstance());
@@ -280,5 +282,8 @@ void HelloWorld::DisablePausebt()
 
 void HelloWorld::onBackPressed()
 {
+#if CC_TARGET_PLATFORM_PLATFORM == CC_PLATFORM_WP8
 	PlatformCenter::callFunc("exit");
+#else
+#endif
 }

@@ -12,8 +12,10 @@
 USING_NS_CC;
 
 #if CC_TARGET_PLATFORM != CC_PLATFORM_WP8
+class MainMenu : public cocos2d::Layer
 #else
 class MainMenu : public cocos2d::Layer, BackButtonPressed
+#endif
 {
 public:
 
@@ -37,5 +39,4 @@ public:
 
 	CREATE_FUNC(MainMenu);
 };
-#endif
 #endif // __MAINMENU_SCENE_H__
