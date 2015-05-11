@@ -9,7 +9,7 @@ USING_NS_CC;
 
 #if CC_TARGET_PLATFORM != CC_PLATFORM_WP8
 class HelloWorld : public cocos2d::Layer
-<<<<<<< HEAD
+
 #else
 class HelloWorld : public cocos2d::Layer, BackButtonPressed
 #endif
@@ -33,6 +33,7 @@ public:
 	void onTouchEnded (cocos2d::Touch* touches, cocos2d::Event* event);
 	void onTouchMoved (cocos2d::Touch* touches, cocos2d::Event* event);
 	bool onTouchBegan (cocos2d::Touch* touches, cocos2d::Event* event);
+	void onBackPressed();
 	bool onContactBegin(const PhysicsContact& contact);
 	void Pause(Ref *pSender);
 	static void EnablePausebt();

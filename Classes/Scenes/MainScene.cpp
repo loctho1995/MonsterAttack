@@ -122,12 +122,10 @@ void MainMenu::DisableMenu()
 
 void MainMenu::EnableMenu()
 {
-<<<<<<< HEAD
 #if CC_TARGET_PLATFORM != CC_PLATFORM_WP8
 #else
 	PlatformCenter::callFunc("exit");
 #endif
-=======
+
 	menu->setEnabled(true);
->>>>>>> origin/master
 }
