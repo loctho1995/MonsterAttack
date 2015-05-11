@@ -80,7 +80,7 @@ bool WorldMap::init()
 	MenuItemImage *comingsoon6 = MenuItemImage::create("comingsoon.png", "comingsoonSelected.png", CC_CALLBACK_1(WorldMap::level, this));
 	MenuItemImage *comingsoon7 = MenuItemImage::create("comingsoon.png", "comingsoonSelected.png", CC_CALLBACK_1(WorldMap::level, this));
 	MenuItemFont *empty = MenuItemFont::create(" \n\n"); //tao 1 item rong de de sap xep cac itemmenu trong menu
-	//wp bao loi cho empty
+
 	man01->setScale(selectlvl->getContentSize().width / 5 / man01->getContentSize().width);
 	//man01->setScaleY(resizeY);
 	man02->setScale(selectlvl->getContentSize().width / 5 / man02->getContentSize().width);
@@ -95,11 +95,12 @@ bool WorldMap::init()
 	comingsoon5->setScale(selectlvl->getContentSize().width / 5 / comingsoon2->getContentSize().width);
 	comingsoon6->setScale(selectlvl->getContentSize().width / 5 / comingsoon2->getContentSize().width);
 	comingsoon7->setScale(selectlvl->getContentSize().width / 5 / comingsoon2->getContentSize().width);
-	empty->setScale(selectlvl->getContentSize().width / 5 / comingsoon2->getContentSize().width);
-	
-	Menu *lvl = Menu::create(man01, man02, man03, comingsoon1, comingsoon2, comingsoon3, comingsoon4, comingsoon5, 
-								comingsoon6, nullptr);
-	lvl->alignItemsInColumns(5, 1, 5);
+	//empty->setScale(selectlvl->getContentSize().width / 5 / comingsoon2->getContentSize().width);
+
+	/*Menu *lvl = Menu::create(man01, man02, man03, comingsoon1, comingsoon2, empty, comingsoon3, comingsoon4, comingsoon5, comingsoon6, comingsoon7, NULL);
+	lvl->alignItemsInColumns(5, 1, 5);*/
+	Menu *lvl = Menu::create(man01, man02, man03, comingsoon1, comingsoon2, comingsoon3, comingsoon4, comingsoon5, comingsoon6, comingsoon7, NULL);
+	lvl->alignItemsInColumns(5, 5);
 
 	this->addChild(lvl);
 

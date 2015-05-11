@@ -7,7 +7,7 @@
 #include "Scenes/HelpScene.h"
 #include "Mission.h"
 #include "Scenes/ExitScene.h"
-#include "CallBackWP.h"
+
 
 USING_NS_CC;
 
@@ -35,8 +35,15 @@ public:
 
 	void Exit(Ref *pSender);
 
-	void onBackButtonPressed();
+	static void DisableMenu();
+
+	static void EnableMenu();
+
+private:
+	static Menu *menu;
+
 
 	CREATE_FUNC(MainMenu);
 };
+
 #endif // __MAINMENU_SCENE_H__

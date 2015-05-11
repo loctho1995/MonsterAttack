@@ -1,4 +1,5 @@
 #include "Item.h"
+
 USING_NS_CC;
 
 ItemManager* ItemManager::m_Instance = 0;

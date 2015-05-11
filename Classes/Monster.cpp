@@ -11,7 +11,7 @@ Monster1::Monster1()
 	this->setTag(MONSTER_TAG);
 
 	m_isDieing = false;
-	m_HP = 1;
+	m_HP = 3;
 	m_speed = 100;
 	m_damage = 1;
 }
@@ -53,20 +53,18 @@ Monster2::Monster2()
 	this->setTag(MONSTER_TAG);
 
 	m_isDieing = false;
-	m_HP = 2;
+	m_HP = 3;
 	m_speed = 100;
 	m_damage = 1;
-
+	m_walk = Monster2Action::getInstance()->getMonsterWalkAnimate()->clone();
 }
 
 void Monster2::walk()
 {
-	m_walk = Monster2Action::getInstance()->getMonsterWalkAnimate()->clone();
-	Monster::walk();
-	/*m_move = MoveTo::create(this->getPosition().x / m_speed, Vec2(0, this->getPosition().y));
+	m_move = MoveTo::create(this->getPosition().x / m_speed, Vec2(0, this->getPosition().y));
 	CallFunc* func = CallFunc::create(CC_CALLBACK_0(Monster2::done, this));
 	this->runAction(RepeatForever::create(m_walk));
-	this->runAction(Sequence::create(m_move, func, nullptr));*/
+	this->runAction(Sequence::create(m_move, func, nullptr));
 }
 
 void Monster2::die()
@@ -96,9 +94,7 @@ bool Monster2::attackedByLightingCircle()
 #pragma region - Monster 3 -
 Monster3::Monster3()
 {
-	m_HP = 4;
-	m_damage = 1;
-	m_speed = 80;
+
 }
 
 void Monster3::walk()
@@ -130,9 +126,7 @@ bool Monster3::attackedByLightingCircle()
 #pragma region - Monster 4 -
 Monster4::Monster4()
 {
-	m_HP = 6;
-	m_damage = 1;
-	m_speed = 90;
+
 }
 
 void Monster4::walk()
@@ -164,9 +158,7 @@ bool Monster4::attackedByLightingCircle()
 #pragma region - Monster 5 -
 Monster5::Monster5()
 {
-	m_HP = 1;
-	m_damage = 2;
-	m_speed = 120;
+
 }
 
 void Monster5::walk()
@@ -193,177 +185,6 @@ bool Monster5::attackedByLightingCircle()
 {
 	return Monster::attackedByLightingCircle();
 }
-#pragma endregion
-
-#pragma region - Monster 6 -
-Monster6::Monster6()
-{
-	m_HP = 1;
-	m_damage = 3;
-	m_speed = 140;
-}
-
-void Monster6::walk()
-{
-
-}
-
-void Monster6::die()
-{
-
-}
-
-void Monster6::done()
-{
-	
-}
-
-bool Monster6::attacked(Bullet* bullet)
-{
-	return Monster::attacked(bullet);
-}
-
-bool Monster6::attackedByLightingCircle()
-{
-	return Monster::attackedByLightingCircle();
-}
-#pragma endregion
-
-#pragma region - Monster 7 -
-Monster7::Monster7()
-{
-	m_HP = 3;
-	m_damage = 2;
-	m_speed = 120;
-}
-
-void Monster7::walk()
-{
-
-}
-
-void Monster7::die()
-{
-
-}
-
-void Monster7::done()
-{
-	
-}
-
-bool Monster7::attacked(Bullet* bullet)
-{
-	return Monster::attacked(bullet);
-}
-
-bool Monster7::attackedByLightingCircle()
-{
-	return Monster::attackedByLightingCircle();
-}
-#pragma endregion
-
-#pragma region - Monster 8 -
-Monster8::Monster8()
-{
-	m_HP = 5;
-	m_damage = 3;
-	m_speed = 120;
-}
-
-void Monster8::walk()
-{
-
-}
-
-void Monster8::die()
-{
-
-}
-
-void Monster8::done()
-{
-	
-}
-
-bool Monster8::attacked(Bullet* bullet)
-{
-	return Monster::attacked(bullet);
-}
-
-bool Monster8::attackedByLightingCircle()
-{
-	return Monster::attackedByLightingCircle();
-}
-#pragma endregion
-
-#pragma region - Monster 9 -
-Monster9::Monster9()
-{
-	m_HP = 6;
-	m_damage = 3;
-	m_speed = 100;
-}
-
-void Monster9::walk()
-{
-
-}
-
-void Monster9::die()
-{
-
-}
-
-void Monster9::done()
-{
-	
-}
-
-bool Monster9::attacked(Bullet* bullet)
-{
-	return Monster::attacked(bullet);
-}
-
-bool Monster9::attackedByLightingCircle()
-{
-	return Monster::attackedByLightingCircle();
-}
-#pragma endregion
-
-#pragma region - Monster 10 -
-Monster10::Monster10()
-{
-	m_HP = 7;
-	m_damage = 3;
-	m_speed = 110;
-}
-
-void Monster10::walk()
-{
-
-}
-
-void Monster10::die()
-{
-
-}
-
-void Monster10::done()
-{
-	
-}
-
-bool Monster10::attacked(Bullet* bullet)
-{
-	return Monster::attacked(bullet);
-}
-
-bool Monster10::attackedByLightingCircle()
-{
-	return Monster::attackedByLightingCircle();
-}
-
 #pragma endregion
 
 #pragma region - Monster -
@@ -496,62 +317,16 @@ bool Monster::attacked(Bullet* bullet)
 		{
 			((Lighting*)bullet)->createLightingCircle(this);
 			bullet->removeFromParentAndCleanup(true);
-
-			////particle
-			//ParticleSystemQuad *prtmid = ParticleSystemQuad::create("thunderCircleprt.plist");
-			////ParticleSystemQuad *prttopleft = ParticleSystemQuad::create("thunderCircleprt.plist");
-			////ParticleSystemQuad *prttopright = ParticleSystemQuad::create("thunderCircleprt.plist");
-			////ParticleSystemQuad *prtbotleft = ParticleSystemQuad::create("thunderCircleprt.plist");
-			////ParticleSystemQuad *prtbotright = ParticleSystemQuad::create("thunderCircleprt.plist");
-			////prtmid->setLife(0.01);
-			////prttopleft->setLife(0.01);
-			////prttopright->setLife(0.01);
-			////prtbotleft->setLife(0.01);
-			////prtbotright->setLife(0.01);
-			//LightingCircle->addChild(prtmid);
-			////thunderCircle->addChild(prttopleft);
-			////thunderCircle->addChild(prttopright);
-			////thunderCircle->addChild(prtbotleft);
-			////thunderCircle->addChild(prtbotright);
-			//prtmid->setPosition(LightingCircle->getContentSize().width / 2, LightingCircle->getContentSize().height / 2);
-			////prttopleft->setPosition(thunderCircle->getContentSize().width / 4, thunderCircle->getContentSize().height / 4 * 3);
-			////prttopright->setPosition(thunderCircle->getContentSize().width / 4 * 3, thunderCircle->getContentSize().height / 4 * 3);
-			////prtbotleft->setPosition(thunderCircle->getContentSize().width / 4, thunderCircle->getContentSize().height / 4);
-			////prtbotright->setPosition(thunderCircle->getContentSize().width / 4 * 3, thunderCircle->getContentSize().height / 4);
-
-			//physics
-			PhysicsBody *LightingCircleBody = PhysicsBody::createCircle(0.1 * bullet->getContentSize().width * 4 / 2, PhysicsMaterial(0, 0, 0), Vec2::ZERO);
-			LightingCircleBody->setDynamic(false);
-			LightingCircleBody->setContactTestBitmask(0x1);
-			//LightingCircleBody->setCategoryBitmask(0x00); // va cham
-			LightingCircleBody->setCollisionBitmask(0x00); //chat lieu
-
-			LightingCircle->setScale(0.1 * bullet->getContentSize().width * 4 / LightingCircle->getContentSize().width);
-			LightingCircle->runAction(ScaleTo::create(0.5, bullet->getContentSize().width * 4 / LightingCircle->getContentSize().width));
-			//thunderCircle->setScale(bullet->getContentSize().width * 4 / thunderCircle->getContentSize().width);
-			
-			LightingCircle->setPhysicsBody(LightingCircleBody);
-
-			LightingCircle->runAction(RepeatForever::create(RotateBy::create(3, 360)));
-
-
-			CallFuncN* func = CallFuncN::create([&, LightingCircle](Node* monster)
-			{
-				((Monster*)monster)->removeFromParentAndCleanup(true); 
-			});
-
-			LightingCircle->runAction(Sequence::create(DelayTime::create(LIGHTINGCIRCLE_TIME), func, nullptr));
-
 		}
 		else*/
-		bullet->removeFromParentAndCleanup(true);
+			bullet->removeFromParentAndCleanup(true);
 	}
 
 	if(m_HP <= 0)
 	{
 		return true;
 	}
-
+	
 	return false;
 }
 
@@ -628,10 +403,5 @@ Item* Monster::dropItem()
 	}
 	
 	return nullptr;
-}
-
-Monster::~Monster()
-{
-	
 }
 #pragma endregion

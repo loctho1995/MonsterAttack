@@ -17,6 +17,8 @@ Scene* MainMenu::createScene()
     return scene;
 }
 
+Menu* MainMenu::menu = nullptr;
+
 // on "init" you need to initialize your instance
 bool MainMenu::init()
 {
@@ -64,12 +66,13 @@ bool MainMenu::init()
 	auto ItemExit = MenuItemImage::create("Exit.png", "ExitSelected.png", CC_CALLBACK_1(MainMenu::Exit,this));
     
 
-	auto menu = Menu::create(ItemPlay, ItemContinue, ItemMission, ItemAbout, ItemHelp, ItemExit, NULL);
+	menu = Menu::create(ItemPlay, ItemContinue, ItemMission, ItemAbout, ItemHelp, ItemExit, NULL);
 
 	menu->alignItemsVerticallyWithPadding(15.0f);
 	//menu->alignItemsInColumns(2,2,2);
+	menu->setScaleY(visibleSize.height * 0.75 / menu->getContentSize().height);
 
-	menu->setPosition(visibleSize.width / 2, visibleSize.height / 10 * 4);
+	menu->setPosition(visibleSize.width / 2, visibleSize.height / 10 * 3);
 
 	this->addChild(menu);
 
@@ -109,12 +112,22 @@ void MainMenu::Exit(Ref *pSender)
 {
 	Scene *exit = Exit::createScene();
 	this->addChild(exit);
+	DisableMenu();
 }
 
-void MainMenu::onBackButtonPressed()
+void MainMenu::DisableMenu()
 {
+	menu->setEnabled(false);
+}
+
+void MainMenu::EnableMenu()
+{
+<<<<<<< HEAD
 #if CC_TARGET_PLATFORM != CC_PLATFORM_WP8
 #else
 	PlatformCenter::callFunc("exit");
 #endif
+=======
+	menu->setEnabled(true);
+>>>>>>> origin/master
 }
