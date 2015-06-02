@@ -1,5 +1,6 @@
 #include "WorldMap.h"
 #include "Player.h"
+#include "GamePlayScene.h"
 
 USING_NS_CC;
 
@@ -82,11 +83,14 @@ bool WorldMap::init()
 	MenuItemFont *empty = MenuItemFont::create(" \n\n"); //tao 1 item rong de de sap xep cac itemmenu trong menu
 
 	man01->setScale(selectlvl->getContentSize().width / 5 / man01->getContentSize().width);
-	//man01->setScaleY(resizeY);
+	man01->setTag(1);
+
 	man02->setScale(selectlvl->getContentSize().width / 5 / man02->getContentSize().width);
-	//man02->setScaleY(resizeY);
+	man02->setTag(2);
+
 	man03->setScale(selectlvl->getContentSize().width / 5 / man03->getContentSize().width);
-	//man03->setScaleY(resizeY);
+	man03->setTag(3);
+
 	comingsoon1->setScale(selectlvl->getContentSize().width / 5 / comingsoon1->getContentSize().width);
 	//comingsoon->setScaleY(resizeY);
 	comingsoon2->setScale(selectlvl->getContentSize().width / 5 / comingsoon2->getContentSize().width);
@@ -116,8 +120,24 @@ void WorldMap::Back(Ref *pSender)
 
 void WorldMap::level(Ref *pSender)
 {
-	Scene *Ingame = HelloWorld::createScene();
-	Director::getInstance()->replaceScene(Ingame);
+	Scene *ingame ;
+
+	switch(((Node*)pSender)->getTag())
+	{
+		case 1:
+			ingame = GamePlayScene::createScene(1);
+			break;
+
+		case 2:
+			ingame = GamePlayScene::createScene(2);
+			break;
+
+		case 3:
+			ingame = GamePlayScene::createScene(3);
+			break;
+	}
+	
+	Director::getInstance()->replaceScene(ingame);
 }
 
 

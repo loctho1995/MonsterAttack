@@ -4,7 +4,7 @@
 #include "cocos2d.h"
 #include "MainScene.h"
 #include "WorldMap.h"
-#include "HelloWorldScene.h"
+#include "Scenes\GamePlayScene.h"
 
 USING_NS_CC;
 

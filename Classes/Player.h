@@ -13,7 +13,7 @@ class Player : public Sprite
 		static Player*  getInstance();
 
 		void		load(); // ham init ton tai nen phai dung ham khac
-		void		attack(); //	ban'
+		void		attack(Touch* touches); //	ban'
 		void		die(); // chet
 		void		attacked(int damage); // bi tan cong
 		void		setDamageBonus(int damage); 
@@ -24,6 +24,7 @@ class Player : public Sprite
 		int			getDamageBonus();
 		int			getSouls();
 		BulletType	getBulletType();
+		bool		isFinishAction();
 
 	private:			
 		Player();
@@ -39,7 +40,10 @@ class Player : public Sprite
 		bool m_isSplit,
 			 m_isDoubleDamage,
 			 m_isGameOver,
+			 m_isFinishAction,
 			 m_isWinGame; // true khi thua
+
+		Node* m_parent;
 			
 		
 	//CREATE_FUNC(Player);

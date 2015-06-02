@@ -95,6 +95,75 @@ private:
 	static Monster2Action* m_instance;
 };
 
+class Monster3Action : private MonsterAction 
+{
+public:
+	void loadAnimation(SpriteFrameCache* spriteFrameCache);
+	Animate* getMonsterWalkAnimate() {return m_walkAnimate;}
+	Animate* getMonsterDieAnimate() {return m_dieAnimate;}
+	Animate* getMonsterStunAnimate() {return m_stunAnimate;}
+	Animate* getMonsterDoneAnimate() { return m_doneAnimate; }
+
+	static Monster3Action* getInstance()
+	{
+		if(m_instance == 0)
+		{
+			m_instance = new Monster3Action();
+			return m_instance;
+		}
+		return m_instance;
+	}
+private:
+	Monster3Action();
+	static Monster3Action* m_instance;
+};
+
+class Monster4Action : private MonsterAction 
+{
+public:
+	void loadAnimation(SpriteFrameCache* spriteFrameCache);
+	Animate* getMonsterWalkAnimate() {return m_walkAnimate;}
+	Animate* getMonsterDieAnimate() {return m_dieAnimate;}
+	Animate* getMonsterStunAnimate() {return m_stunAnimate;}
+	Animate* getMonsterDoneAnimate() { return m_doneAnimate; }
+
+	static Monster4Action* getInstance()
+	{
+		if(m_instance == 0)
+		{
+			m_instance = new Monster4Action();
+			return m_instance;
+		}
+		return m_instance;
+	}
+private:
+	Monster4Action();
+	static Monster4Action* m_instance;
+};
+
+class Monster5Action : private MonsterAction 
+{
+public:
+	void loadAnimation(SpriteFrameCache* spriteFrameCache);
+	Animate* getMonsterWalkAnimate() {return m_walkAnimate;}
+	Animate* getMonsterDieAnimate() {return m_dieAnimate;}
+	Animate* getMonsterStunAnimate() {return m_stunAnimate;}
+	Animate* getMonsterDoneAnimate() { return m_doneAnimate; }
+
+	static Monster5Action* getInstance()
+	{
+		if(m_instance == 0)
+		{
+			m_instance = new Monster5Action();
+			return m_instance;
+		}
+		return m_instance;
+	}
+private:
+	Monster5Action();
+	static Monster5Action* m_instance;
+};
+
 static class AnimationManager    // class quan li cac Animation
 {
 public:

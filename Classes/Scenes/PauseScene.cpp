@@ -104,7 +104,7 @@ void Pause::Resume(Ref* pSender)
 {
 	Director::getInstance()->getEventDispatcher()->resumeEventListenersForTarget(this->getParent());
 	this->removeFromParentAndCleanup(true);
-	HelloWorld::EnablePausebt();
+	GamePlayScene::EnablePausebt();
 	Director::sharedDirector()->resume();
 }
 void Pause::Restart(Ref *pSender)

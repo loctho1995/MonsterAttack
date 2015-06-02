@@ -1,6 +1,6 @@
 #include "Bullet.h"
 
-void Bullet::move(Touch* touch, Sprite* sprite, Layer* layer)
+void Bullet::move(Vec2 touch, Sprite* sprite, Node* layer)
 {
 	auto body = PhysicsBody::createCircle(BULLET_RADIUS, PHYSICSBODY_MATERIAL_DEFAULT, Vec2(15, 0));	
 	body->setContactTestBitmask(BULLET_CONTACT_TEST_BITMASK);	
@@ -9,7 +9,7 @@ void Bullet::move(Touch* touch, Sprite* sprite, Layer* layer)
 	this->setPhysicsBody(body);
 	this->setTag(BULLET_TAG);
 
-	Point location = touch->getLocationInView();
+	Point location = touch; //->getLocationInView();
 	
 	location = Director::getInstance()->convertToGL(location);
 	
@@ -48,11 +48,11 @@ void Bullet::move(Touch* touch, Sprite* sprite, Layer* layer)
 	this->runAction(Sequence::create(MoveTo::create(realMoveDuration, realDest), func, NULL));
 }
 
-Point BulletManager::findPosition(Sprite* sprite, Touch* touch)
+Point BulletManager::findPosition(Sprite* sprite, Vec2 touch)
 {
 	Point position;
 
-	Point touches = touch->getLocationInView();
+	Point touches = touch;//->getLocationInView();
 
 	touches = Director::getInstance()->convertToGL(touches);
 

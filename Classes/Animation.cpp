@@ -6,6 +6,8 @@ USING_NS_CC;
 PlayerAction* PlayerAction::m_instance = 0;
 Monster1Action* Monster1Action::m_instance = 0;
 Monster2Action* Monster2Action::m_instance = 0;
+Monster3Action* Monster3Action::m_instance = 0;
+Monster4Action* Monster4Action::m_instance = 0;
 
 SpriteAction::~SpriteAction(void)
 {
@@ -170,7 +172,7 @@ void Monster2Action :: loadAnimation(SpriteFrameCache* spriteFrameCache)
 		return;
 
 #pragma region - MONSTER2 WALK -
-	for (int i = 1; i < MONSTER2_WALK_ANIMATION_FRAMES; i++) // Vong lap tao sprite attack
+	for (int i = 1; i <= MONSTER2_WALK_ANIMATION_FRAMES; i++) // Vong lap tao sprite attack
 	{
 		try
 		{
@@ -187,28 +189,101 @@ void Monster2Action :: loadAnimation(SpriteFrameCache* spriteFrameCache)
 	m_walkAnimate->retain();
 #pragma endregion
 	
-	return;
-	for (int i = 1; i < 10; i++) // Vong lap tao sprite attack
-	{
-		try
-		{
-			sprintf(str,"Monster2DieAnimation_%d.png",i);
-			auto frame = spriteFrameCache->getSpriteFrameByName(str);
-			aniFrame.pushBack(frame);
-		}
-		catch (String exc)
-		{
-			break;
-		}
-	}
-	m_dieAnimate = Animate::create(Monster2Action::createWithSpriteFrames(aniFrame, 0,1 ));
-	m_stunAnimate->retain();
+}
 
-	for (int i = 1; i < MONSTER2_WALK_ANIMATION_FRAMES; i++) // Vong lap tao sprite attack
+Monster3Action::Monster3Action()
+{
+	m_walkAnimate = nullptr;
+	m_dieAnimate  = nullptr;
+	m_stunAnimate = nullptr;
+	m_doneAnimate = nullptr;
+}
+
+void Monster3Action :: loadAnimation(SpriteFrameCache* spriteFrameCache)
+{
+	spriteFrameCache->addSpriteFramesWithFile("Monster3.plist");
+	char str[50] = {0}; // Bien tam luu ten cua cac sprite
+	Vector<SpriteFrame*> aniFrame;
+
+	if (m_walkAnimate != nullptr &&
+		m_dieAnimate  != nullptr &&
+		m_stunAnimate != nullptr &&
+		m_doneAnimate != nullptr
+		)
+		return;
+
+#pragma region - MONSTER3 WALK -
+
+	for (int i = 1; i <= MONSTER3_WALK_ANIMATION_FRAMES; i++) // Vong lap tao sprite attack
 	{
 		try
 		{
-			sprintf(str,"Monster2StunAnimation_%d.png",i);
+			sprintf(str,"Monster3WalkAnimation_%d.png", i);
+			auto frame = spriteFrameCache->getSpriteFrameByName(str);	
+			if(frame != nullptr)
+				aniFrame.pushBack(frame);
+		}
+		catch (String exc)
+		{
+			break;
+		}
+	}
+
+	m_walkAnimate = Animate::create(Monster3Action::createWithSpriteFrames(aniFrame, MONSTER1_WALK_ANIMATION_TIME));
+	m_walkAnimate->retain();
+#pragma endregion
+}
+
+Monster4Action::Monster4Action()
+{
+	m_walkAnimate = nullptr;
+	m_dieAnimate  = nullptr;
+	m_stunAnimate = nullptr;
+	m_doneAnimate = nullptr;
+}
+
+void Monster4Action :: loadAnimation(SpriteFrameCache* spriteFrameCache)
+{
+	spriteFrameCache->addSpriteFramesWithFile("Monster4.plist");
+	char str[50] = {0}; // Bien tam luu ten cua cac sprite
+	Vector<SpriteFrame*> aniFrame;
+
+	if (m_walkAnimate != nullptr &&
+		m_dieAnimate  != nullptr &&
+		m_stunAnimate != nullptr &&
+		m_doneAnimate != nullptr
+		)
+		return;
+
+#pragma region - MONSTER4 WALK -
+
+	for (int i = 1; i <= MONSTER4_WALK_ANIMATION_FRAMES; i++) // Vong lap tao sprite attack
+	{
+		try
+		{
+			sprintf(str,"Monster4WalkAnimation_%d.png", i);
+			auto frame = spriteFrameCache->getSpriteFrameByName(str);	
+			if(frame != nullptr)
+				aniFrame.pushBack(frame);
+		}
+		catch (String exc)
+		{
+			break;
+		}
+	}
+
+	m_walkAnimate = Animate::create(Monster4Action::createWithSpriteFrames(aniFrame, MONSTER1_WALK_ANIMATION_TIME));
+	m_walkAnimate->retain();
+#pragma endregion
+
+#pragma region - MONSTER4 DIE - 
+	aniFrame.clear(); //dm d clear lam 2 action gop lam 1
+	//2 cai duoi chua co sprite
+	for (int i = 1; i <= MONSTER4_DIE_ANIMATION_FRAMES; i++) // Vong lap tao sprite attack
+	{
+		try
+		{
+			sprintf(str,"Monster4DieAnimation_%d.png", i);
 			auto frame = spriteFrameCache->getSpriteFrameByName(str);
 			aniFrame.pushBack(frame);
 		}
@@ -217,9 +292,52 @@ void Monster2Action :: loadAnimation(SpriteFrameCache* spriteFrameCache)
 			break;
 		}
 	}
-	m_stunAnimate = Animate::create(Monster2Action::createWithSpriteFrames(aniFrame, 0,1));
-	m_stunAnimate->retain();
-	
+
+	m_dieAnimate = Animate::create(Monster1Action::createWithSpriteFrames(aniFrame, MONSTER1_DIE_ANIMATION_TIME));
+	m_dieAnimate->retain();
+#pragma endregion
+}
+
+Monster5Action::Monster5Action()
+{
+	m_walkAnimate = nullptr;
+	m_dieAnimate  = nullptr;
+	m_stunAnimate = nullptr;
+	m_doneAnimate = nullptr;
+}
+
+void Monster5Action :: loadAnimation(SpriteFrameCache* spriteFrameCache)
+{
+	spriteFrameCache->addSpriteFramesWithFile("Monster5.plist");
+	char str[50] = {0}; // Bien tam luu ten cua cac sprite
+	Vector<SpriteFrame*> aniFrame;
+
+	if (m_walkAnimate != nullptr &&
+		m_dieAnimate  != nullptr &&
+		m_stunAnimate != nullptr &&
+		m_doneAnimate != nullptr
+		)
+		return;
+
+#pragma region - MONSTER5 WALK -
+	for (int i = 1; i <= MONSTER5_WALK_ANIMATION_FRAMES; i++) // Vong lap tao sprite attack
+	{
+		try
+		{
+			sprintf(str,"Monster5WalkAnimation_%d.png", i);
+			auto frame = spriteFrameCache->getSpriteFrameByName(str);	
+			if(frame != nullptr)
+				aniFrame.pushBack(frame);
+		}
+		catch (String exc)
+		{
+			break;
+		}
+	}
+
+	m_walkAnimate = Animate::create(Monster5Action::createWithSpriteFrames(aniFrame, MONSTER1_WALK_ANIMATION_TIME));
+	m_walkAnimate->retain();
+#pragma endregion
 }
 
 void AnimationManager::loadAnimationByTag(MonsterType arrMonsterType[], SpriteFrameCache* spriteFrameCache)

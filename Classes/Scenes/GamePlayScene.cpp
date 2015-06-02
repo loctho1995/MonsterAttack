@@ -1,4 +1,4 @@
-﻿#include "HelloWorldScene.h"
+﻿#include "GamePlayScene.h"
 #include "Player.h"
 #include "LoadData.h"
 #include "Monster.h"
@@ -6,13 +6,14 @@
 #include "Define.h"
 #include "Bullet.h"
 #include "Scenes/PauseScene.h"
+#include "State.h"
 
 USING_NS_CC;
 using namespace std;
 
-Menu* HelloWorld::m_mnPause = nullptr;
+Menu* GamePlayScene::m_mnPause = nullptr;
 
-Scene* HelloWorld::createScene()
+Scene* GamePlayScene::createScene(int state)
 {
     // 'scene' is an autorelease object
     auto scene = Scene::createWithPhysics();
@@ -20,10 +21,11 @@ Scene* HelloWorld::createScene()
 	//scene->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
 
 	scene->getPhysicsWorld()->setGravity(Vect(0.0f, 0.0f));
-	//scene->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
+	scene->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
 
     // 'layer' is an autorelease object
-    auto layer = HelloWorld::create();
+    auto layer = GamePlayScene::create();
+	layer->setState(state);
 
     // add layer as a child to scene
     scene->addChild(layer);
@@ -34,7 +36,7 @@ Scene* HelloWorld::createScene()
 
 
 // on "init" you need to initialize your instance
-bool HelloWorld::init()
+bool GamePlayScene::init()
 {
     //////////////////////////////
     // 1. super init first
@@ -47,9 +49,13 @@ bool HelloWorld::init()
 #else
 	PlatformCenter::callFunc("landscape");
 #endif
+	srand(time(0));
+	m_timeWave = WAVE_TIME;
 
 	Monster1Action::getInstance()->loadAnimation(SpriteFrameCache::getInstance());
 	Monster2Action::getInstance()->loadAnimation(SpriteFrameCache::getInstance());
+	Monster3Action::getInstance()->loadAnimation(SpriteFrameCache::getInstance());
+	Monster4Action::getInstance()->loadAnimation(SpriteFrameCache::getInstance());
 	PlayerAction::getInstance()->loadAnimation(SpriteFrameCache::getInstance());
 
 	//Tao hieu ung particle cho man hinh
@@ -58,7 +64,7 @@ bool HelloWorld::init()
 
 	//LoadData::loadData();
     m_winSize = Director::getInstance()->getVisibleSize(); 
-
+	m_isWinGame = false;
 	/*Draw by pixels on
 	auto draw = DrawNode::create();
 	this->addChild(draw);
@@ -84,27 +90,46 @@ bool HelloWorld::init()
 	m_circle->setPhysicsBody(circleBound);
 	
 	//tao nut pause
-	m_btPause = MenuItemImage::create("/Pause/Pause.png", "/Pause/PauseSelected.png", CC_CALLBACK_1(HelloWorld::Pause, this));
+	m_btPause = MenuItemImage::create("/Pause/Pause.png", "/Pause/PauseSelected.png", CC_CALLBACK_1(GamePlayScene::Pause, this));
 	m_btPause->setScale(m_winSize.height / 10 / m_btPause->getContentSize().width);
 	m_mnPause = Menu::create(m_btPause, NULL);
 	m_mnPause->setPosition(0, 0);
 	m_btPause->setPosition(m_winSize.width - m_winSize.width / 10, m_winSize.height - m_winSize.height / 10);
 	this->addChild(m_mnPause);
 
-	this->schedule( schedule_selector(HelloWorld::addTarget), 2.0f);
+	//hinh next wave
+	m_nextWave = Sprite::create("NextWave.png");
+	m_nextWave->setPosition(Vec2(m_winSize.width / 2, m_winSize.height / 2));
+	m_nextWave->setVisible(false);
+	this->addChild(m_nextWave);
+
+	//hinh final wave
+	m_finalWave = Sprite::create("FinalWave.png");
+	m_finalWave->setPosition(Vec2(m_winSize.width / 2, m_winSize.height / 2));
+	m_finalWave->setVisible(false);
+	this->addChild(m_finalWave);
+
+	m_winGame = Sprite::create("WinGame.png");
+	m_winGame->setPosition(Vec2(m_winSize.width / 2, m_winSize.height / 2));
+	m_winGame->setVisible(false);
+	this->addChild(m_winGame);
+	
+	
+
+	this->schedule( schedule_selector(GamePlayScene::gameLogic), 2.0f);
 
 	auto dispatcher = Director::getInstance()-> getEventDispatcher();
 
 	auto listener1 = EventListenerTouchOneByOne::create();
 	listener1->setSwallowTouches(true);
-	listener1->onTouchBegan = CC_CALLBACK_2 (HelloWorld :: onTouchBegan, this);
-	listener1->onTouchMoved = CC_CALLBACK_2(HelloWorld::onTouchMoved, this);
-	listener1->onTouchEnded = CC_CALLBACK_2(HelloWorld::onTouchEnded, this);
+	listener1->onTouchBegan = CC_CALLBACK_2 (GamePlayScene :: onTouchBegan, this);
+	listener1->onTouchMoved = CC_CALLBACK_2(GamePlayScene::onTouchMoved, this);
+	listener1->onTouchEnded = CC_CALLBACK_2(GamePlayScene::onTouchEnded, this);
 
 	dispatcher->addEventListenerWithSceneGraphPriority(listener1, this);
 
 	auto contactListener = EventListenerPhysicsContact :: create();
-	contactListener ->onContactBegin = CC_CALLBACK_1(HelloWorld::onContactBegin, this);
+	contactListener ->onContactBegin = CC_CALLBACK_1(GamePlayScene::onContactBegin, this);
 
 	dispatcher->addEventListenerWithSceneGraphPriority(contactListener, this);
 	srand(time(NULL));
@@ -112,52 +137,69 @@ bool HelloWorld::init()
     return true;
 }
 
-void HelloWorld::gameLogic(float dt)
+void GamePlayScene::gameLogic(float dt)
 {
-	 this->addTarget(dt);
-}
+	if(m_isWinGame)
+	{
+		m_winGame->setVisible(true);
+		return;
+	}
 
-void HelloWorld:: addTarget(float dt)
-{
-	Monster *target;
+	if(m_timeWave >= 0)
+	{
+		m_state->addTarget(this, dt);
+		m_timeWave -= dt;
 
-	if(random() % 2 == 0)
-		target = new Monster1();
+		if(m_state->isRunning())
+		{
+			m_nextWave->setVisible(false);
+			m_finalWave->setVisible(false);
+		}			
+	}
 	else
-		target = new Monster2();		
+	{
+		CCLOG("%d", Monster::getTotalCurrentMonster());
+		if(m_state->isEndWave())
+		{						
+			if(Monster::getTotalCurrentMonster() <= 0)		
+				m_isWinGame = true;
+		}
+		else
+		{			
+			if(Monster::getTotalCurrentMonster() <= 0)
+			{
+				m_timeWave = WAVE_TIME + NEXTWAVE_DELAY_TIME;
+				m_state->nextWave();
+				m_state->pause(NEXTWAVE_DELAY_TIME);
 
-	// calculate target position
-	int minY = target->getContentSize().height / 2;
-	int maxY = m_winSize.height - target -> getContentSize().height / 2;
-	int rangeY = maxY - minY;
-	int actualY = (rand()% rangeY) + minY;
-		
-	target->setPosition(Point(m_winSize.width + (target->getContentSize().width/2), actualY));
-	auto targetBody = PhysicsBody::createCircle(target->getContentSize().width / 2, PhysicsMaterial(0.1f, 1.0f, 0.0f));
-	targetBody->setContactTestBitmask(MONSTER_CONTACT_TEST_BITMASK);
-	targetBody->setCollisionBitmask(MONSTER_COLLISION_BITMASK);
-	targetBody->setCategoryBitmask(MONSTER_CONTACT_CATEGORY);	
-	target->setPhysicsBody(targetBody);
-	//target->initPhySicBody();
-
-	this->addChild(target, 3);	
-	target->walk();
+				if(m_state->isEndWave())
+					m_finalWave->setVisible(true);
+				else
+					m_nextWave->setVisible(true);
+			}
+		}
+	}
 }
-void HelloWorld::targetMoveFinished(Node* sender)
+
+void GamePlayScene::setState(int state)
 {
-// Hàm này có mỗi công việc là loại bỏ Target ( đang là Sprite) ra khỏi layer của game
-// Ép kiểu Contrỏ Sprite của 1 Node*
-	//sender ->removeFromParentAndCleanup(true);
-}
-void HelloWorld::spriteMoveFinished(Node* sender)
-{
-// Hàm này có mỗi công việc là loại bỏ Target ( đang là Sprite) ra khỏi layer của game
-// Ép kiểu Contrỏ Sprite của 1 Node*
-  auto sprite = (Sprite *)sender;
-  this->removeChild(sprite, true);    
+	switch(state)
+	{
+		case 1:
+			m_state = new State1();
+			break;
+
+		case 2:
+			m_state = new State2();
+			break;
+
+		case 3:
+			m_state = new State3();
+			break;
+	}
 }
 
-void HelloWorld::menuCloseCallback(Ref* pSender)
+void GamePlayScene::menuCloseCallback(Ref* pSender)
 {
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_WP8) || (CC_TARGET_PLATFORM == CC_PLATFORM_WINRT)
 	MessageBox("You pressed the close button. Windows Store Apps do not implement a close button.","Alert");
@@ -171,21 +213,19 @@ void HelloWorld::menuCloseCallback(Ref* pSender)
 #endif
 }
 
-
-bool HelloWorld::onTouchBegan(Touch* touches, Event* event)
+bool GamePlayScene::onTouchBegan(Touch* touches, Event* event)
 {  
-
 	return true; // Phải trả về True
 }
 
-void HelloWorld::onTouchMoved(Touch* touches, Event* event)
+void GamePlayScene::onTouchMoved(Touch* touches, Event* event)
 {  
 
 // Không xử lý gì ở đây
 
 }
 
-void HelloWorld::onTouchEnded(Touch* touches, Event* event)
+void GamePlayScene::onTouchEnded(Touch* touches, Event* event)
 {
 	for (int i = 0; i < ItemManager::getInstacce()->getItems().size(); i++)
 	{
@@ -202,14 +242,17 @@ void HelloWorld::onTouchEnded(Touch* touches, Event* event)
 		return;
 	}
 
-	Player::getInstance()->stopAllActions();
-	Player::getInstance()->attack();
+	//Player::getInstance()->stopAllActions();
 
-	auto bullet = BulletManager::create(Player::getInstance()->getBulletType());
-	bullet->move(touches, Player::getInstance(), this);
+	if(Player::getInstance()->isFinishAction())
+	{
+		Player::getInstance()->attack(touches);
+		//auto bullet = BulletManager::create(Player::getInstance()->getBulletType());
+		//bullet->move(touches->getLocation(), Player::getInstance(), Player::getInstance()->getParent());
+	}		
 }
 
-bool HelloWorld::onContactBegin(const PhysicsContact& contact)
+bool GamePlayScene::onContactBegin(const PhysicsContact& contact)
 {
 	/*if((contact.getShapeA()->getBody()->getCollisionBitmask() & contact.getShapeB()->getBody()->getCategoryBitmask() == 0) 
 		|| (contact.getShapeB()->getBody()->getCollisionBitmask() & contact.getShapeA()->getBody()->getCategoryBitmask()) == 0)
@@ -261,7 +304,7 @@ bool HelloWorld::onContactBegin(const PhysicsContact& contact)
 	return true;
 }
 	
-void HelloWorld::Pause(Ref *pSender)
+void GamePlayScene::Pause(Ref *pSender)
 {	
 	Director::sharedDirector()->pause();
 	Director::getInstance()->getEventDispatcher()->pauseEventListenersForTarget(this);
@@ -270,17 +313,17 @@ void HelloWorld::Pause(Ref *pSender)
 	this->addChild(m_sPause, 100);
 }
 
-void HelloWorld::EnablePausebt()
+void GamePlayScene::EnablePausebt()
 {
 	m_mnPause->setEnabled(true);
 }
 
-void HelloWorld::DisablePausebt()
+void GamePlayScene::DisablePausebt()
 {
 	m_mnPause->setEnabled(false);
 }
 
-void HelloWorld::onBackPressed()
+void GamePlayScene::onBackPressed()
 {
 #if CC_TARGET_PLATFORM_PLATFORM == CC_PLATFORM_WP8
 	PlatformCenter::callFunc("exit");

@@ -14,6 +14,8 @@ class Monster : public Sprite
 	public:
 		Monster();
 
+		static int getTotalCurrentMonster();
+
 		int getHP()
 		{
 			return m_HP;
@@ -47,14 +49,17 @@ class Monster : public Sprite
 		virtual bool attacked(Bullet* bullet);
 		virtual bool attackedByLightingCircle();
 		virtual void destroyed();		 
+		virtual void addBody();
 		virtual Item* dropItem();
+		virtual void setTimeDelay(float time);
 		
 	protected:
 		int m_HP, m_damage;	
-		float m_speed;
+		float m_speed, m_timeDelay;
 		bool m_isDieing; //biến này = true khi dang chay animation die, tranh truong hop dang chay animation die thi dan ban trung animation bi cancel
 		Animate *m_walk, *m_die, *m_done, *m_stun;
 		MoveTo* m_move;
+		static int m_totalCurrentMonster;
 };
 
 class Monster1 : public Monster
@@ -63,8 +68,6 @@ public:
 	Monster1();
 	virtual void walk();
 	virtual void die();
-	virtual bool attacked(Bullet* bullet);
-	virtual bool attackedByLightingCircle();
 	virtual void done();	
 
 private:
@@ -76,8 +79,6 @@ public:
 	Monster2();
 	virtual void walk();
 	virtual void die();
-	virtual bool attacked(Bullet* bullet);
-	virtual bool attackedByLightingCircle();
 	virtual void done();	
 
 private:
@@ -89,8 +90,6 @@ public:
 	Monster3();
 	virtual void walk();
 	virtual void die();
-	virtual bool attacked(Bullet* bullet);
-	virtual bool attackedByLightingCircle();
 	virtual void done();	
 
 private:
@@ -102,8 +101,6 @@ public:
 	Monster4();
 	virtual void walk();
 	virtual void die();
-	virtual bool attacked(Bullet* bullet);
-	virtual bool attackedByLightingCircle();
 	virtual void done();	
 
 private:
@@ -115,8 +112,6 @@ public:
 	Monster5();
 	virtual void walk();
 	virtual void die();
-	virtual bool attacked(Bullet* bullet);
-	virtual bool attackedByLightingCircle();
 	virtual void done();	
 
 private:

@@ -3,6 +3,8 @@
 #include "Define.h"
 #include "Item.h"
 
+int Monster::m_totalCurrentMonster = 0;
+
 #pragma region - Monster 1 -
 
 Monster1::Monster1()
@@ -11,9 +13,11 @@ Monster1::Monster1()
 	this->setTag(MONSTER_TAG);
 
 	m_isDieing = false;
-	m_HP = 3;
+	m_HP = 1;
 	m_speed = 100;
 	m_damage = 1;
+
+	Monster::addBody();
 }
 
 void Monster1::walk()
@@ -34,15 +38,6 @@ void Monster1::done()
 	Monster::done();
 }
 
-bool Monster1::attacked(Bullet* bullet)
-{
-	return Monster::attacked(bullet);
-}
-
-bool Monster1::attackedByLightingCircle()
-{
-	return Monster::attackedByLightingCircle();
-}
 #pragma endregion
 
 #pragma region - Monster 2 -
@@ -53,23 +48,21 @@ Monster2::Monster2()
 	this->setTag(MONSTER_TAG);
 
 	m_isDieing = false;
-	m_HP = 3;
-	m_speed = 100;
+	m_HP = 2;
+	m_speed = 90;
 	m_damage = 1;
-	m_walk = Monster2Action::getInstance()->getMonsterWalkAnimate()->clone();
+
+	Monster::addBody();
 }
 
 void Monster2::walk()
 {
-	m_move = MoveTo::create(this->getPosition().x / m_speed, Vec2(0, this->getPosition().y));
-	CallFunc* func = CallFunc::create(CC_CALLBACK_0(Monster2::done, this));
-	this->runAction(RepeatForever::create(m_walk));
-	this->runAction(Sequence::create(m_move, func, nullptr));
+	m_walk = Monster2Action::getInstance()->getMonsterWalkAnimate()->clone();	
+	Monster::walk();
 }
 
 void Monster2::die()
 {
-	m_die = Monster1Action::getInstance()->getMonsterDieAnimate()->clone();
 	Monster::die();
 }
 
@@ -79,86 +72,77 @@ void Monster2::done()
 	Monster::done();
 }
 
-bool Monster2::attacked(Bullet* bullet)
-{
-	return Monster::attacked(bullet);
-}
-
-bool Monster2::attackedByLightingCircle()
-{
-	return Monster::attackedByLightingCircle();
-}
-
 #pragma endregion
 
 #pragma region - Monster 3 -
 Monster3::Monster3()
 {
+	this->initWithFile("Monster1_Stand.png");	
+	this->setTag(MONSTER_TAG);
 
+	m_isDieing = false;
+	m_HP = 3;
+	m_speed = 80;
+	m_damage = 1;	
+
+	Monster::addBody();
 }
 
 void Monster3::walk()
 {
-
+	m_walk = Monster3Action::getInstance()->getMonsterWalkAnimate()->clone();
+	Monster::walk();
 }
 
 void Monster3::die()
 {
-
+	Monster::die();
 }
 
 void Monster3::done()
 {
-	
+	Monster::done();
 }
 
-bool Monster3::attacked(Bullet* bullet)
-{
-	return Monster::attacked(bullet);
-}
-
-bool Monster3::attackedByLightingCircle()
-{
-	return Monster::attackedByLightingCircle();
-}
 #pragma endregion
 
 #pragma region - Monster 4 -
 Monster4::Monster4()
 {
+	this->initWithFile("Monster1_Stand.png");	
+	this->setTag(MONSTER_TAG);
 
+	m_isDieing = false;
+	m_HP = 4;
+	m_speed = 50;
+	m_damage = 1;
+
+	Monster::addBody();
 }
 
 void Monster4::walk()
 {
-
+	m_walk = Monster4Action::getInstance()->getMonsterWalkAnimate()->clone();
+	Monster::walk();
 }
 
 void Monster4::die()
 {
-
+	m_die = Monster4Action::getInstance()->getMonsterDieAnimate()->clone();
+	Monster::die();
 }
 
 void Monster4::done()
 {
-	
+	Monster::done();
 }
 
-bool Monster4::attacked(Bullet* bullet)
-{
-	return Monster::attacked(bullet);
-}
-
-bool Monster4::attackedByLightingCircle()
-{
-	return Monster::attackedByLightingCircle();
-}
 #pragma endregion
 
 #pragma region - Monster 5 -
 Monster5::Monster5()
 {
-
+	Monster::addBody();
 }
 
 void Monster5::walk()
@@ -176,21 +160,17 @@ void Monster5::done()
 	
 }
 
-bool Monster5::attacked(Bullet* bullet)
-{
-	return Monster::attacked(bullet);
-}
-
-bool Monster5::attackedByLightingCircle()
-{
-	return Monster::attackedByLightingCircle();
-}
 #pragma endregion
 
 #pragma region - Monster -
 Monster::Monster()
 {
+	m_timeDelay = 0;
+	m_totalCurrentMonster++;
 
+
+	m_walk = m_die = m_done = nullptr;
+	addBody();
 }
 
 void Monster::walk()
@@ -198,7 +178,7 @@ void Monster::walk()
 	m_move = MoveTo::create(this->getPosition().x/ m_speed, Vec2(0, this->getPosition().y));
 	CallFunc* func = CallFunc::create(CC_CALLBACK_0(Monster::done, this));
 	this->runAction(RepeatForever::create(m_walk));
-	this->runAction(Sequence::create(m_move, func, nullptr));
+	this->runAction(Sequence::create(DelayTime::create(m_timeDelay) ,m_move, func, nullptr));
 }
 
 void Monster::die()
@@ -207,12 +187,13 @@ void Monster::die()
 	this->setPosition(Vec2(this->getPosition().x, this->getPosition().y - this->getContentSize().height / 2 + this->getContentSize().width / 2));
 	this->stopAllActions();
 
-	CallFunc *func = CallFunc::create(CC_CALLBACK_0(Monster1::destroyed, this));
+	CallFunc *func = CallFunc::create(CC_CALLBACK_0(Monster::destroyed, this));
 
 	CallFunc *fun2 = CallFunc::create([&] 
 	{
 		Player::getInstance()->setSouls(Player::getInstance()->getSouls() + 1);
 		auto item = dropItem();
+
 		if(item != nullptr)
 		{
 			item->setPosition(this->getPosition());
@@ -223,7 +204,11 @@ void Monster::die()
 	});
 
 	m_isDieing = true;
-	this->runAction(Sequence::create(m_die, func, fun2, nullptr));
+
+	if(m_die != nullptr)
+		this->runAction(Sequence::create(m_die, func, fun2, nullptr));
+	else
+		this->runAction(Sequence::create(func, fun2, nullptr));
 }
 
 void Monster::freezed()
@@ -252,8 +237,7 @@ void Monster::burned()
 	ParticleSystemQuad *prtBurning = ParticleSystemQuad::create("burning.plist"); //particle tu tao
 	//ParticleFire *prtBurning = ParticleFire::create();//particle cua cocos
 	prtBurning->setPosition(this->getContentSize().width / 2, this->getContentSize().height / 2);
-	//prtBurning->setScaleX(0.25);
-	//prtBurning->setScaleY(0.25);
+
 	prtBurning->setLife(0.01);
 	this->addChild(prtBurning);
 	CallFuncN* func = CallFuncN::create([&, prtBurning](Node* monster)
@@ -270,7 +254,7 @@ void Monster::done()
 	this->stopAllActions();
 	CallFunc *func = CallFunc::create(CC_CALLBACK_0(Monster::destroyed, this));
 	CallFunc *func2 = CallFunc::create([&]{Player::getInstance()->attacked(this->m_damage); });
-	this->runAction(Sequence::create(m_done, func2, func, nullptr));
+	this->runAction(Sequence::create(func2, func, nullptr));
 	this->destroyed();
 }
 
@@ -346,6 +330,7 @@ bool Monster::attackedByLightingCircle()
 
 void Monster::destroyed()
 {
+	m_totalCurrentMonster--;
 	this->stopAllActions();
 	this->removeFromParentAndCleanup(true);
 }
@@ -362,6 +347,9 @@ Item* Monster::dropItem()
 	- 3 tia: 5% - 56 66 76 86 96 || (65 - 69)
 	- Heal:  +1 HP: 5%  (70 - 74)
 	*/
+	int goon = rand() % 2;
+	if(goon == 0)
+		return nullptr;
 
 	int num = rand() % 100; // 0 -> 99
 
@@ -403,5 +391,24 @@ Item* Monster::dropItem()
 	}
 	
 	return nullptr;
+}
+
+void Monster::setTimeDelay(float time)
+{
+	m_timeDelay = time;
+}
+
+int Monster::getTotalCurrentMonster()
+{
+	return m_totalCurrentMonster;
+}
+
+void Monster::addBody()
+{
+	auto targetBody = PhysicsBody::createBox(Size(this->getContentSize().width * 0.9f, this->getContentSize().height * 0.9f), PhysicsMaterial(0.1f, 1.0f, 0.0f));
+	targetBody->setContactTestBitmask(MONSTER_CONTACT_TEST_BITMASK);
+	targetBody->setCollisionBitmask(MONSTER_COLLISION_BITMASK);
+	targetBody->setCategoryBitmask(MONSTER_CONTACT_CATEGORY);	
+	this->setPhysicsBody(targetBody);
 }
 #pragma endregion

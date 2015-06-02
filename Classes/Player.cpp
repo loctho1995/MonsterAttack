@@ -78,15 +78,23 @@ void Player::load()
 	m_isSplit = false;
 }
 
-void Player::attack()
+void Player::attack(Touch* touches)
 {
 	//lambda function 
 	//http://www.stdio.vn/articles/read/56-c11-lambda
-	auto func = CallFunc::create([]
+
+	Vec2 touch = Vec2(touches->getLocationInView().x, touches->getLocationInView().y);
+
+	auto func = CallFunc::create([&, touch]
 	{ 
+		auto bullet = BulletManager::create(m_instance->getBulletType());
+		bullet->move(touch, m_instance, m_instance->getParent());		
+
 		m_instance->initWithFile("Player.png");
+		m_instance->m_isFinishAction = true;
 	});
 
+	m_instance->m_isFinishAction = false;
 	m_instance->runAction(Sequence::create(PlayerAction::getInstance()->getPlayerActtackAnimate(), func ,nullptr));
 }
 
@@ -101,4 +109,9 @@ void Player::attacked(int damage)
 void Player::die()
 {
 	m_isGameOver = true;
+}
+
+bool Player::isFinishAction()
+{
+	return m_isFinishAction;
 }

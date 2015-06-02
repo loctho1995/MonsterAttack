@@ -46,7 +46,7 @@ public:
 	}
 
 	//move(touches, sprite, layer);
-	void move(cocos2d::Touch* touch, cocos2d::Sprite* sprite, cocos2d::Layer* layer);
+	void move(cocos2d::Vec2 touch, cocos2d::Sprite* sprite, cocos2d::Node* layer);
 };
 
 class Normal: public Bullet
@@ -312,6 +312,6 @@ public:
 	}
 	
 	//ham nay dung de xac dinh diem dat dan truoc khi ban(return ve vi tri dat dan truoc khi ban)
-	static Point findPosition(Sprite* sprite, Touch* touch);
+	static Point findPosition(Sprite* sprite, cocos2d::Vec2 touch);
 };
 #endif
