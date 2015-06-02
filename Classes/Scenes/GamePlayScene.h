@@ -4,7 +4,7 @@
 #include "cocos2d.h"
 #include "SimpleAudioEngine.h"
 #include "State.h"
-
+#include "CallBackWP.h"
 
 USING_NS_CC;
 

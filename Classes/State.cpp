@@ -40,7 +40,7 @@ bool State::isRunning()
 
 Monster* State::createMonster(int level, float delay, Node* parent)
 {
-	Monster *target;
+	Monster *target = nullptr;
 	auto m_winSize = Director::getInstance()->getVisibleSize();
 
 	switch(level)

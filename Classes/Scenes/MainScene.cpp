@@ -1,4 +1,5 @@
 #include "Scenes/MainScene.h"
+#include "CallBackWP.h"
 
 USING_NS_CC;
 

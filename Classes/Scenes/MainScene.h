@@ -7,7 +7,7 @@
 #include "Scenes/HelpScene.h"
 #include "Mission.h"
 #include "Scenes/ExitScene.h"
-
+#include "CallBackWP.h"
 
 USING_NS_CC;
 

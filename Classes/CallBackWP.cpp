@@ -15,11 +15,13 @@ namespace cocos2d
 
 	Platform::String^ PlatformCenter::callFunc(Platform::String^ mess)
 	{
+		/*
 		if(mess == "landscape")
 			Director::getInstance()->getOpenGLView()->setDesignResolutionSize(800, 480, ResolutionPolicy::SHOW_ALL);
 
 		if(mess == "portrait")
 			Director::getInstance()->getOpenGLView()->setDesignResolutionSize(480, 800, ResolutionPolicy::SHOW_ALL);
+			*/
 
 		return m_callBackPtr->CallFunc(mess);
 	}

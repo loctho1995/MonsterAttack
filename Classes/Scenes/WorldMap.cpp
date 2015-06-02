@@ -1,6 +1,7 @@
 #include "WorldMap.h"
 #include "Player.h"
 #include "GamePlayScene.h"
+#include "CallBackWP.h"
 
 USING_NS_CC;
 
@@ -120,7 +121,7 @@ void WorldMap::Back(Ref *pSender)
 
 void WorldMap::level(Ref *pSender)
 {
-	Scene *ingame ;
+	Scene *ingame = nullptr;
 
 	switch(((Node*)pSender)->getTag())
 	{
