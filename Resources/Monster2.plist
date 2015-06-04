@@ -7,43 +7,71 @@
 			<key>Monster2WalkAnimation_1.png</key>
 			<dict>
 				<key>frame</key>
-				<string>{{0,140},{57,69}}</string>
+				<string>{{149,0},{35,66}}</string>
 				<key>offset</key>
 				<string>{0,0}</string>
 				<key>rotated</key>
 				<false/>
 				<key>sourceColorRect</key>
-				<string>{{0,0},{57,69}}</string>
+				<string>{{0,0},{35,66}}</string>
 				<key>sourceSize</key>
-				<string>{57,69}</string>
+				<string>{35,66}</string>
 			</dict>
 
 			<key>Monster2WalkAnimation_2.png</key>
 			<dict>
 				<key>frame</key>
-				<string>{{0,70},{61,69}}</string>
+				<string>{{113,0},{35,66}}</string>
 				<key>offset</key>
 				<string>{0,0}</string>
 				<key>rotated</key>
 				<false/>
 				<key>sourceColorRect</key>
-				<string>{{0,0},{61,69}}</string>
+				<string>{{0,0},{35,66}}</string>
 				<key>sourceSize</key>
-				<string>{61,69}</string>
+				<string>{35,66}</string>
 			</dict>
 
 			<key>Monster2WalkAnimation_3.png</key>
 			<dict>
 				<key>frame</key>
-				<string>{{0,0},{63,69}}</string>
+				<string>{{76,0},{36,66}}</string>
 				<key>offset</key>
 				<string>{0,0}</string>
 				<key>rotated</key>
 				<false/>
 				<key>sourceColorRect</key>
-				<string>{{0,0},{63,69}}</string>
+				<string>{{0,0},{36,66}}</string>
 				<key>sourceSize</key>
-				<string>{63,69}</string>
+				<string>{36,66}</string>
+			</dict>
+
+			<key>Monster2WalkAnimation_4.png</key>
+			<dict>
+				<key>frame</key>
+				<string>{{38,0},{37,66}}</string>
+				<key>offset</key>
+				<string>{0,0}</string>
+				<key>rotated</key>
+				<false/>
+				<key>sourceColorRect</key>
+				<string>{{0,0},{37,66}}</string>
+				<key>sourceSize</key>
+				<string>{37,66}</string>
+			</dict>
+
+			<key>Monster2WalkAnimation_5.png</key>
+			<dict>
+				<key>frame</key>
+				<string>{{0,0},{37,65}}</string>
+				<key>offset</key>
+				<string>{0,0}</string>
+				<key>rotated</key>
+				<false/>
+				<key>sourceColorRect</key>
+				<string>{{0,0},{37,65}}</string>
+				<key>sourceSize</key>
+				<string>{37,65}</string>
 			</dict>
 
 		</dict>
@@ -53,7 +81,7 @@
 			<key>format</key>
 			<integer>2</integer>
 			<key>size</key>
-			<string>{64,256}</string>
+			<string>{256,128}</string>
 			<key>textureFileName</key>
 			<string>Monster2.png</string>
 			</dict>

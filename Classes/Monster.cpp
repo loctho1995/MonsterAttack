@@ -9,7 +9,7 @@ int Monster::m_totalCurrentMonster = 0;
 
 Monster1::Monster1()
 {
-	this->initWithFile("Monster1_Stand.png");
+	this->initWithSpriteFrameName("Monster1WalkAnimation_1.png");
 	this->setTag(MONSTER_TAG);
 
 	m_isDieing = false;
@@ -28,13 +28,13 @@ void Monster1::walk()
 
 void Monster1::die()
 {
-	m_die = Monster1Action::getInstance()->getMonsterDieAnimate()->clone();
+	//m_die = Monster1Action::getInstance()->getMonsterDieAnimate()->clone();
 	Monster::die();
 }
 
 void Monster1::done()
 {
-	m_done = Monster1Action::getInstance()->getMonsterDoneAnimate()->clone();
+	//m_done = Monster1Action::getInstance()->getMonsterDoneAnimate()->clone();
 	Monster::done();
 }
 
@@ -44,7 +44,7 @@ void Monster1::done()
 
 Monster2::Monster2()
 {
-	this->initWithFile("Monster1_Stand.png");	
+	this->initWithSpriteFrameName("Monster2WalkAnimation_1.png");	
 	this->setTag(MONSTER_TAG);
 
 	m_isDieing = false;
@@ -68,7 +68,7 @@ void Monster2::die()
 
 void Monster2::done()
 {	
-	m_done = Monster1Action::getInstance()->getMonsterDoneAnimate()->clone();
+	//m_done = Monster1Action::getInstance()->getMonsterDoneAnimate()->clone();
 	Monster::done();
 }
 

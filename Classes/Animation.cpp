@@ -88,65 +88,6 @@ void Monster1Action :: loadAnimation(SpriteFrameCache* spriteFrameCache)
 	m_walkAnimate = Animate::create(Animation::createWithSpriteFrames(aniFrame, MONSTER1_WALK_ANIMATION_TIME));
 	m_walkAnimate->retain();
 #pragma endregion
-
-#pragma region - MONSTER1 DIE - 
-	aniFrame.clear(); //dm d clear lam 2 action gop lam 1
-	//2 cai duoi chua co sprite
-	for (int i = 1; i <= MONSTER1_DIE_ANIMATION_FRAMES; i++) // Vong lap tao sprite attack
-	{
-		try
-		{
-			sprintf(str,"Monster1DieAnimation_%d.png",i);
-			auto frame = spriteFrameCache->getSpriteFrameByName(str);
-			aniFrame.pushBack(frame);
-		}
-		catch (String exc)
-		{
-			break;
-		}
-	}
-	m_dieAnimate = Animate::create(Monster1Action::createWithSpriteFrames(aniFrame, MONSTER1_DIE_ANIMATION_TIME));
-	m_dieAnimate->retain();
-#pragma endregion
-
-#pragma region - MONSTER1 freezed -
-	for (int i = 1; i < MONSTER1_STUN_ANIMATION_FRAMES; i++) // Vong lap tao sprite attack
-	{
-		try
-		{
-			sprintf(str,"Monster1StunAnimation_%d.png",i);
-			auto frame = spriteFrameCache->getSpriteFrameByName(str);
-			aniFrame.pushBack(frame);
-		}
-		catch (String exc)
-		{
-			break;
-		}
-	}
-	m_stunAnimate = Animate::create(Monster1Action::createWithSpriteFrames(aniFrame, 0,1));
-	m_stunAnimate->retain();
-	#pragma endregion
-
-#pragma region -MONSTER1 DONE- 
-	// DONE Animate
-	aniFrame.clear();
-	 for(int i = 1; i <= MONSTER1_DONE_ANIMATION_FRAMES; i++) // Vong lap tao sprite attack
-	 {
-		 try
-		 {
-			 sprintf(str,"Monster1DoneAnimation_%d.png",i);
-			 auto frame = spriteFrameCache->getSpriteFrameByName(str);
-			 frame->setOffset(Vec2::ZERO);
-			 aniFrame.pushBack(frame);
-		 }
-		 catch (String exc)
-		 {
-			 return;
-		 }
-	 }
-	 m_doneAnimate = Animate::create(Monster1Action::createWithSpriteFrames(aniFrame, MONSTER1_DONE_ANIMATION_TIME));
-	 m_doneAnimate->retain();
-#pragma endregion
 }
 
 Monster2Action::Monster2Action()

@@ -4,270 +4,32 @@
 	<dict>
 		<key>frames</key>
 		<dict>
-			<key>Monster1DieAnimation_1.png</key>
-			<dict>
-				<key>frame</key>
-				<string>{{0,958},{98,37}}</string>
-				<key>offset</key>
-				<string>{0,0}</string>
-				<key>rotated</key>
-				<false/>
-				<key>sourceColorRect</key>
-				<string>{{0,0},{98,37}}</string>
-				<key>sourceSize</key>
-				<string>{98,37}</string>
-			</dict>
-
-			<key>Monster1DieAnimation_2.png</key>
-			<dict>
-				<key>frame</key>
-				<string>{{180,735},{88,53}}</string>
-				<key>offset</key>
-				<string>{0,0}</string>
-				<key>rotated</key>
-				<false/>
-				<key>sourceColorRect</key>
-				<string>{{0,0},{88,53}}</string>
-				<key>sourceSize</key>
-				<string>{88,53}</string>
-			</dict>
-
-			<key>Monster1DieAnimation_3.png</key>
-			<dict>
-				<key>frame</key>
-				<string>{{99,958},{93,61}}</string>
-				<key>offset</key>
-				<string>{0,0}</string>
-				<key>rotated</key>
-				<false/>
-				<key>sourceColorRect</key>
-				<string>{{0,0},{93,61}}</string>
-				<key>sourceSize</key>
-				<string>{93,61}</string>
-			</dict>
-
-			<key>Monster1DoneAnimation_1.png</key>
-			<dict>
-				<key>frame</key>
-				<string>{{180,479},{176,255}}</string>
-				<key>offset</key>
-				<string>{0,0}</string>
-				<key>rotated</key>
-				<false/>
-				<key>sourceColorRect</key>
-				<string>{{0,0},{176,255}}</string>
-				<key>sourceSize</key>
-				<string>{176,255}</string>
-			</dict>
-
-			<key>Monster1DoneAnimation_2.png</key>
-			<dict>
-				<key>frame</key>
-				<string>{{189,0},{155,478}}</string>
-				<key>offset</key>
-				<string>{0,0}</string>
-				<key>rotated</key>
-				<false/>
-				<key>sourceColorRect</key>
-				<string>{{0,0},{155,478}}</string>
-				<key>sourceSize</key>
-				<string>{155,478}</string>
-			</dict>
-
-			<key>Monster1DoneAnimation_3.png</key>
-			<dict>
-				<key>frame</key>
-				<string>{{0,0},{188,478}}</string>
-				<key>offset</key>
-				<string>{0,0}</string>
-				<key>rotated</key>
-				<false/>
-				<key>sourceColorRect</key>
-				<string>{{0,0},{188,478}}</string>
-				<key>sourceSize</key>
-				<string>{188,478}</string>
-			</dict>
-
-			<key>Monster1DoneAnimation_4.png</key>
-			<dict>
-				<key>frame</key>
-				<string>{{0,479},{179,478}}</string>
-				<key>offset</key>
-				<string>{0,0}</string>
-				<key>rotated</key>
-				<false/>
-				<key>sourceColorRect</key>
-				<string>{{0,0},{179,478}}</string>
-				<key>sourceSize</key>
-				<string>{179,478}</string>
-			</dict>
-
-			<key>Monster1DoneAnimation_5.png</key>
-			<dict>
-				<key>frame</key>
-				<string>{{476,475},{95,397}}</string>
-				<key>offset</key>
-				<string>{0,0}</string>
-				<key>rotated</key>
-				<false/>
-				<key>sourceColorRect</key>
-				<string>{{0,0},{95,397}}</string>
-				<key>sourceSize</key>
-				<string>{95,480}</string>
-			</dict>
-
-			<key>Monster1DoneAnimation_6.png</key>
-			<dict>
-				<key>frame</key>
-				<string>{{495,0},{79,368}}</string>
-				<key>offset</key>
-				<string>{0,0}</string>
-				<key>rotated</key>
-				<false/>
-				<key>sourceColorRect</key>
-				<string>{{0,0},{79,368}}</string>
-				<key>sourceSize</key>
-				<string>{103,480}</string>
-			</dict>
-
-			<key>Monster1DoneAnimation_7.png</key>
-			<dict>
-				<key>frame</key>
-				<string>{{345,0},{149,474}}</string>
-				<key>offset</key>
-				<string>{0,0}</string>
-				<key>rotated</key>
-				<false/>
-				<key>sourceColorRect</key>
-				<string>{{0,0},{149,474}}</string>
-				<key>sourceSize</key>
-				<string>{149,474}</string>
-			</dict>
-
-			<key>Monster1DoneAnimation_8.png</key>
-			<dict>
-				<key>frame</key>
-				<string>{{357,475},{118,463}}</string>
-				<key>offset</key>
-				<string>{0,0}</string>
-				<key>rotated</key>
-				<false/>
-				<key>sourceColorRect</key>
-				<string>{{0,0},{118,463}}</string>
-				<key>sourceSize</key>
-				<string>{118,480}</string>
-			</dict>
-
-			<key>Monster1StunAnimation_1.png</key>
-			<dict>
-				<key>frame</key>
-				<string>{{495,369},{61,85}}</string>
-				<key>offset</key>
-				<string>{0,0}</string>
-				<key>rotated</key>
-				<false/>
-				<key>sourceColorRect</key>
-				<string>{{0,0},{61,85}}</string>
-				<key>sourceSize</key>
-				<string>{61,85}</string>
-			</dict>
-
-			<key>Monster1StunAnimation_2.png</key>
-			<dict>
-				<key>frame</key>
-				<string>{{193,880},{66,80}}</string>
-				<key>offset</key>
-				<string>{0,0}</string>
-				<key>rotated</key>
-				<false/>
-				<key>sourceColorRect</key>
-				<string>{{0,0},{66,80}}</string>
-				<key>sourceSize</key>
-				<string>{66,80}</string>
-			</dict>
-
-			<key>Monster1StunAnimation_3.png</key>
-			<dict>
-				<key>frame</key>
-				<string>{{557,369},{56,86}}</string>
-				<key>offset</key>
-				<string>{0,0}</string>
-				<key>rotated</key>
-				<false/>
-				<key>sourceColorRect</key>
-				<string>{{0,0},{56,86}}</string>
-				<key>sourceSize</key>
-				<string>{56,86}</string>
-			</dict>
-
-			<key>Monster1StunAnimation_4.png</key>
-			<dict>
-				<key>frame</key>
-				<string>{{539,873},{57,85}}</string>
-				<key>offset</key>
-				<string>{0,0}</string>
-				<key>rotated</key>
-				<false/>
-				<key>sourceColorRect</key>
-				<string>{{0,0},{57,85}}</string>
-				<key>sourceSize</key>
-				<string>{57,85}</string>
-			</dict>
-
 			<key>Monster1WalkAnimation_1.png</key>
 			<dict>
 				<key>frame</key>
-				<string>{{260,789},{64,91}}</string>
+				<string>{{0,36},{71,35}}</string>
 				<key>offset</key>
 				<string>{0,0}</string>
 				<key>rotated</key>
 				<false/>
 				<key>sourceColorRect</key>
-				<string>{{0,0},{64,91}}</string>
+				<string>{{0,0},{71,35}}</string>
 				<key>sourceSize</key>
-				<string>{64,91}</string>
+				<string>{71,35}</string>
 			</dict>
 
 			<key>Monster1WalkAnimation_2.png</key>
 			<dict>
 				<key>frame</key>
-				<string>{{180,789},{77,90}}</string>
+				<string>{{0,0},{72,35}}</string>
 				<key>offset</key>
 				<string>{0,0}</string>
 				<key>rotated</key>
 				<false/>
 				<key>sourceColorRect</key>
-				<string>{{0,0},{77,90}}</string>
+				<string>{{0,0},{72,35}}</string>
 				<key>sourceSize</key>
-				<string>{77,90}</string>
-			</dict>
-
-			<key>Monster1WalkAnimation_3.png</key>
-			<dict>
-				<key>frame</key>
-				<string>{{476,873},{62,92}}</string>
-				<key>offset</key>
-				<string>{0,0}</string>
-				<key>rotated</key>
-				<false/>
-				<key>sourceColorRect</key>
-				<string>{{0,0},{62,92}}</string>
-				<key>sourceSize</key>
-				<string>{62,92}</string>
-			</dict>
-
-			<key>Monster1_Stand.png</key>
-			<dict>
-				<key>frame</key>
-				<string>{{260,881},{62,89}}</string>
-				<key>offset</key>
-				<string>{0,0}</string>
-				<key>rotated</key>
-				<false/>
-				<key>sourceColorRect</key>
-				<string>{{0,0},{62,89}}</string>
-				<key>sourceSize</key>
-				<string>{62,89}</string>
+				<string>{72,35}</string>
 			</dict>
 
 		</dict>
@@ -277,7 +39,7 @@
 			<key>format</key>
 			<integer>2</integer>
 			<key>size</key>
-			<string>{1024,1024}</string>
+			<string>{128,128}</string>
 			<key>textureFileName</key>
 			<string>Monster1.png</string>
 			</dict>
