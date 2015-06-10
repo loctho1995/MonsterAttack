@@ -1,6 +1,8 @@
 #include "AppDelegate.h"
 #include "Scenes\GamePlayScene.h"
 #include "Scenes\LogoScene.h"
+#include "Scenes\WinScene.h"
+#include "Scenes\LoseScene.h"
 
 USING_NS_CC;
 
@@ -42,6 +44,8 @@ bool AppDelegate::applicationDidFinishLaunching() {
 
     // create a scene. it's an autorelease object
     //auto scene = HelloWorld::createScene();
+	//auto scene = Win::createScene();
+	//auto scene = Lose::createScene();
 	auto scene = LogoScreen::createScene();
     // run
     director->runWithScene(scene);

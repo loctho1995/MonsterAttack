@@ -1,15 +1,14 @@
-#ifndef __PAUSE_SCENE_H__
-#define __PAUSE_SCENE_H__
+#ifndef __WIN_SCENE_H__
+#define __WIN_SCENE_H__
 
 #include "cocos2d.h"
 #include "MainScene.h"
 #include "WorldMap.h"
 #include "Scenes\GamePlayScene.h"
-#include "Player.h"
 
 USING_NS_CC;
 
-class Pause : public cocos2d::Layer
+class Win : public cocos2d::Layer
 {
 public:
 
@@ -17,12 +16,11 @@ public:
 
     virtual bool init();
 
-	void Resume(Ref* pSender);
+	void Next(Ref* pSender);
 	void Restart(Ref *pSender);
-	void Selectlvl(Ref* pSender);
 	void BacktoMenu(Ref *pSender);
 	
-	CREATE_FUNC(Pause);
+	CREATE_FUNC(Win);
 };
 
-#endif // __ABOUT_SCENE_H__
+#endif // __WIN_SCENE_H__

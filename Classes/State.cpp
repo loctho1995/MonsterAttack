@@ -97,7 +97,7 @@ Monster* State::createMonster(int level, float delay, Node* parent)
 	target->setPosition(Point(m_winSize.width + (target->getContentSize().width/2) + 10, actualY));
 	target->setTimeDelay(delay);	
 	target->walk();
-	parent->addChild(target);
+	parent->addChild(target,0);
 	return target;
 }
 

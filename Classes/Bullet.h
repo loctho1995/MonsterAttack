@@ -45,6 +45,13 @@ public:
 		return this->m_bullettype;
 	}
 
+	virtual void done()
+	{
+		prt->removeFromParentAndCleanup(true);
+		this->removeAllChildren();
+		this->removeFromParentAndCleanup(true);
+	}
+
 	//move(touches, sprite, layer);
 	void move(cocos2d::Vec2 touch, cocos2d::Sprite* sprite, cocos2d::Node* layer);
 };
@@ -86,7 +93,6 @@ public:
 	{
 		return this->m_bullettype;
 	}
-
 	//virtual void move(cocos2d::Touch* touch);
 
 };

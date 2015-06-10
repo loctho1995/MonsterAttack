@@ -6,12 +6,15 @@
 #include "Define.h"
 #include "Bullet.h"
 #include "Scenes/PauseScene.h"
+#include "Scenes\WinScene.h"
+#include "Scenes\LoseScene.h"
 #include "State.h"
 
 USING_NS_CC;
 using namespace std;
 
 Menu* GamePlayScene::m_mnPause = nullptr;
+int GamePlayScene::m_State = 0;
 
 Scene* GamePlayScene::createScene(int state)
 {
@@ -21,12 +24,12 @@ Scene* GamePlayScene::createScene(int state)
 	//scene->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
 
 	scene->getPhysicsWorld()->setGravity(Vect(0.0f, 0.0f));
-	scene->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
+	//scene->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
 
     // 'layer' is an autorelease object
     auto layer = GamePlayScene::create();
 	layer->setState(state);
-
+	m_State = state;
     // add layer as a child to scene
     scene->addChild(layer);
 
@@ -47,7 +50,7 @@ bool GamePlayScene::init()
     }
 #if CC_TARGET_PLATFORM != CC_PLATFORM_WP8
 #else
-	PlatformCenter::callFunc("landscape");
+	//PlatformCenter::callFunc("landscape");
 #endif
 	srand(time(0));
 	m_timeWave = WAVE_TIME;
@@ -61,6 +64,8 @@ bool GamePlayScene::init()
 	//Tao hieu ung particle cho man hinh
 	ParticleSystemQuad *backGroundprt = ParticleSystemQuad::create("/BulletParticle/LeaveStorm.plist");
 	this->addChild(backGroundprt,200);
+
+	m_HP = new Sprite *[Player::getInstance()->getHP()];
 
 	//LoadData::loadData();
     m_winSize = Director::getInstance()->getVisibleSize(); 
@@ -94,7 +99,7 @@ bool GamePlayScene::init()
 	m_btPause->setScale(m_winSize.height / 10 / m_btPause->getContentSize().width);
 	m_mnPause = Menu::create(m_btPause, NULL);
 	m_mnPause->setPosition(0, 0);
-	m_btPause->setPosition(m_winSize.width - m_winSize.width / 10, m_winSize.height - m_winSize.height / 10);
+	m_btPause->setPosition(m_winSize.width - m_btPause->getContentSize().width/2, m_winSize.height - m_btPause->getContentSize().height/2);
 	this->addChild(m_mnPause);
 
 	//hinh next wave
@@ -114,7 +119,13 @@ bool GamePlayScene::init()
 	m_winGame->setVisible(false);
 	this->addChild(m_winGame);
 	
-	
+	//ve hp len man hinh
+	for(int i = 0; i < Player::getInstance()->getHP(); i++)
+	{
+		m_HP[i] = Sprite::create("HP.png");
+		m_HP[i]->setPosition(m_circle->getPosition().x + m_circle->getContentSize().height/2 + 10 + i*m_HP[i]->getContentSize().width/2, m_winSize.height- m_HP[i]->getContentSize().height/2);
+		this->addChild(m_HP[i]);
+	}
 
 	this->schedule( schedule_selector(GamePlayScene::gameLogic), 2.0f);
 
@@ -141,7 +152,11 @@ void GamePlayScene::gameLogic(float dt)
 {
 	if(m_isWinGame)
 	{
-		m_winGame->setVisible(true);
+		Director::sharedDirector()->pause();
+		Director::getInstance()->getEventDispatcher()->pauseEventListenersForTarget(this);
+		DisablePausebt();
+		Layer *m_win = Win::create();
+		this->addChild(m_win, 100);
 		return;
 	}
 
@@ -283,10 +298,35 @@ bool GamePlayScene::onContactBegin(const PhysicsContact& contact)
 
 	if ((tag == CIRCLE_TAG && tag1 == MONSTER_TAG) || (tag1 == CIRCLE_TAG && tag == MONSTER_TAG) )
 	{
+		if(Player::getInstance()->getHP() > 0)
+			m_HP[Player::getInstance()->getHP()-1]->removeFromParentAndCleanup(true);
+
 		if (tag == MONSTER_TAG)
+		{
 			((Monster*)sprite1)->done();
+			if(Player::getInstance()->attacked(((Monster*)sprite1)->getDamage()))
+			{
+				m_isLoseGame = true;
+				Director::sharedDirector()->pause();
+				Director::getInstance()->getEventDispatcher()->pauseEventListenersForTarget(this);
+				DisablePausebt();
+				Layer *m_lose = Lose::create();
+				this->addChild(m_lose, 100);
+			}
+		}
 		else
+		{
 			((Monster*)sprite2)->done();
+			if(Player::getInstance()->attacked(((Monster*)sprite2)->getDamage()))
+			{
+				m_isLoseGame = true;
+				Director::sharedDirector()->pause();
+				Director::getInstance()->getEventDispatcher()->pauseEventListenersForTarget(this);
+				DisablePausebt();
+				Layer *m_lose = Lose::create();
+				this->addChild(m_lose, 100);
+			}
+		}
 	}
 	
 	if((tag == MONSTER_TAG && tag1 == LIGHTINGCIRCLE_TAG) || (tag1 == MONSTER_TAG && tag == LIGHTINGCIRCLE_TAG))
@@ -321,6 +361,11 @@ void GamePlayScene::EnablePausebt()
 void GamePlayScene::DisablePausebt()
 {
 	m_mnPause->setEnabled(false);
+}
+
+int GamePlayScene::getState()
+{
+	return m_State;
 }
 
 void GamePlayScene::onBackPressed()

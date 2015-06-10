@@ -297,13 +297,7 @@ bool Monster::attacked(Bullet* bullet)
 	#pragma endregion
 	if(!bullet->isthrough())
 	{
-		/*if(bullet->isCleave())
-		{
-			((Lighting*)bullet)->createLightingCircle(this);
-			bullet->removeFromParentAndCleanup(true);
-		}
-		else*/
-			bullet->removeFromParentAndCleanup(true);
+		bullet->done();
 	}
 
 	if(m_HP <= 0)
@@ -411,4 +405,5 @@ void Monster::addBody()
 	targetBody->setCategoryBitmask(MONSTER_CONTACT_CATEGORY);	
 	this->setPhysicsBody(targetBody);
 }
+
 #pragma endregion

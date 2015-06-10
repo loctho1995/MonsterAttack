@@ -14,7 +14,7 @@ USING_NS_CC;
 #if CC_TARGET_PLATFORM != CC_PLATFORM_WP8
 class MainMenu : public cocos2d::Layer
 #else
-class MainMenu : public cocos2d::Layer, BackButtonPressed
+class MainMenu : public cocos2d::Layer
 #endif
 {
 public:

@@ -1,15 +1,14 @@
-#ifndef __PAUSE_SCENE_H__
-#define __PAUSE_SCENE_H__
+#ifndef __LOSE_SCENE_H__
+#define __LOSE_SCENE_H__
 
 #include "cocos2d.h"
 #include "MainScene.h"
 #include "WorldMap.h"
 #include "Scenes\GamePlayScene.h"
-#include "Player.h"
 
 USING_NS_CC;
 
-class Pause : public cocos2d::Layer
+class Lose : public cocos2d::Layer
 {
 public:
 
@@ -17,12 +16,10 @@ public:
 
     virtual bool init();
 
-	void Resume(Ref* pSender);
 	void Restart(Ref *pSender);
-	void Selectlvl(Ref* pSender);
 	void BacktoMenu(Ref *pSender);
 	
-	CREATE_FUNC(Pause);
+	CREATE_FUNC(Lose);
 };
 
-#endif // __ABOUT_SCENE_H__
+#endif // __LOSE_SCENE_H__
