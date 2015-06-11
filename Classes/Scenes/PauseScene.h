@@ -5,7 +5,6 @@
 #include "MainScene.h"
 #include "WorldMap.h"
 #include "Scenes\GamePlayScene.h"
-#include "Player.h"
 
 USING_NS_CC;
 

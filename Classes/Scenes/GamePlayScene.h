@@ -12,7 +12,7 @@ USING_NS_CC;
 class GamePlayScene : public cocos2d::Layer
 
 #else
-class GamePlayScene : public cocos2d::Layer
+class GamePlayScene : public cocos2d::Layer, BackButtonPressed
 #endif
 {
 public:
@@ -37,10 +37,8 @@ public:
 	void Pause(Ref *pSender);
 	static void EnablePausebt();
 	static void DisablePausebt();
-	static int getState();
 	CREATE_FUNC(GamePlayScene);
 private:
-	static int m_State;
 	bool m_isWinGame, m_isLoseGame;
 	Point locateBullet (Point touchPoint);
 	Sprite	*m_nextWave,
@@ -52,7 +50,6 @@ private:
 	static Menu *m_mnPause;
 	State* m_state;
 	float m_timeWave; // thoi gian 1 wave
-	Sprite **m_HP;
 };
 #endif
 // __HELLOWORLD_SCENE_H__

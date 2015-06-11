@@ -34,7 +34,6 @@ void Bullet::move(Vec2 touch, Sprite* sprite, Node* layer)
 	int realY = ((realX - this->getPosition().x) * ratio) + this->getPosition().y;
 	
 	auto realDest = Point(realX, realY);
-	//auto realDest = Point(realX - 200, realY);
 	
 	int offRealX = realX - this->getPosition().x;
 	int offRealY = realY - this->getPosition().y;
@@ -44,9 +43,7 @@ void Bullet::move(Vec2 touch, Sprite* sprite, Node* layer)
 	
 	float realMoveDuration = length / velocity;
 	
-	CallFuncN *func = CallFuncN::create([&, this](Node* sender){ 
-		((Bullet*)sender)->done();
-	});
+	CallFuncN *func = CallFuncN::create([&, this](Node* sender){ sender->removeFromParentAndCleanup(true);});
 
 	this->runAction(Sequence::create(MoveTo::create(realMoveDuration, realDest), func, NULL));
 }
@@ -91,6 +88,33 @@ void Lighting::createLightingCircle(Node* monster)
 	monster->getParent()->addChild(LightingCircle);
 	LightingCircle->setPosition(monster->getPosition().x, monster->getPosition().y);
 	//LightingCircle->setVisible(false);
+
+
+	//particle
+	ParticleSystemQuad *prtCircle = ParticleSystemQuad::create("/BulletParticle/Circleprt.plist");
+	/*static ParticleSystemQuad *prtmid = ParticleSystemQuad::create("thunderCircleprt.plist");
+	static ParticleSystemQuad *prttopleft = ParticleSystemQuad::create("thunderCircleprt.plist");
+	static ParticleSystemQuad *prttopright = ParticleSystemQuad::create("thunderCircleprt.plist");
+	static ParticleSystemQuad *prtbotleft = ParticleSystemQuad::create("thunderCircleprt.plist");
+	static ParticleSystemQuad *prtbotright = ParticleSystemQuad::create("thunderCircleprt.plist");
+	prtmid->setLife(0.02);
+	prttopleft->setLife(0.02);
+	prttopright->setLife(0.02);
+	prtbotleft->setLife(0.02);
+	prtbotright->setLife(0.02);
+	LightingCircle->addChild(prtmid);
+	LightingCircle->addChild(prttopleft);
+	LightingCircle->addChild(prttopright);
+	LightingCircle->addChild(prtbotleft);
+	LightingCircle->addChild(prtbotright);*/
+	LightingCircle->addChild(prtCircle);
+	prtCircle->setPosition(LightingCircle->getContentSize().width / 2, LightingCircle->getContentSize().height / 2);
+	/*prtmid->setPosition(LightingCircle->getContentSize().width / 2, LightingCircle->getContentSize().height / 2);
+	prttopleft->setPosition(LightingCircle->getContentSize().width / 4, LightingCircle->getContentSize().height / 4 * 3);
+	prttopright->setPosition(LightingCircle->getContentSize().width / 4 * 3, LightingCircle->getContentSize().height / 4 * 3);
+	prtbotleft->setPosition(LightingCircle->getContentSize().width / 4, LightingCircle->getContentSize().height / 4);
+	prtbotright->setPosition(LightingCircle->getContentSize().width / 4 * 3, LightingCircle->getContentSize().height / 4);*/
+
 
 	//physics
 	PhysicsBody *LightingCircleBody = PhysicsBody::createCircle(0.1 * this->getContentSize().width * 4 / 2, PhysicsMaterial(0, 0, 0), Vec2::ZERO);

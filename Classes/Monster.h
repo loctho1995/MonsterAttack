@@ -41,11 +41,6 @@ class Monster : public Sprite
 			m_damage = damage;
 		}
 
-		virtual int getDamage()
-		{
-			return m_damage;
-		}
-
 		virtual void walk();
 		virtual void die();
 		virtual void freezed();

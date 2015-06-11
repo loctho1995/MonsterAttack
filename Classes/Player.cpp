@@ -98,15 +98,12 @@ void Player::attack(Touch* touches)
 	m_instance->runAction(Sequence::create(PlayerAction::getInstance()->getPlayerActtackAnimate(), func ,nullptr));
 }
 
-bool Player::attacked(int damage)
+void Player::attacked(int damage)
 {
 	m_HP -= damage;
 
-	this->runAction(Sequence::create(TintTo::create(0, 255, 0, 0), DelayTime::create(0.25), TintTo::create(0, 255, 255, 255), nullptr));
-
 	if(m_HP <= 0)
-		return true;
-	return false;
+		die();
 }
 
 void Player::die()
@@ -117,9 +114,4 @@ void Player::die()
 bool Player::isFinishAction()
 {
 	return m_isFinishAction;
-}
-
-int Player::getHP()
-{
-	return m_HP;
 }

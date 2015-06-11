@@ -15,7 +15,7 @@ class Player : public Sprite
 		void		load(); // ham init ton tai nen phai dung ham khac
 		void		attack(Touch* touches); //	ban'
 		void		die(); // chet
-		bool		attacked(int damage); // bi tan cong
+		void		attacked(int damage); // bi tan cong
 		void		setDamageBonus(int damage); 
 		void		setDamageMulti(int damage);
 		void		setSouls(int souls);
@@ -23,7 +23,6 @@ class Player : public Sprite
 		int			getdamageMulti();
 		int			getDamageBonus();
 		int			getSouls();
-		int			getHP();
 		BulletType	getBulletType();
 		bool		isFinishAction();
 
@@ -40,7 +39,7 @@ class Player : public Sprite
 		
 		bool m_isSplit,
 			 m_isDoubleDamage,
-			 m_isGameOver,//gameover va wingame khong can cho player
+			 m_isGameOver,
 			 m_isFinishAction,
 			 m_isWinGame; // true khi thua
 

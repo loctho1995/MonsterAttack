@@ -29,7 +29,7 @@ bool LogoScreen::init()
     }
 #if CC_TARGET_PLATFORM != CC_PLATFORM_WP8
 #else
-    //PlatformCenter::callFunc("portrait");
+    PlatformCenter::callFunc("portrait");
 #endif
     Size visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
