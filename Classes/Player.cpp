@@ -126,7 +126,6 @@ int Player::getHP()
 void Player::reset()
 {
 	m_instance = new Player();
-
 	m_HP = 10;
 	m_damageBonus = 0;
 	m_damageMulti = 1;

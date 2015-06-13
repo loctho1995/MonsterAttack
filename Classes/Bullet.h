@@ -25,6 +25,8 @@ public:
 		m_bullettype = NORMAL;
 	}
 
+	~Bullet();
+
 	virtual bool isCleave()
 	{
 		return this->m_isCleave;
@@ -50,6 +52,7 @@ public:
 		if(prt != nullptr)
 			prt->removeFromParentAndCleanup(true);
 
+		this->removeFromPhysicsWorld();
 		this->removeAllChildren();
 		this->removeFromParentAndCleanup(true);
 	}

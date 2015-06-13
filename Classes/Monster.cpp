@@ -2,6 +2,7 @@
 #include "Animation.h"
 #include "Define.h"
 #include "Item.h"
+#include "SimpleAudioEngine.h"
 
 int Monster::m_totalCurrentMonster = 0;
 
@@ -18,6 +19,11 @@ Monster1::Monster1()
 	m_damage = 1;
 
 	Monster::addBody();
+}
+
+Monster1::~Monster1()
+{
+	Monster::~Monster();
 }
 
 void Monster1::walk()
@@ -151,6 +157,7 @@ Monster::Monster()
 void Monster::walk()
 {
 	m_move = MoveTo::create(this->getPosition().x/ m_speed, Vec2(0, this->getPosition().y));
+
 	CallFunc* func = CallFunc::create(CC_CALLBACK_0(Monster::done, this));
 	this->runAction(RepeatForever::create(m_walk));
 	this->runAction(Sequence::create(DelayTime::create(m_timeDelay) ,m_move, func, nullptr));
@@ -300,6 +307,7 @@ void Monster::destroyed()
 	// duoc goi khi monster done hoac die
 	m_totalCurrentMonster--;
 
+	this->removeFromPhysicsWorld();
 	this->stopAllActions();
 	this->removeFromParentAndCleanup(true);
 }
@@ -386,4 +394,18 @@ void Monster::addBody()
 	this->setPhysicsBody(targetBody);
 }
 
+Monster::~Monster()
+{
+	if(m_walk != nullptr)
+		m_walk = nullptr;
+
+	if(m_die != nullptr)
+		m_die = nullptr;
+
+	if(m_done != nullptr)
+		m_done = nullptr;
+
+	if(m_move != nullptr)
+		m_move = nullptr;
+}
 #pragma endregion

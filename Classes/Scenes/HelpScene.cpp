@@ -1,4 +1,4 @@
-#include "Scenes/HelpScene.h"
+﻿#include "Scenes/HelpScene.h"
 
 USING_NS_CC;
 
@@ -58,9 +58,54 @@ bool Help::init()
 	Menu *back = Menu::create(ItemBack, NULL);
 	back->setPosition(visibleSize.width / 10, visibleSize.height / 6);
 
+	m_help1 = Sprite::create("help1.png");
+	m_help1->setPosition(visibleSize.width / 2, visibleSize.height / 2);
+	m_help1->setZOrder(2);
+
+	this->addChild(m_help1);
+
+	m_help2 = Sprite::create("help2.png");
+	m_help2->setPosition(visibleSize.width / 2, visibleSize.height / 2);
+	m_help2->setZOrder(1);
+
+	this->addChild(m_help2);
+
 	this->addChild(back);
 
+	auto listener1 = EventListenerTouchOneByOne::create();
+	listener1->setSwallowTouches(true);
+	listener1->onTouchBegan = CC_CALLBACK_2 (Help :: onTouchBegan, this);
+	listener1->onTouchMoved = CC_CALLBACK_2(Help::onTouchMoved, this);
+	listener1->onTouchEnded = CC_CALLBACK_2(Help::onTouchEnded, this);
+	_eventDispatcher->addEventListenerWithSceneGraphPriority(listener1, this);
+
     return true;
+}
+
+bool Help::onTouchBegan(Touch* touches, Event* event)
+{  
+	return true; // Phải trả về True
+}
+
+void Help::onTouchMoved(Touch* touches, Event* event)
+{  
+
+// Không xử lý gì ở đây
+
+}
+
+void Help::onTouchEnded(Touch* touches, Event* event)
+{
+	if(m_help1->getZOrder() > m_help2->getZOrder())
+	{
+		m_help1->setZOrder(1);
+		m_help2->setZOrder(2);
+	}
+	else
+	{
+		m_help1->setZOrder(2);
+		m_help2->setZOrder(1);
+	}
 }
 
 void Help::Back(Ref *pSender)

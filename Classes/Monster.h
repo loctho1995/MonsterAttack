@@ -58,7 +58,7 @@ class Monster : public Sprite
 		virtual void addBody();
 		virtual Item* dropItem();
 		virtual void setTimeDelay(float time);
-
+		~Monster();
 		
 	protected:
 		int m_HP, m_damage;	
@@ -76,6 +76,7 @@ public:
 	virtual void walk();
 	virtual void die();
 	virtual void done();	
+	~Monster1();
 
 private:
 };

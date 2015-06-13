@@ -98,6 +98,10 @@ public:
 	void eraseItem(int pos)
 	{
 		m_items.at(pos)->removeFromParentAndCleanup(true);
+
+		if(m_items.at(pos) != nullptr)
+			m_items.at(pos) = nullptr;
+
 		m_items.erase(m_items.begin() + pos);
 	}
 

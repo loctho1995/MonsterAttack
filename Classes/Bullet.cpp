@@ -48,7 +48,7 @@ void Bullet::move(Vec2 touch, Sprite* sprite, Node* layer)
 		((Bullet*)sender)->done();
 	});
 
-	this->runAction(Sequence::create(MoveTo::create(realMoveDuration, realDest), func, NULL));
+	this->runAction(Sequence::create(MoveTo::create(realMoveDuration, realDest), func, nullptr));
 }
 
 Point BulletManager::findPosition(Sprite* sprite, Vec2 touch)
@@ -117,4 +117,12 @@ void Lighting::createLightingCircle(Node* monster)
 	});
 
 	LightingCircle->runAction(Sequence::create(DelayTime::create(LIGHTINGCIRCLE_TIME), func, nullptr));
+}
+
+Bullet::~Bullet()
+{
+	if(prt != nullptr)
+	{
+		prt = nullptr;
+	}
 }

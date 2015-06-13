@@ -14,7 +14,7 @@ public:
 
     virtual bool init();
 
-	void update(float dt) override;
+	void update(float dt);
 
 	void loadResource();
 

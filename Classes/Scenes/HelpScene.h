@@ -15,9 +15,16 @@ public:
 
     virtual bool init();
 
+	void onTouchEnded (cocos2d::Touch* touches, cocos2d::Event* event);
+	void onTouchMoved (cocos2d::Touch* touches, cocos2d::Event* event);
+	bool onTouchBegan (cocos2d::Touch* touches, cocos2d::Event* event);
+
 	void Back(Ref *pSender);
 
 	CREATE_FUNC(Help);
+
+private:
+	Sprite *m_help1, *m_help2;
 };
 
 #endif // __HELP_SCENE_H__

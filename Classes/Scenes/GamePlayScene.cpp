@@ -303,7 +303,7 @@ bool GamePlayScene::onContactBegin(const PhysicsContact& contact)
 			((Monster*)sprite1)->done();
 			((Sprite*)sprite2)->runAction(Sequence::create(TintTo::create(0, 200, 200, 200), DelayTime::create(0.25), TintTo::create(0, 255, 255, 255), nullptr));
 
-			if(Player::getInstance()->attacked(((Monster*)sprite1)->getDamage()))
+			if(Player::getInstance()->getHP() <= 0)
 			{
 				m_isLoseGame = true;
 				
@@ -317,7 +317,7 @@ bool GamePlayScene::onContactBegin(const PhysicsContact& contact)
 			((Monster*)sprite2)->done();
 			((Sprite*)sprite1)->runAction(Sequence::create(TintTo::create(0, 200, 200, 200), DelayTime::create(0.25), TintTo::create(0, 255, 255, 255), nullptr));
 
-			if(Player::getInstance()->attacked(((Monster*)sprite2)->getDamage()))
+			if(Player::getInstance()->getHP() <= 0)
 			{
 				m_isLoseGame = true;				
 				Director::getInstance()->pause();
@@ -488,6 +488,20 @@ void GamePlayScene::onMenuItemClicked(Ref *ref)
 	}
 }
 	
+GamePlayScene::~GamePlayScene()
+{
+	if(m_state != nullptr)
+	{
+		delete m_state;
+		m_state = nullptr;
+	}		
+
+	if(m_HP != nullptr)
+	{
+		delete m_HP;
+		m_HP = nullptr;
+	}
+}
 
 void GamePlayScene::onBackPressed()
 {

@@ -17,7 +17,7 @@ class PlayerAction : public SpriteAction // Class Chua cac Animation của playe
 public:
 	void loadAnimation(SpriteFrameCache* spriteFrameCache);
 	Animate* getPlayerActtackAnimate() { return m_attackAnimate ;}
-
+	
 	static PlayerAction* getInstance()
 	{
 		if(m_instance == 0)
