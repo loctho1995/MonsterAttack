@@ -45,7 +45,8 @@ bool About::init()
 	title->setPosition(visibleSize.width / 2, visibleSize.height / 7 * 6);
 	this->addChild(title);
 	
-	Label *about = Label::createWithTTF("Nhin clgt\n\n\nphan nay chua cai cai long gi dau\n\n\nlol", "fonts/Marker Felt.ttf", 20);
+	Label *about = Label::createWithTTF("Giảng viên hướng dẫn: Phan Nguyệt Minh \n\nThành viên: \n\nBùi Đình Lộc Thọ - 13520844\nLê Tấn Thịnh - 13520836 \nHoàng Mạnh Thắng - 13520772", "fonts/tahoma_0.ttf", 20);
+	about->setColor(Color3B(255, 0, 0));
 
 	about->setPosition(visibleSize.width / 2, visibleSize.height / 7 * 3);
 	this->addChild(about);

@@ -12,7 +12,7 @@ USING_NS_CC;
 class GamePlayScene : public cocos2d::Layer
 
 #else
-class GamePlayScene : public cocos2d::Layer, BackButtonPressed
+class GamePlayScene : public cocos2d::Layer
 #endif
 {
 public:
@@ -35,21 +35,41 @@ public:
 	bool onContactBegin(const PhysicsContact& contact);
 	void setState(int state);
 	void Pause(Ref *pSender);
-	static void EnablePausebt();
-	static void DisablePausebt();
+	static int getState();
 	CREATE_FUNC(GamePlayScene);
+
 private:
-	bool m_isWinGame, m_isLoseGame;
+	static int m_State;
+	bool m_isWinGame, m_isLoseGame, m_isPause, m_isShowWingame;
 	Point locateBullet (Point touchPoint);
 	Sprite	*m_nextWave,
 			*m_finalWave,
 			*m_winGame,
-			*m_circle;
+			*m_circle,
+			*m_pausePanel,
+			*m_losePanel,
+			*m_winPanel;
+
 	Size m_winSize;
-	MenuItemImage *m_btPause;
+
+	MenuItemImage	*m_btPause,
+					*m_resume,
+					*m_restart,
+					*m_selectlvl,
+					*m_backtomenu;
+
 	static Menu *m_mnPause;
+	Menu *m_menupause;
 	State* m_state;
 	float m_timeWave; // thoi gian 1 wave
+	Sprite **m_HP; //ve mau cua nhan vat
+
+	void initMenu();
+	void showPause();
+	void hideMenu();
+	void showWinGame();
+	void showLoseGame();
+	void onMenuItemClicked(Ref *ref);
 };
 #endif
 // __HELLOWORLD_SCENE_H__

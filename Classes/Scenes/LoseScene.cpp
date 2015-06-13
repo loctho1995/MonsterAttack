@@ -50,6 +50,7 @@ bool Lose::init()
 
 	Menu *menupause = Menu::create(restart, backtomenu, NULL);
 	menupause->setPosition(0,0);
+	menupause->setZOrder(MENU_ZORDER);
 
 	restart->setPosition(win->getPosition().x + restart->getContentSize().width*0.75, win->getPosition().y - restart->getContentSize().width*0.75);
 	backtomenu->setPosition(win->getPosition().x - backtomenu->getContentSize().width*0.75, win->getPosition().y - backtomenu->getContentSize().width*0.75);
@@ -63,7 +64,10 @@ bool Lose::init()
 
 void Lose::Restart(Ref *pSender)
 {
-
+	Player::getInstance()->removeFromParent();
+	Scene *newgame = GamePlayScene::createScene(GamePlayScene::getState());
+	Director::getInstance()->replaceScene(newgame);
+	Director::sharedDirector()->resume();
 }
 
 void Lose::BacktoMenu(Ref *pSender)

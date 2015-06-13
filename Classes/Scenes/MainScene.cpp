@@ -30,9 +30,10 @@ bool MainMenu::init()
         return false;
     }
     
+
 #if CC_TARGET_PLATFORM != CC_PLATFORM_WP8
 #else
-	PlatformCenter::callFunc("portrait");
+	//PlatformCenter::callFunc("portrait");
 #endif
 
     Size visibleSize = Director::getInstance()->getVisibleSize();
@@ -56,7 +57,7 @@ bool MainMenu::init()
 
 	auto ItemPlay = MenuItemImage::create("Play.png", "PlaySelected.png", CC_CALLBACK_1(MainMenu::Play,this));
 
-	auto ItemContinue = MenuItemImage::create("Continue.png", "ContinueSelected.png", CC_CALLBACK_1(MainMenu::Continue,this));
+	//auto ItemContinue = MenuItemImage::create("Continue.png", "ContinueSelected.png", CC_CALLBACK_1(MainMenu::Continue,this));
 
 	auto ItemMission = MenuItemImage::create("Mission.png", "MissionSelected.png", CC_CALLBACK_1(MainMenu::Mission,this));
 
@@ -67,7 +68,7 @@ bool MainMenu::init()
 	auto ItemExit = MenuItemImage::create("Exit.png", "ExitSelected.png", CC_CALLBACK_1(MainMenu::Exit,this));
     
 
-	menu = Menu::create(ItemPlay, ItemContinue, ItemMission, ItemAbout, ItemHelp, ItemExit, NULL);
+	menu = Menu::create(ItemPlay, ItemMission, ItemAbout, ItemHelp, ItemExit, NULL);
 
 	menu->alignItemsVerticallyWithPadding(15.0f);
 	//menu->alignItemsInColumns(2,2,2);
@@ -76,6 +77,10 @@ bool MainMenu::init()
 	menu->setPosition(visibleSize.width / 2, visibleSize.height / 10 * 3);
 
 	this->addChild(menu);
+
+	CocosDenshion::SimpleAudioEngine::getInstance()->playBackgroundMusic("Sounds/sbgMenu.wav",true);
+
+	
 
     return true;
 }
@@ -125,7 +130,7 @@ void MainMenu::EnableMenu()
 {
 #if CC_TARGET_PLATFORM != CC_PLATFORM_WP8
 #else
-	PlatformCenter::callFunc("exit");
+	//PlatformCenter::callFunc("exit");
 #endif
 
 	menu->setEnabled(true);

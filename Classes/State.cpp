@@ -38,7 +38,7 @@ bool State::isRunning()
 	return true;
 }
 
-Monster* State::createMonster(int level, float delay, Node* parent)
+Monster* State::createMonster(int level, float delay)
 {
 	Monster *target = nullptr;
 	auto m_winSize = Director::getInstance()->getVisibleSize();
@@ -60,29 +60,6 @@ Monster* State::createMonster(int level, float delay, Node* parent)
 		case 4:
 			target = new Monster4();
 			break;
-
-		case 5:
-			target = new Monster5();
-			break;
-
-		case 6:
-			
-			break;
-
-		case 7:
-			
-			break;
-
-		case 8:
-			
-			break;
-
-		case 9:
-			
-			break;
-
-		case 10:
-			break;
 	}	
 
 	if(target == nullptr)
@@ -90,14 +67,13 @@ Monster* State::createMonster(int level, float delay, Node* parent)
 
 	// calculate target position
 	int minY = target->getContentSize().height / 2;
-	int maxY = m_winSize.height - target -> getContentSize().height / 2;
+	int maxY = m_winSize.height - target -> getContentSize().height / 2 - m_winSize.height/6;
 	int rangeY = maxY - minY;
 	int actualY = (rand()% rangeY) + minY;
 		
 	target->setPosition(Point(m_winSize.width + (target->getContentSize().width/2) + 10, actualY));
 	target->setTimeDelay(delay);	
-	target->walk();
-	parent->addChild(target);
+
 	return target;
 }
 
@@ -126,31 +102,56 @@ void State1::addTarget(Node* parent, float dt)
 
 	std::chrono::milliseconds duration(10);
 	int x; 
+	Monster* target = nullptr;
 
 	switch(m_numberOfWave)
 	{
 		case 3:
 			// cho khoang 10 con quai level 1 ra			
-			createMonster(1, (float)(rand() % 30) / 100, Director::getInstance()->getRunningScene());
+			target = createMonster(1, (float)(rand() % 30) / 100);
+			target->walk();			
+			parent->addChild(target);
+
 			break;
 
 		case 2:
-			createMonster(1, (float)(rand() % 40) / 100, Director::getInstance()->getRunningScene());	
+			target = createMonster(1, (float)(rand() % 40) / 100);	
+			target->walk();
+			parent->addChild(target);
+
 			std::this_thread::sleep_for(duration);
-			createMonster(1, (float)(rand() % 50) / 100, Director::getInstance()->getRunningScene());
+
+			target = createMonster(1, (float)(rand() % 50) / 100);
+			target->walk();
+			parent->addChild(target);
+
 			break;
 
 		case 1:
-			createMonster(1, (float)(rand() % 60) / 100, Director::getInstance()->getRunningScene());
+			target = createMonster(1, (float)(rand() % 60) / 100);
+			target->walk();
+			parent->addChild(target);
+
 			std::this_thread::sleep_for(duration);
 			x = rand() % 2 + 1;			
-			createMonster(x, (float)(rand() % 30) / 100 + 0.1f, Director::getInstance()->getRunningScene());
+
+			target = createMonster(x, (float)(rand() % 30) / 100 + 0.1f);
+			target->walk();
+			parent->addChild(target);
+
 			break;
 
 		case 0:
-			createMonster(2, (float)(rand() % 80) / 100, Director::getInstance()->getRunningScene());
+			target = createMonster(2, (float)(rand() % 80) / 100);
+			target->walk();
+			parent->addChild(target);
+
 			std::this_thread::sleep_for(duration);
-			createMonster(2, (float)(rand() % 90) / 100 + 0.1f, Director::getInstance()->getRunningScene());
+
+			target = createMonster(2, (float)(rand() % 90) / 100 + 0.1f);
+			target->walk();
+			parent->addChild(target);
+
 			break;
 	}
 }
@@ -180,34 +181,54 @@ void State2::addTarget(Node* parent, float dt)
 
 	std::chrono::milliseconds duration(10);
 	int x; 
+	Monster* target;
 
 	switch(m_numberOfWave)
 	{
 		case 4:		
-			createMonster(1, (float)(rand() % 30) / 100, Director::getInstance()->getRunningScene());
+			target = createMonster(1, (float)(rand() % 30) / 100);
+			target->walk();
+			parent->addChild(target);
 			break;
 
 		case 3:
-			createMonster(1, (float)(rand() % 40) / 100, Director::getInstance()->getRunningScene());	
+			target = createMonster(1, (float)(rand() % 40) / 100);
+			target->walk();
+			parent->addChild(target);
+
 			std::this_thread::sleep_for(duration);
-			createMonster(2, (float)(rand() % 50) / 100, Director::getInstance()->getRunningScene());
+
+			target = createMonster(2, (float)(rand() % 50) / 100);
+			target->walk();
+			parent->addChild(target);
+
 			break;
 
 		case 2:
-			createMonster(1, (float)(rand() % 60) / 100, Director::getInstance()->getRunningScene());
+			target = createMonster(1, (float)(rand() % 60) / 100);
+			target->walk();
+			parent->addChild(target);
+
 			std::this_thread::sleep_for(duration);
-			x = rand() % 3 + 1;			
-			createMonster(x, (float)(rand() % 30) / 100 + 0.1f, Director::getInstance()->getRunningScene());
+			x = rand() % 3 + 1;		
+
+			target = createMonster(x, (float)(rand() % 30) / 100 + 0.1f);
+			target->walk();
+			parent->addChild(target);
 			break;
 
 		case 1:
 			std::this_thread::sleep_for(duration);
 			x = rand() % 2 + 2;			
-			createMonster(x, (float)(rand() % 30) / 100 + 0.1f, Director::getInstance()->getRunningScene());
+			target = createMonster(x, (float)(rand() % 30) / 100 + 0.1f);
+			target->walk();
+			parent->addChild(target);
 			break;
 
 		case 0:
-			createMonster(3, (float)(rand() % 30) / 100 + 0.1f, Director::getInstance()->getRunningScene());
+			target = createMonster(3, (float)(rand() % 30) / 100 + 0.1f);
+			target->walk();
+			parent->addChild(target);
 			break;
 	}
 }
@@ -238,7 +259,7 @@ void State3::addTarget(Node* parent, float dt)
 	std::chrono::milliseconds duration(10);
 	int x; 
 
-	switch(m_numberOfWave)
+	/*switch(m_numberOfWave)
 	{
 		case 4:
 			createMonster(1, (float)(rand() % 40) / 100, Director::getInstance()->getRunningScene());	
@@ -265,7 +286,7 @@ void State3::addTarget(Node* parent, float dt)
 		case 0:
 			createMonster(4, (float)(rand() % 50) / 100, Director::getInstance()->getRunningScene());
 			break;
-	}
+	}*/
 }
 
 #pragma endregion

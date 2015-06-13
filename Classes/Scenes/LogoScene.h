@@ -2,6 +2,7 @@
 #define __LOGOSCREEN_SCENE_H__
 
 #include "cocos2d.h"
+#include "SimpleAudioEngine.h"
 
 USING_NS_CC;
 
@@ -15,7 +16,11 @@ public:
 
 	void update(float dt) override;
 
-	float time;
+	void loadResource();
+
+	float _time;
+
+	bool _loadResource;
 
 	CREATE_FUNC(LogoScreen);
 };

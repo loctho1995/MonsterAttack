@@ -29,12 +29,13 @@ bool LogoScreen::init()
     }
 #if CC_TARGET_PLATFORM != CC_PLATFORM_WP8
 #else
-    PlatformCenter::callFunc("portrait");
+    //PlatformCenter::callFunc("portrait");
 #endif
     Size visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
-	time = 0;
+	_time = 0;
+	_loadResource = false;
 
 	//sceneMenuMain = MainMenu::createScene();
     
@@ -58,12 +59,38 @@ bool LogoScreen::init()
 
 void LogoScreen::update(float dt)
 {
-	time += dt;	
+	_time += dt;	
 
-	if(time > 1)
+	/*if(!_loadResource)
 	{
+		loadResource();
+	}*/
+
+	if(_time > 1)
+	{
+		loadResource();
 		auto sceneMenuMain = MainMenu::createScene();
 		Director::getInstance()->replaceScene(sceneMenuMain);
 	}
+}
+
+void LogoScreen::loadResource()
+{
+	//nhac nen
+	CocosDenshion::SimpleAudioEngine::getInstance()->preloadBackgroundMusic("Sounds/sbgMenu.wav");
+	CocosDenshion::SimpleAudioEngine::getInstance()->preloadBackgroundMusic("Sounds/sbgFighting.wav");
+	CocosDenshion::SimpleAudioEngine::getInstance()->preloadBackgroundMusic("Sounds/sbgWorldMap.wav");
+	//Bullet
+	CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect("Sounds/Bullet/Normal.wav");
+	CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect("Sounds/Bullet/Ice.wav");
+	CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect("Sounds/Bullet/Fire.wav");
+	CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect("Sounds/Bullet/Lightning.wav");
+	CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect("Sounds/Bullet/Water.wav");
+	CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect("Sounds/Bullet/Circle.wav");
+	CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect("Sounds/Bullet/Burning.wav");
+	CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect("Sounds/Bullet/Freezing.wav");
+	CocosDenshion::SimpleAudioEngine::getInstance()->setEffectsVolume(0.75);
+
+	_loadResource = true;
 }
 

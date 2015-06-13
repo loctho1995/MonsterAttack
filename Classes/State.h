@@ -16,7 +16,7 @@ public:
 	virtual bool isRunning();
 
 protected:
-	Monster* createMonster(int level, float delay, Node* parent);
+	Monster* createMonster(int level, float delay);
 	int m_numberOfWave;	
 	float m_timePause;
 	bool m_isPause;

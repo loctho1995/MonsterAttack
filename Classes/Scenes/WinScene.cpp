@@ -69,7 +69,10 @@ bool Win::init()
 
 void Win::Restart(Ref *pSender)
 {
-
+	Player::getInstance()->removeFromParent();
+	Scene *newgame = GamePlayScene::createScene(GamePlayScene::getState());
+	Director::getInstance()->replaceScene(newgame);
+	Director::sharedDirector()->resume();
 }
 void Win::Next(Ref* pSender)
 {

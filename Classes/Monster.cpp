@@ -28,13 +28,11 @@ void Monster1::walk()
 
 void Monster1::die()
 {
-	//m_die = Monster1Action::getInstance()->getMonsterDieAnimate()->clone();
 	Monster::die();
 }
 
 void Monster1::done()
 {
-	//m_done = Monster1Action::getInstance()->getMonsterDoneAnimate()->clone();
 	Monster::done();
 }
 
@@ -58,6 +56,7 @@ Monster2::Monster2()
 void Monster2::walk()
 {
 	m_walk = Monster2Action::getInstance()->getMonsterWalkAnimate()->clone();	
+
 	Monster::walk();
 }
 
@@ -68,7 +67,6 @@ void Monster2::die()
 
 void Monster2::done()
 {	
-	//m_done = Monster1Action::getInstance()->getMonsterDoneAnimate()->clone();
 	Monster::done();
 }
 
@@ -139,29 +137,6 @@ void Monster4::done()
 
 #pragma endregion
 
-#pragma region - Monster 5 -
-Monster5::Monster5()
-{
-	Monster::addBody();
-}
-
-void Monster5::walk()
-{
-
-}
-
-void Monster5::die()
-{
-
-}
-
-void Monster5::done()
-{
-	
-}
-
-#pragma endregion
-
 #pragma region - Monster -
 Monster::Monster()
 {
@@ -184,7 +159,7 @@ void Monster::walk()
 void Monster::die()
 {
 	this->getPhysicsBody()->removeFromWorld();
-	this->setPosition(Vec2(this->getPosition().x, this->getPosition().y - this->getContentSize().height / 2 + this->getContentSize().width / 2));
+	//this->setPosition(Vec2(this->getPosition().x, this->getPosition().y - this->getContentSize().height / 2 + this->getContentSize().width / 2));
 	this->stopAllActions();
 
 	CallFunc *func = CallFunc::create(CC_CALLBACK_0(Monster::destroyed, this));
@@ -196,6 +171,7 @@ void Monster::die()
 
 		if(item != nullptr)
 		{
+			item->setZOrder(ITEM_ZORDER);
 			item->setPosition(this->getPosition());
 			item->animate();
 			ItemManager::getInstacce()->addItem(item);
@@ -223,6 +199,8 @@ void Monster::freezed()
 	sprite->setOpacity((int)(0.5*255));
 	sprite->setPosition(this->getContentSize().width / 2, this->getContentSize().height / 2);
 	this->addChild(sprite);
+	CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("Sounds/Bullet/Freezing.wav");
+
 	CallFuncN* func = CallFuncN::create([&, sprite](Node* monster)
 	{
 		((Monster*)monster)->removeFromParentAndCleanup(true); 
@@ -240,6 +218,8 @@ void Monster::burned()
 
 	prtBurning->setLife(0.01);
 	this->addChild(prtBurning);
+	CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("Sounds/Bullet/Burning.wav");
+
 	CallFuncN* func = CallFuncN::create([&, prtBurning](Node* monster)
 	{
 		((Monster*)monster)->removeFromParentAndCleanup(true); 
@@ -255,16 +235,11 @@ void Monster::done()
 	CallFunc *func = CallFunc::create(CC_CALLBACK_0(Monster::destroyed, this));
 	CallFunc *func2 = CallFunc::create([&]{Player::getInstance()->attacked(this->m_damage); });
 	this->runAction(Sequence::create(func2, func, nullptr));
-	this->destroyed();
 }
 
 //return true la monster chet
 bool Monster::attacked(Bullet* bullet)
 {
-	//auto sprite = Sprite::create("LightingItem_1.png");
-	//sprite->setPosition(this->getPosition());
-	//parent->addChild(sprite);
-
 	if(bullet->getBullettype() != LIGHTING)
 		m_HP -= ((bullet->getdamage() + Player::getInstance()->getDamageBonus()) * Player::getInstance()->getdamageMulti());
 	
@@ -297,19 +272,11 @@ bool Monster::attacked(Bullet* bullet)
 	#pragma endregion
 	if(!bullet->isthrough())
 	{
-		/*if(bullet->isCleave())
-		{
-			((Lighting*)bullet)->createLightingCircle(this);
-			bullet->removeFromParentAndCleanup(true);
-		}
-		else*/
-			bullet->removeFromParentAndCleanup(true);
+		bullet->done();
 	}
 
 	if(m_HP <= 0)
-	{
 		return true;
-	}
 	
 	return false;
 }
@@ -330,7 +297,9 @@ bool Monster::attackedByLightingCircle()
 
 void Monster::destroyed()
 {
+	// duoc goi khi monster done hoac die
 	m_totalCurrentMonster--;
+
 	this->stopAllActions();
 	this->removeFromParentAndCleanup(true);
 }
@@ -403,6 +372,11 @@ int Monster::getTotalCurrentMonster()
 	return m_totalCurrentMonster;
 }
 
+void Monster::resetTotalCurrentMonster()
+{
+	m_totalCurrentMonster = 0;
+}
+
 void Monster::addBody()
 {
 	auto targetBody = PhysicsBody::createBox(Size(this->getContentSize().width * 0.9f, this->getContentSize().height * 0.9f), PhysicsMaterial(0.1f, 1.0f, 0.0f));
@@ -411,4 +385,5 @@ void Monster::addBody()
 	targetBody->setCategoryBitmask(MONSTER_CONTACT_CATEGORY);	
 	this->setPhysicsBody(targetBody);
 }
+
 #pragma endregion

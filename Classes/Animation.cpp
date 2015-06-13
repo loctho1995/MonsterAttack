@@ -234,7 +234,7 @@ void Monster4Action :: loadAnimation(SpriteFrameCache* spriteFrameCache)
 		}
 	}
 
-	m_dieAnimate = Animate::create(Monster1Action::createWithSpriteFrames(aniFrame, MONSTER1_DIE_ANIMATION_TIME));
+	m_dieAnimate = Animate::create(Monster1Action::createWithSpriteFrames(aniFrame, MONSTER4_DIE_ANIMATION_TIME));
 	m_dieAnimate->retain();
 #pragma endregion
 }

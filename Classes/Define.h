@@ -10,12 +10,8 @@ const int PLAYER_ATTACK_ANIMATION_FRAMES = 6; // so frame cua Player Attack anim
 const int PLAYER_DISTANCE = 50;
 
 const float MONSTER1_WALK_ANIMATION_TIME = 0.1f;
-const float MONSTER1_DIE_ANIMATION_TIME = 0.2f;
-const float MONSTER1_DONE_ANIMATION_TIME = 0.15f;
+
 const int MONSTER1_WALK_ANIMATION_FRAMES = 2; // so frame cua Monster1 Walk 
-//const int MONSTER1_DIE_ANIMATION_FRAMES = 3;
-//const int MONSTER1_STUN_ANIMATION_FRAMES = 4;
-//const int MONSTER1_DONE_ANIMATION_FRAMES = 8;
 
 const int MONSTER2_WALK_ANIMATION_FRAMES = 5; // so frame cua Monster2 Walk
 
@@ -23,14 +19,25 @@ const int MONSTER3_WALK_ANIMATION_FRAMES = 4;
 
 const int MONSTER4_WALK_ANIMATION_FRAMES = 9;
 const int MONSTER4_DIE_ANIMATION_FRAMES = 5;
+const int MONSTER4_DIE_ANIMATION_TIME = 0.1f;
 
 const int MONSTER5_WALK_ANIMATION_FRAMES = 3;
 
-const int PLAYER_TAG = 0; // tag cua player
-const int MONSTER_TAG = 1; // tag cua monster
-const int CIRCLE_TAG = 2;
-const int BULLET_TAG = 3;
-const int LIGHTINGCIRCLE_TAG = 4;
+const int PLAYER_TAG = 1; // tag cua player
+const int MONSTER_TAG = 2; // tag cua monster
+const int CIRCLE_TAG = 3;
+const int BULLET_TAG = 4;
+const int LIGHTINGCIRCLE_TAG = 5;
+
+const int MENUITEM_RESUME_TAG = 6;
+const int MENUITEM_RESTART_TAG = 7;
+const int MENUITEM_SELECTLV_TAG = 8;
+const int MENUITEM_BACKMENU_TAG = 9;
+
+
+const int ITEM_ZORDER = 8;
+const int MENU_ZORDER = 12;
+const int MONSTER_ZORDER = 8;
 //cac monster khong cham vao nhau
 //bullet va circle khong cham vao nhau
 //dung thuat toan & tren bit

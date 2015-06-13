@@ -5,13 +5,16 @@
 #include "Animation.h"
 #include "Define.h"
 #include "Bullet.h"
-#include "Scenes/PauseScene.h"
+#include "Scenes\WinScene.h"
+#include "Scenes\LoseScene.h"
 #include "State.h"
+#include "SimpleAudioEngine.h"
 
 USING_NS_CC;
 using namespace std;
 
 Menu* GamePlayScene::m_mnPause = nullptr;
+int GamePlayScene::m_State = 0;
 
 Scene* GamePlayScene::createScene(int state)
 {
@@ -21,12 +24,12 @@ Scene* GamePlayScene::createScene(int state)
 	//scene->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
 
 	scene->getPhysicsWorld()->setGravity(Vect(0.0f, 0.0f));
-	scene->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
+	//scene->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
 
     // 'layer' is an autorelease object
     auto layer = GamePlayScene::create();
 	layer->setState(state);
-
+	m_State = state;
     // add layer as a child to scene
     scene->addChild(layer);
 
@@ -47,7 +50,7 @@ bool GamePlayScene::init()
     }
 #if CC_TARGET_PLATFORM != CC_PLATFORM_WP8
 #else
-	PlatformCenter::callFunc("landscape");
+	//PlatformCenter::callFunc("landscape");
 #endif
 	srand(time(0));
 	m_timeWave = WAVE_TIME;
@@ -60,18 +63,23 @@ bool GamePlayScene::init()
 
 	//Tao hieu ung particle cho man hinh
 	ParticleSystemQuad *backGroundprt = ParticleSystemQuad::create("/BulletParticle/LeaveStorm.plist");
-	this->addChild(backGroundprt,200);
+	this->addChild(backGroundprt);
+
+	Player::getInstance()->reset();
+	Monster::resetTotalCurrentMonster();
+
+	m_HP = new Sprite *[Player::getInstance()->getHP()];
 
 	//LoadData::loadData();
     m_winSize = Director::getInstance()->getVisibleSize(); 
 	m_isWinGame = false;
-	/*Draw by pixels on
-	auto draw = DrawNode::create();
-	this->addChild(draw);
-	draw->drawDot(Vec2(m_winSize.width / 2, m_winSize.height / 2), 1.0f, Color4F(1,1,1,0.2f));*/
+	m_isPause = false;
+	m_isShowWingame = false;
 
 	auto backGround = Sprite::create("background.jpg");
 	backGround->setPosition(m_winSize.width/ 2 , m_winSize.height / 2);
+	backGround->setScaleX(m_winSize.width / backGround->getContentSize().width);
+	backGround->setScaleY(m_winSize.height / backGround->getContentSize().height);
 	this->addChild(backGround,0);
 
 	Player::getInstance()->setPosition(Vec2(Player::getInstance()->getContentSize().width / 2, m_winSize.height / 2));
@@ -94,7 +102,7 @@ bool GamePlayScene::init()
 	m_btPause->setScale(m_winSize.height / 10 / m_btPause->getContentSize().width);
 	m_mnPause = Menu::create(m_btPause, NULL);
 	m_mnPause->setPosition(0, 0);
-	m_btPause->setPosition(m_winSize.width - m_winSize.width / 10, m_winSize.height - m_winSize.height / 10);
+	m_btPause->setPosition(m_winSize.width - m_btPause->getContentSize().width/2, m_winSize.height - m_btPause->getContentSize().height/2);
 	this->addChild(m_mnPause);
 
 	//hinh next wave
@@ -114,8 +122,15 @@ bool GamePlayScene::init()
 	m_winGame->setVisible(false);
 	this->addChild(m_winGame);
 	
-	
+	//ve hp len man hinh
+	for(int i = 0; i < Player::getInstance()->getHP(); i++)
+	{
+		m_HP[i] = Sprite::create("HP.png");
+		m_HP[i]->setPosition(m_circle->getPosition().x + m_circle->getContentSize().height/2 + 10 + i*m_HP[i]->getContentSize().width/2, m_winSize.height- m_HP[i]->getContentSize().height/2);
+		this->addChild(m_HP[i]);
+	}
 
+	initMenu();
 	this->schedule( schedule_selector(GamePlayScene::gameLogic), 2.0f);
 
 	auto dispatcher = Director::getInstance()-> getEventDispatcher();
@@ -134,14 +149,19 @@ bool GamePlayScene::init()
 	dispatcher->addEventListenerWithSceneGraphPriority(contactListener, this);
 	srand(time(NULL));
 
+	CocosDenshion::SimpleAudioEngine::getInstance()->playBackgroundMusic("Sounds/sbgFighting.wav");
+
     return true;
 }
 
 void GamePlayScene::gameLogic(float dt)
 {
-	if(m_isWinGame)
+	if(m_isWinGame && !m_isShowWingame)
 	{
-		m_winGame->setVisible(true);
+		showWinGame();
+		m_isShowWingame = true;
+		CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("Sounds/wingame.wav");
+
 		return;
 	}
 
@@ -159,6 +179,7 @@ void GamePlayScene::gameLogic(float dt)
 	else
 	{
 		CCLOG("%d", Monster::getTotalCurrentMonster());
+
 		if(m_state->isEndWave())
 		{						
 			if(Monster::getTotalCurrentMonster() <= 0)		
@@ -247,22 +268,13 @@ void GamePlayScene::onTouchEnded(Touch* touches, Event* event)
 	if(Player::getInstance()->isFinishAction())
 	{
 		Player::getInstance()->attack(touches);
-		//auto bullet = BulletManager::create(Player::getInstance()->getBulletType());
-		//bullet->move(touches->getLocation(), Player::getInstance(), Player::getInstance()->getParent());
 	}		
 }
 
 bool GamePlayScene::onContactBegin(const PhysicsContact& contact)
 {
-	/*if((contact.getShapeA()->getBody()->getCollisionBitmask() & contact.getShapeB()->getBody()->getCategoryBitmask() == 0) 
-		|| (contact.getShapeB()->getBody()->getCollisionBitmask() & contact.getShapeA()->getBody()->getCategoryBitmask()) == 0)
-		return false;*/
-
 	auto sprite1 = (Sprite*)contact.getShapeA()->getBody()->getNode();
 	auto sprite2 = (Sprite*)contact.getShapeB()->getBody()->getNode();
-
-	/*if(sprite1 == nullptr || sprite2 == nullptr)
-		return false;*/
 
 	int tag = sprite1->getTag();
 	int tag1 = sprite2->getTag();
@@ -283,10 +295,36 @@ bool GamePlayScene::onContactBegin(const PhysicsContact& contact)
 
 	if ((tag == CIRCLE_TAG && tag1 == MONSTER_TAG) || (tag1 == CIRCLE_TAG && tag == MONSTER_TAG) )
 	{
+		if(Player::getInstance()->getHP() > 0)
+			m_HP[Player::getInstance()->getHP()-1]->removeFromParentAndCleanup(true);
+
 		if (tag == MONSTER_TAG)
+		{
 			((Monster*)sprite1)->done();
+			((Sprite*)sprite2)->runAction(Sequence::create(TintTo::create(0, 200, 200, 200), DelayTime::create(0.25), TintTo::create(0, 255, 255, 255), nullptr));
+
+			if(Player::getInstance()->attacked(((Monster*)sprite1)->getDamage()))
+			{
+				m_isLoseGame = true;
+				
+				Director::getInstance()->pause();
+				showLoseGame();
+				CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("Sounds/gameover.wav");
+			}
+		}
 		else
+		{
 			((Monster*)sprite2)->done();
+			((Sprite*)sprite1)->runAction(Sequence::create(TintTo::create(0, 200, 200, 200), DelayTime::create(0.25), TintTo::create(0, 255, 255, 255), nullptr));
+
+			if(Player::getInstance()->attacked(((Monster*)sprite2)->getDamage()))
+			{
+				m_isLoseGame = true;				
+				Director::getInstance()->pause();
+				showLoseGame();
+				CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("Sounds/gameover.wav");
+			}
+		}
 	}
 	
 	if((tag == MONSTER_TAG && tag1 == LIGHTINGCIRCLE_TAG) || (tag1 == MONSTER_TAG && tag == LIGHTINGCIRCLE_TAG))
@@ -306,22 +344,150 @@ bool GamePlayScene::onContactBegin(const PhysicsContact& contact)
 	
 void GamePlayScene::Pause(Ref *pSender)
 {	
-	Director::sharedDirector()->pause();
-	Director::getInstance()->getEventDispatcher()->pauseEventListenersForTarget(this);
-	DisablePausebt();
-	Layer *m_sPause = Pause::create();
-	this->addChild(m_sPause, 100);
+	Director::getInstance()->pause();
+	CocosDenshion::SimpleAudioEngine::getInstance()->pauseBackgroundMusic();
+	m_isPause = true;
+	showPause();
 }
 
-void GamePlayScene::EnablePausebt()
+int GamePlayScene::getState()
 {
-	m_mnPause->setEnabled(true);
+	return m_State;
 }
 
-void GamePlayScene::DisablePausebt()
+void GamePlayScene::initMenu()
 {
-	m_mnPause->setEnabled(false);
+	Size visibleSize = Director::getInstance()->getVisibleSize();
+    Vec2 origin = Director::getInstance()->getVisibleOrigin();
+
+	m_pausePanel = Sprite::create("/Pause/PauseSprite.png");
+	m_pausePanel->setPosition(visibleSize.width / 2, visibleSize.height / 2);
+	m_pausePanel->setZOrder(MENU_ZORDER);
+	this->addChild(m_pausePanel);
+
+	m_losePanel = Sprite::create("losepanel.png");
+	m_losePanel->setPosition(m_pausePanel->getPosition());
+	m_losePanel->setVisible(false);
+	m_losePanel->setZOrder(MENU_ZORDER);
+	this->addChild(m_losePanel);
+
+	m_winPanel = Sprite::create("winpanel.png");
+	m_winPanel->setPosition(m_pausePanel->getPosition());
+	m_winPanel->setVisible(false);
+	m_winPanel->setZOrder(MENU_ZORDER);
+	this->addChild(m_winPanel);
+
+	m_resume = MenuItemImage::create("/Pause/resumenormal.png", "/Pause/resumeselected.png", CC_CALLBACK_1(GamePlayScene::onMenuItemClicked,this));
+	m_restart = MenuItemImage::create("/Pause/restartnormal.png", "/Pause/restartselected.png", CC_CALLBACK_1(GamePlayScene::onMenuItemClicked,this));
+	m_selectlvl = MenuItemImage::create("/Pause/selectlevelnormal.png", "/Pause/selectlevelselected.png", CC_CALLBACK_1(GamePlayScene::onMenuItemClicked,this));
+	m_backtomenu = MenuItemImage::create("/Pause/backtomenunormal.png", "/Pause/backtomenuselected.png", CC_CALLBACK_1(GamePlayScene::onMenuItemClicked,this));
+
+	m_resume->setTag(MENUITEM_RESUME_TAG);
+	m_restart->setTag(MENUITEM_RESTART_TAG);
+	m_selectlvl->setTag(MENUITEM_SELECTLV_TAG);
+	m_backtomenu->setTag(MENUITEM_BACKMENU_TAG);
+
+	Vec2 point;
+	point.setPoint(0, 0.5);
+	m_resume->setAnchorPoint(point);
+	m_restart->setAnchorPoint(point);
+	m_selectlvl->setAnchorPoint(point);
+	m_backtomenu->setAnchorPoint(point);
+
+	m_menupause = Menu::create(m_resume, m_restart, m_selectlvl, m_backtomenu, NULL);
+	m_menupause->setPosition(0,0);
+
+	int menuSize = m_resume->getContentSize().height - 10;
+	m_resume->setPosition(m_pausePanel->getPosition().x - 100, m_pausePanel->getPosition().y + menuSize);
+	m_restart->setPosition(m_pausePanel->getPosition().x - 100, m_resume->getPosition().y - menuSize);
+	m_selectlvl->setPosition(m_pausePanel->getPosition().x - 100, m_restart->getPosition().y - menuSize);
+	m_backtomenu->setPosition(m_pausePanel->getPosition().x - 100, m_selectlvl->getPosition().y - menuSize);	
+	
+	m_menupause->setZOrder(MENU_ZORDER);
+	this->addChild(m_menupause);
+
+	m_menupause->setVisible(false);
+	m_pausePanel->setVisible(false);
 }
+
+void GamePlayScene::showPause()
+{
+	int menuSize = m_resume->getContentSize().height + 10;
+
+	m_resume->setPosition(m_pausePanel->getPosition().x - 100, m_pausePanel->getPosition().y + menuSize);
+	m_restart->setPosition(m_pausePanel->getPosition().x - 100, m_resume->getPosition().y - menuSize);
+	m_selectlvl->setPosition(m_pausePanel->getPosition().x - 100, m_restart->getPosition().y - menuSize);
+	m_backtomenu->setPosition(m_pausePanel->getPosition().x - 100, m_selectlvl->getPosition().y - menuSize);	
+
+	m_menupause->setVisible(true);
+	m_pausePanel->setVisible(true);
+}
+
+void GamePlayScene::hideMenu()
+{
+	m_menupause->setVisible(false);
+	m_pausePanel->setVisible(false);
+}
+
+void GamePlayScene::showWinGame()
+{
+	int menuSize = m_resume->getContentSize().height;
+
+	m_restart->setPosition(m_pausePanel->getPosition().x - 100, m_winGame->getPosition().y - menuSize + 40);
+	m_selectlvl->setPosition(m_pausePanel->getPosition().x - 100, m_restart->getPosition().y - menuSize);
+	m_backtomenu->setPosition(m_pausePanel->getPosition().x - 100, m_selectlvl->getPosition().y - menuSize);
+	
+	m_winPanel->setVisible(true);
+	m_menupause->setVisible(true);
+	m_winGame->setVisible(true);
+	m_resume->setVisible(false);
+}
+
+void GamePlayScene::showLoseGame()
+{
+	int menuSize = m_resume->getContentSize().height;
+	m_restart->setPosition(m_pausePanel->getPosition().x - 100, m_losePanel->getPosition().y - menuSize + 40);
+	m_selectlvl->setPosition(m_pausePanel->getPosition().x - 100, m_restart->getPosition().y - menuSize);
+	m_backtomenu->setPosition(m_pausePanel->getPosition().x - 100, m_selectlvl->getPosition().y - menuSize);
+
+	m_menupause->setVisible(true);
+	m_losePanel->setVisible(true);
+	m_resume->setVisible(false);
+}
+
+void GamePlayScene::onMenuItemClicked(Ref *ref)
+{
+	switch(((MenuItem*)ref)->getTag())
+	{
+		case MENUITEM_RESUME_TAG:
+			m_isPause = false;
+			Director::getInstance()->resume();
+			CocosDenshion::SimpleAudioEngine::getInstance()->resumeBackgroundMusic();			
+			hideMenu();
+			break;
+
+		case MENUITEM_RESTART_TAG:
+			Director::getInstance()->resume();
+			Director::getInstance()->replaceScene(GamePlayScene::createScene(m_State));
+			m_menupause->setVisible(false);
+			break;
+
+		case MENUITEM_BACKMENU_TAG:
+			Director::getInstance()->replaceScene(MainMenu::createScene());
+			Player::getInstance()->removeFromParent();
+			Director::getInstance()->resume();
+			m_menupause->setVisible(false);
+			break;
+			
+		case MENUITEM_SELECTLV_TAG:
+			Director::getInstance()->replaceScene(WorldMap::createScene());
+			Player::getInstance()->removeFromParent();
+			Director::getInstance()->resume();
+			m_menupause->setVisible(false);
+			break;
+	}
+}
+	
 
 void GamePlayScene::onBackPressed()
 {

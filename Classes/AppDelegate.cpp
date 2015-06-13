@@ -1,6 +1,9 @@
 #include "AppDelegate.h"
 #include "Scenes\GamePlayScene.h"
 #include "Scenes\LogoScene.h"
+#include "Scenes\WinScene.h"
+#include "Scenes\LoseScene.h"
+#include "SimpleAudioEngine.h"
 
 USING_NS_CC;
 
@@ -42,6 +45,8 @@ bool AppDelegate::applicationDidFinishLaunching() {
 
     // create a scene. it's an autorelease object
     //auto scene = HelloWorld::createScene();
+	//auto scene = Win::createScene();
+	//auto scene = Lose::createScene();
 	auto scene = LogoScreen::createScene();
     // run
     director->runWithScene(scene);
@@ -54,7 +59,7 @@ void AppDelegate::applicationDidEnterBackground() {
     Director::getInstance()->stopAnimation();
 
     // if you use SimpleAudioEngine, it must be pause
-    // SimpleAudioEngine::getInstance()->pauseBackgroundMusic();
+	CocosDenshion::SimpleAudioEngine::getInstance()->pauseBackgroundMusic();
 }
 
 // this function will be called when the app is active again
@@ -62,5 +67,5 @@ void AppDelegate::applicationWillEnterForeground() {
     Director::getInstance()->startAnimation();
 
     // if you use SimpleAudioEngine, it must resume here
-    // SimpleAudioEngine::getInstance()->resumeBackgroundMusic();
+     CocosDenshion::SimpleAudioEngine::getInstance()->resumeBackgroundMusic();
 }

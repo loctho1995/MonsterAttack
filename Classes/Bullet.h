@@ -3,7 +3,7 @@
 
 #include "cocos2d.h"
 #include "Define.h"
-//#include "Monster.h"
+#include "SimpleAudioEngine.h"
 
 USING_NS_CC;
 
@@ -45,8 +45,17 @@ public:
 		return this->m_bullettype;
 	}
 
+	virtual void done()
+	{
+		if(prt != nullptr)
+			prt->removeFromParentAndCleanup(true);
+
+		this->removeAllChildren();
+		this->removeFromParentAndCleanup(true);
+	}
+
 	//move(touches, sprite, layer);
-	void move(cocos2d::Vec2 touch, cocos2d::Sprite* sprite, cocos2d::Node* layer);
+	virtual void move(cocos2d::Vec2 touch, cocos2d::Sprite* sprite, cocos2d::Node* layer);
 };
 
 class Normal: public Bullet
@@ -59,7 +68,7 @@ public:
 		prt = ParticleSystemQuad::create("BulletParticle/Normal.plist");
 		this->addChild(prt);
 		prt->setPosition(this->getContentSize().width / 2, this->getContentSize().height / 2);
-		prt->setScale(0.75f);
+		prt->setScale(0.5f);
 		prt->setLife(0.01f);
 		m_isCleave = false;
 		m_isThrough = false;
@@ -87,8 +96,11 @@ public:
 		return this->m_bullettype;
 	}
 
-	//virtual void move(cocos2d::Touch* touch);
-
+	virtual void move(cocos2d::Vec2 touch, cocos2d::Sprite* sprite, cocos2d::Node* layer)
+	{
+		CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("Sounds/Bullet/Normal.wav");
+		Bullet::move(touch,sprite,layer);
+	}
 };
 
 class Fire: public Bullet
@@ -101,7 +113,7 @@ public:
 		prt = ParticleSystemQuad::create("BulletParticle/Fire.plist");
 		this->addChild(prt);
 		prt->setPosition(this->getContentSize().width / 2, this->getContentSize().height / 2);
-		//prt->setScale(0.5f);
+		prt->setScale(0.75f);
 		prt->setLife(0.05f);
 		m_isCleave = false;
 		m_isThrough = false;
@@ -129,7 +141,11 @@ public:
 		return this->m_bullettype;
 	}
 
-	//virtual void move(cocos2d::Touch* touch);
+	virtual void move(cocos2d::Vec2 touch, cocos2d::Sprite* sprite, cocos2d::Node* layer)
+	{
+		CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("Sounds/Bullet/Fire.wav");
+		Bullet::move(touch,sprite,layer);
+	}
 
 };
 
@@ -145,7 +161,7 @@ public:
 		prt = ParticleSystemQuad::create("BulletParticle/Lighting.plist");
 		this->addChild(prt);
 		prt->setPosition(this->getContentSize().width / 2, this->getContentSize().height / 2);
-		prt->setScale(0.75f);
+		prt->setScale(0.45f);
 		prt->setLife(0.01f);
 		m_isCleave = true;
 		m_isThrough = false;
@@ -181,7 +197,11 @@ public:
 
 	void createLightingCircle(Node* monster);
 
-	//virtual void move(cocos2d::Touch* touch);
+	virtual void move(cocos2d::Vec2 touch, cocos2d::Sprite* sprite, cocos2d::Node* layer)
+	{
+		CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("Sounds/Bullet/Lightning.wav");
+		Bullet::move(touch,sprite,layer);
+	}
 };
 
 class Ice: public Bullet
@@ -230,7 +250,11 @@ public:
 		return this->m_stunTime;
 	}
 
-	//virtual void move(cocos2d::Touch* touch);
+	virtual void move(cocos2d::Vec2 touch, cocos2d::Sprite* sprite, cocos2d::Node* layer)
+	{
+		CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("Sounds/Bullet/Ice.wav");
+		Bullet::move(touch,sprite,layer);
+	}
 
 };
 
@@ -244,7 +268,7 @@ public:
 		prt = ParticleSystemQuad::create("BulletParticle/Water.plist");
 		this->addChild(prt);
 		prt->setPosition(this->getContentSize().width / 2, this->getContentSize().height / 2);
-		//prt->setScale(0.5f);
+		prt->setScale(0.75f);
 		prt->setLife(0.01f);
 		m_isCleave = false;
 		m_isThrough = true;
@@ -272,7 +296,11 @@ public:
 		return this->m_bullettype;
 	}
 
-	//virtual void move(cocos2d::Touch* touch);
+	virtual void move(cocos2d::Vec2 touch, cocos2d::Sprite* sprite, cocos2d::Node* layer)
+	{
+		CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("Sounds/Bullet/Water.wav");
+		Bullet::move(touch,sprite,layer);
+	}
 
 };
 
