@@ -49,9 +49,6 @@ public:
 
 	virtual void done()
 	{
-		if(prt != nullptr)
-			prt->removeFromParentAndCleanup(true);
-
 		this->removeFromPhysicsWorld();
 		this->removeAllChildren();
 		this->removeFromParentAndCleanup(true);

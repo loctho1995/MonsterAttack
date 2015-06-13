@@ -2,6 +2,7 @@
 #include "Player.h"
 #include "GamePlayScene.h"
 #include "CallBackWP.h"
+#include "SaveLoad.h"
 
 USING_NS_CC;
 
@@ -37,6 +38,7 @@ bool WorldMap::init()
 
     Size visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
+	SaveLoad::loadGame();
 
 	Sprite *bg = Sprite::create("BackgroundMenuMain.png");
 
@@ -71,9 +73,9 @@ bool WorldMap::init()
 	this->addChild(back);
 
 	//cac item chon man
-	MenuItemImage *man01 = MenuItemImage::create("manmot.png", "manmotSelected.png", CC_CALLBACK_1(WorldMap::level, this));
-	MenuItemImage *man02 = MenuItemImage::create("manhai.png", "manhaiSelected.png", CC_CALLBACK_1(WorldMap::level, this));
-	MenuItemImage *man03 = MenuItemImage::create("manba.png", "manbaSelected.png", CC_CALLBACK_1(WorldMap::level, this));
+	MenuItemImage *man01 = MenuItemImage::create("manmot.png", "manmotSelected.png", "notopen.png", CC_CALLBACK_1(WorldMap::level, this));
+	MenuItemImage *man02 = MenuItemImage::create("manhai.png", "manhaiSelected.png", "notopen.png", CC_CALLBACK_1(WorldMap::level, this));
+	MenuItemImage *man03 = MenuItemImage::create("manba.png", "manbaSelected.png", "notopen.png", CC_CALLBACK_1(WorldMap::level, this));
 	MenuItemImage *comingsoon1 = MenuItemImage::create("comingsoon.png", "comingsoonSelected.png", "comingsoonLock.png", CC_CALLBACK_1(WorldMap::level, this));
 	MenuItemImage *comingsoon2 = MenuItemImage::create("comingsoon.png", "comingsoonSelected.png", "comingsoonLock.png", CC_CALLBACK_1(WorldMap::level, this));
 	MenuItemImage *comingsoon3 = MenuItemImage::create("comingsoon.png", "comingsoonSelected.png", "comingsoonLock.png", CC_CALLBACK_1(WorldMap::level, this));
@@ -121,7 +123,20 @@ bool WorldMap::init()
 
 	this->addChild(lvl1);
 	this->addChild(lvl2);
-	//this->addChild(lvl);
+
+	for (int i = 3; i > SaveLoad::getMaxState() ; i--)
+	{
+		switch (i)
+		{
+			case 2:
+				man02->setEnabled(false);
+				break;
+
+			case 3:
+				man03->setEnabled(false);
+				break;
+		}
+	}
 
 	CocosDenshion::SimpleAudioEngine::getInstance()->playBackgroundMusic("Sounds/sbgWorldMap.wav");
 
@@ -147,15 +162,18 @@ void WorldMap::level(Ref *pSender)
 			break;
 
 		case 2:
+			if(SaveLoad::getMaxState() >= 2)
 			ingame = GamePlayScene::createScene(2);
 			break;
 
 		case 3:
+			if(SaveLoad::getMaxState() >= 3)
 			ingame = GamePlayScene::createScene(3);
 			break;
 	}
 	
-	Director::getInstance()->replaceScene(ingame);
+	if(ingame != nullptr)
+		Director::getInstance()->replaceScene(ingame);
 }
 
 

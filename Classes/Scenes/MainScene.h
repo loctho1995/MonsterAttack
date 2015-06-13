@@ -5,7 +5,7 @@
 #include "WorldMap.h"
 #include "Scenes/AboutScene.h"
 #include "Scenes/HelpScene.h"
-#include "Mission.h"
+#include "Scenes/MissionScene.h"
 #include "Scenes/ExitScene.h"
 #include "CallBackWP.h"
 #include "SimpleAudioEngine.h"

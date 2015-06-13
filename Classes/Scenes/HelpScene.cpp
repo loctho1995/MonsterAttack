@@ -50,14 +50,6 @@ bool Help::init()
 	about->setPosition(visibleSize.width / 2, visibleSize.height / 7 * 5);
 	this->addChild(about);
 
-	MenuItemImage *ItemBack = MenuItemImage::create("Back.png", "BackSelected.png", CC_CALLBACK_1(Help::Back, this));
-
-	ItemBack->setScale(visibleSize.width / 10 / ItemBack->getContentSize().width);
-	//back->setPosition(selectlvl->getContentSize().width / 10, selectlvl->getContentSize().height / 5);
-
-	Menu *back = Menu::create(ItemBack, NULL);
-	back->setPosition(visibleSize.width / 10, visibleSize.height / 6);
-
 	m_help1 = Sprite::create("help1.png");
 	m_help1->setPosition(visibleSize.width / 2, visibleSize.height / 2);
 	m_help1->setZOrder(2);
@@ -70,6 +62,14 @@ bool Help::init()
 
 	this->addChild(m_help2);
 
+	MenuItemImage *ItemBack = MenuItemImage::create("Back.png", "BackSelected.png", CC_CALLBACK_1(Help::Back, this));
+
+	ItemBack->setScale(visibleSize.width / 10 / ItemBack->getContentSize().width);
+	//back->setPosition(selectlvl->getContentSize().width / 10, selectlvl->getContentSize().height / 5);
+
+	Menu *back = Menu::create(ItemBack, NULL);
+	back->setPosition(visibleSize.width / 10, visibleSize.height / 6);
+	back->setZOrder(3);
 	this->addChild(back);
 
 	auto listener1 = EventListenerTouchOneByOne::create();

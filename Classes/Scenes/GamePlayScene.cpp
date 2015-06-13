@@ -9,6 +9,7 @@
 #include "Scenes\LoseScene.h"
 #include "State.h"
 #include "SimpleAudioEngine.h"
+#include "SaveLoad.h"
 
 USING_NS_CC;
 using namespace std;
@@ -430,7 +431,7 @@ void GamePlayScene::hideMenu()
 }
 
 void GamePlayScene::showWinGame()
-{
+{	
 	int menuSize = m_resume->getContentSize().height;
 
 	m_restart->setPosition(m_pausePanel->getPosition().x - 100, m_winGame->getPosition().y - menuSize + 40);
@@ -441,6 +442,13 @@ void GamePlayScene::showWinGame()
 	m_menupause->setVisible(true);
 	m_winGame->setVisible(true);
 	m_resume->setVisible(false);
+
+	if(SaveLoad::getMaxState() < 3)
+	{
+		SaveLoad::setMaxState(SaveLoad::getMaxState() + 1);
+		SaveLoad::saveGame();
+	}
+		
 }
 
 void GamePlayScene::showLoseGame()
